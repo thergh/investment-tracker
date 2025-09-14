@@ -1,16 +1,18 @@
 from pydantic import BaseModel, EmailStr
 from datetime import datetime
-
+from typing import Optional
 
 
 class InvestmentBase(BaseModel):
-	title: str
+	name: str
 	amount: float
 	
 
-class InvestmentAdd(InvestmentBase):
-	created_at: datetime
-
+class InvestmentAdd(BaseModel):
+	name: str
+	amount: float
+	user_id: int
+	
 
 class InvestmentRemove(BaseModel):
 	id: int
@@ -18,9 +20,12 @@ class InvestmentRemove(BaseModel):
 
 class InvestmentResponse(BaseModel):
 	id: int
+	user_id: int
+	name: str
 	amount: float
-	value: float
-	created_at: datetime
+	unit_value: float
+	bought_at: datetime
+	sold_at: Optional[datetime] = None 
 
 	class Config:
 		from_attributes = True
