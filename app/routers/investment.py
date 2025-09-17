@@ -5,10 +5,12 @@ from .. import models, schemas
 from ..database import get_db
 
 
-router = APIRouter()
+router = APIRouter(
+    prefix="/investments"
+)
 
 
-@router.get("/investments", response_model=List[schemas.InvestmentResponse])
+@router.get("/", response_model=List[schemas.InvestmentResponse])
 def get_investments(db: Session = Depends(get_db)):
       
       investments = db.query(models.Investment).all()
@@ -16,7 +18,7 @@ def get_investments(db: Session = Depends(get_db)):
       return investments
 
 
-@router.get("/investments/{id}", response_model=List[schemas.InvestmentResponse])
+@router.get("/{id}", response_model=List[schemas.InvestmentResponse])
 def get_investment(id: int, db: Session = Depends(get_db)):
       
     investment = db.query(models.Investment).filter(models.Investment.id == id).first()
@@ -30,7 +32,7 @@ def get_investment(id: int, db: Session = Depends(get_db)):
     return investment
 
 
-@router.post("/investments", status_code=status.HTTP_201_CREATED, response_model=schemas.InvestmentResponse)
+@router.post("/", status_code=status.HTTP_201_CREATED, response_model=schemas.InvestmentResponse)
 def add_investment(investment: schemas.InvestmentAdd, db: Session = Depends(get_db)):
 
     new_investment = models.Investment(**investment.model_dump())

@@ -6,10 +6,12 @@ from typing import Optional, List
 
 
 
-router = APIRouter()
+router = APIRouter(
+     prefix="/users"
+)
 
 
-@router.post("/users", status_code=status.HTTP_201_CREATED, response_model=schemas.UserResponse)
+@router.post("/", status_code=status.HTTP_201_CREATED, response_model=schemas.UserResponse)
 def create_user(user: schemas.UserCreate, db: Session = Depends(get_db)):
 
 	hashed_password =  utils.hash(user.password)
@@ -23,7 +25,7 @@ def create_user(user: schemas.UserCreate, db: Session = Depends(get_db)):
 	return new_user
 
 
-@router.get("/users", response_model=List[schemas.UserResponse])
+@router.get("/", response_model=List[schemas.UserResponse])
 def get_users(db: Session = Depends(get_db)):
 	
     users = db.query(models.User).all()
@@ -32,7 +34,7 @@ def get_users(db: Session = Depends(get_db)):
     return users
 
 
-@router.get("/users/{id}", response_model=schemas.UserResponse)
+@router.get("/{id}", response_model=schemas.UserResponse)
 def get_user(id: int, db: Session = Depends(get_db)):
 	
     user = db.query(models.User).filter(models.User.id == id).first()
@@ -46,7 +48,7 @@ def get_user(id: int, db: Session = Depends(get_db)):
     return user
 
 
-@router.delete("/users/{id}", response_model=schemas.UserResponse)
+@router.delete("/{id}", response_model=schemas.UserResponse)
 def delete_user(id: int, db: Session = Depends(get_db)):
 	
     user = db.query(models.User).filter(models.User.id == id).first()
