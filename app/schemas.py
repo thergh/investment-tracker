@@ -28,7 +28,7 @@ class InvestmentResponse(BaseModel):
 	sold_at: Optional[datetime] = None 
 
 	class Config:
-		from_attributes = True
+		from_attributes = True  
 
 
 class UserCreate(BaseModel):
