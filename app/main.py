@@ -1,6 +1,6 @@
 from . import models, schemas, utils
 from .database import engine, get_db
-from .routers import investment, user
+from .routers import investment, user, auth
 from fastapi import Body, FastAPI, Response, status, HTTPException, Depends
 from typing import Optional, List
 import psycopg2
@@ -32,6 +32,7 @@ while True:
 
 app.include_router(investment.router)
 app.include_router(user.router)
+app.include_router(auth.router)
 
 
 @app.get("/")
