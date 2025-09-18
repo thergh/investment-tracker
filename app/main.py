@@ -10,6 +10,7 @@ from sqlalchemy.orm import Session
 
 
 # uvicorn app.main:app --reload
+# source /home/thergh/dev/investment-tracker/myvenv/bin/activate
 
 app = FastAPI()
 
