@@ -12,15 +12,22 @@ router = APIRouter(
 
 
 @router.get("/", response_model=List[schemas.InvestmentResponse])
-def get_investments(db_session: Session = Depends(get_db_session)):
+def get_investments(
+        db_session: Session = Depends(get_db_session),
+        user_id: int = Depends(oauth2.get_current_user)
+    ):
       
       investments = db_session.query(models.Investment).all()
 
       return investments
 
 
-@router.get("/{id}", response_model=List[schemas.InvestmentResponse])
-def get_investment(id: int, db_session: Session = Depends(get_db_session)):
+@router.get("/{id}", response_model=schemas.InvestmentResponse)
+def get_investment(
+        id: int,
+        db_session: Session = Depends(get_db_session),
+        user_id: int = Depends(oauth2.get_current_user)
+    ):
       
     investment = db_session.query(models.Investment).filter(models.Investment.id == id).first()
 
