@@ -14,7 +14,7 @@ router = APIRouter(
 @router.get("/", response_model=List[schemas.InvestmentResponse])
 def get_investments(
         db_session: Session = Depends(get_db_session),
-        user_id: int = Depends(oauth2.get_current_user)
+        current_user_id: int = Depends(oauth2.get_current_user)
     ):
       
       investments = db_session.query(models.Investment).all()
@@ -26,7 +26,7 @@ def get_investments(
 def get_investment(
         id: int,
         db_session: Session = Depends(get_db_session),
-        user_id: int = Depends(oauth2.get_current_user)
+        current_user_id: int = Depends(oauth2.get_current_user)
     ):
       
     investment = db_session.query(models.Investment).filter(models.Investment.id == id).first()
@@ -44,7 +44,7 @@ def get_investment(
 def add_investment(
         investment: schemas.InvestmentAdd,
         db_session: Session = Depends(get_db_session),
-        user_id: int = Depends(oauth2.get_current_user)
+        current_user_id: int = Depends(oauth2.get_current_user)
     ):
 
     new_investment = models.Investment(**investment.model_dump())
