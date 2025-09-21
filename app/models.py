@@ -1,7 +1,11 @@
-from .database import Base
 from sqlalchemy import Column, Integer, String, Boolean, Float
 from sqlalchemy.sql.sqltypes import TIMESTAMP
 from sqlalchemy.sql.expression import text
+from sqlalchemy.orm import DeclarativeBase
+
+
+class Base(DeclarativeBase):
+    pass
 
 
 class Investment(Base):

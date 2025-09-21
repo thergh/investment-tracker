@@ -1,5 +1,4 @@
 from sqlalchemy import create_engine
-from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import sessionmaker
 
 
@@ -9,14 +8,11 @@ engine = create_engine(SQLALCHEMY_DATABASE_URL)
 
 SessionLocal = sessionmaker(autoflush=False, bind=engine)
 
-Base = declarative_base()
-
-
-def get_db():
-	db = SessionLocal()
+def get_db_session():
+	db_session = SessionLocal()
 	try:
-		yield db
+		yield db_session
 	finally:
-		db.close()
+		db_session.close()
 
 

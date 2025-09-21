@@ -1,8 +1,8 @@
 from fastapi import Body, FastAPI, Response, status, HTTPException, Depends, APIRouter
 from typing import Optional, List
 from sqlalchemy.orm import Session
-from .. import models, schemas
-from ..database import get_db
+from .. import models, schemas, oauth2
+from ..database import get_db_session
 
 
 router = APIRouter(
@@ -12,17 +12,17 @@ router = APIRouter(
 
 
 @router.get("/", response_model=List[schemas.InvestmentResponse])
-def get_investments(db: Session = Depends(get_db)):
+def get_investments(db_session: Session = Depends(get_db_session)):
       
-      investments = db.query(models.Investment).all()
+      investments = db_session.query(models.Investment).all()
 
       return investments
 
 
 @router.get("/{id}", response_model=List[schemas.InvestmentResponse])
-def get_investment(id: int, db: Session = Depends(get_db)):
+def get_investment(id: int, db_session: Session = Depends(get_db_session)):
       
-    investment = db.query(models.Investment).filter(models.Investment.id == id).first()
+    investment = db_session.query(models.Investment).filter(models.Investment.id == id).first()
 
     if not investment:
         raise HTTPException(
@@ -34,14 +34,18 @@ def get_investment(id: int, db: Session = Depends(get_db)):
 
 
 @router.post("/", status_code=status.HTTP_201_CREATED, response_model=schemas.InvestmentResponse)
-def add_investment(investment: schemas.InvestmentAdd, db: Session = Depends(get_db)):
+def add_investment(
+        investment: schemas.InvestmentAdd,
+        db_session: Session = Depends(get_db_session),
+        user_id: int = Depends(oauth2.get_current_user)
+    ):
 
     new_investment = models.Investment(**investment.model_dump())
 
     # print("\n\n\n\n", investment)
 
-    db.add(new_investment)
-    db.commit()
-    db.refresh(new_investment)
+    db_session.add(new_investment)
+    db_session.commit()
+    db_session.refresh(new_investment)
 
     return new_investment

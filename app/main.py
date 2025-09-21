@@ -1,12 +1,10 @@
-from . import models, schemas, utils
-from .database import engine, get_db
+from . import models
+from .database import engine
 from .routers import investment, user, auth
-from fastapi import Body, FastAPI, Response, status, HTTPException, Depends
-from typing import Optional, List
+from fastapi import FastAPI
 import psycopg2
 from psycopg2.extras import RealDictCursor
 import time
-from sqlalchemy.orm import Session
 
 
 # uvicorn app.main:app --reload
@@ -17,18 +15,19 @@ app = FastAPI()
 models.Base.metadata.create_all(bind=engine)
 
 
+# currently unused, may be delete later
 while True:
 	try:
-		conn = psycopg2.connect(
+		connection = psycopg2.connect(
 			host='localhost', database='investment', user='postgres',
 			password='password', cursor_factory=RealDictCursor
 		)
-		cursor = conn.cursor()
+		cursor = connection.cursor()
 		print("Databse connection successful")
 		break
 	except Exception as error:
 		print("Connection unsuccessful")
-		time.sleep(2)
+		time.sleep(1)
 		
 
 app.include_router(investment.router)
