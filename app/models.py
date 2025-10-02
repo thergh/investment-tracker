@@ -32,7 +32,7 @@ class Portfolio(Base):
 
 	user = relationship("User", back_populates="portfolios")
 	transactions = relationship("Transaction", back_populates="portfolio", cascade="all, delete-orphan")
-	holdings = relationship("Holding", back_populates="portfolio", cascade="all, delete-orphan")
+	Investments = relationship("Investment", back_populates="portfolio", cascade="all, delete-orphan")
 
 
 class Asset(Base):
@@ -52,7 +52,7 @@ class Asset(Base):
 	stock = relationship("Stock", uselist=False, back_populates="asset", cascade="all, delete-orphan")
 	bond = relationship("Bond", uselist=False, back_populates="asset", cascade="all, delete-orphan")
 	transactions = relationship("Transaction", back_populates="asset")
-	holdings = relationship("Holding", back_populates="asset")
+	investments = relationship("Investment", back_populates="asset")
 
 
 class Stock(Base):
@@ -87,7 +87,7 @@ class Transaction(Base):
 	asset_id = Column(Integer, ForeignKey("assets.id"), nullable=False)
 	transaction_type = Column(String(20), nullable=False)
 	quantity = Column(Numeric(18, 6), nullable=False)
-	price = Column(Numeric(18, 4), nullable=False)  # trade price per unit
+	price = Column(Numeric(18, 4), nullable=False)
 	transaction_date = Column(DateTime, nullable=False, server_default=func.now())
 
 	__table_args__ = (
@@ -111,5 +111,5 @@ class Investment(Base):
 		UniqueConstraint("portfolio_id", "asset_id", name="unique_portfolio_asset"),
 	)
 
-	portfolio = relationship("Portfolio", back_populates="holdings")
-	asset = relationship("Asset", back_populates="holdings")
+	portfolio = relationship("Portfolio", back_populates="investments")
+	asset = relationship("Asset", back_populates="investments")
