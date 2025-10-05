@@ -32,10 +32,6 @@ class Investment(Base):
 	purchase_price = Column(Numeric(18, 4), nullable=False)
 	purchase_date = Column(DateTime, server_default=func.now())
 
-	__table_args__ = (
-		UniqueConstraint("user_id", "asset_id", name="unique_user_asset"),
-	)
-
 	user = relationship("User", back_populates="investments")
 	asset = relationship("Asset", back_populates="investments")
 

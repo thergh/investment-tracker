@@ -60,13 +60,10 @@ def add_investment(
 		current_user_id: int = 1
 	):
 
-	asset_symbol = investment.asset_symbol
-	asset_type = investment.asset_type
-
-	if asset_type == 'STOCK':
+	if investment.asset_type == 'STOCK':
 		asset = (
 			db_session.query(models.Asset)
-			.filter(models.Asset.asset_type == asset_type)
+			.filter(models.Asset.asset_type == investment.asset_type)
 			.filter(models.Asset.symbol == investment.asset_symbol)
 			.first()
 		)
@@ -74,7 +71,10 @@ def add_investment(
 		if not asset:
 			raise HTTPException(
 				status_code=status.HTTP_400_BAD_REQUEST,
-				detail=f"Asset with symbol {investment.asset_symbol} was not recognised."
+				detail=(
+					f"Asset type {investment.asset_type}"
+					+ f" with symbol {investment.asset_symbol} not is not recognised."
+				)
 			)
 
 		new_investment = models.Investment(
@@ -91,11 +91,35 @@ def add_investment(
 		return new_investment
 		
 
-	elif asset_type == 'BOND':
+	elif investment.asset_type == 'BOND':
 		pass
 
 	else:
 		raise HTTPException(
 			status_code=status.HTTP_400_BAD_REQUEST,
-			detail=f"Asset type {asset_type} not is not recognised."
+			detail=(
+				f"Asset type {investment.asset_type}"
+				+ f" with symbol {investment.asset_symbol} not is not recognised."
+			)
 		)
+	
+
+@router.delete("/{id}", response_model=schemas.InvestmentResponse)
+# def add_investment(
+# 		investment: schemas.InvestmentAdd,
+# 		db_session: Session = Depends(get_db_session),
+# 		current_user_id: int = Depends(oauth2.get_current_user)
+# 	):
+def remove_investment(id: int, db_session: Session = Depends(get_db_session)):
+	investment = db_session.query(models.Investment).filter(models.Investment.id == id).first()
+
+	if not investment:
+		raise HTTPException(
+			status_code=status.HTTP_404_NOT_FOUND,
+			detail=f"Investment with id {id} was not found"
+		)
+	
+	db_session.delete(investment)  
+	db_session.commit()
+	
+	return Response(status_code=status.HTTP_204_NO_CONTENT)
