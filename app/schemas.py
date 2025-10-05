@@ -3,6 +3,36 @@ from datetime import datetime
 from typing import Optional
 
 
+class StockCreate(BaseModel):
+	symbol: str
+
+
+class StockResponse(BaseModel):
+	id: int
+	symbol: str
+	name: str
+	exchange: str
+	currency: str
+	price: float
+	last_updated: datetime
+
+
+class AssetResponse(BaseModel):
+	id: int
+	asset_type: str
+	symbol: str
+	stock: Optional[StockResponse]
+
+
+class InvestmentResponse(BaseModel):
+	id: int
+	user_id: int
+	asset_id: int
+	quantity: float
+	purchase_price: float
+	purchase_date: datetime
+	
+
 class InvestmentBase(BaseModel):
 	name: str
 	amount: float
@@ -18,14 +48,8 @@ class InvestmentRemove(BaseModel):
 	id: int
 
 
-class InvestmentResponse(BaseModel):
-	id: int
-	user_id: int
-	name: str
-	amount: float
-	unit_value: float
-	bought_at: datetime
-	sold_at: Optional[datetime] = None 
+
+	# asset: AssetResponse
 
 	class Config:
 		from_attributes = True  

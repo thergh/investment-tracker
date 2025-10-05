@@ -1,6 +1,6 @@
 from . import models
 from .database import engine
-from .routers import investment, user, auth
+from .routers import auth, investments, users, assets
 from fastapi import FastAPI
 import psycopg2
 from psycopg2.extras import RealDictCursor
@@ -30,8 +30,9 @@ while True:
 		time.sleep(1)
 		
 
-app.include_router(investment.router)
-app.include_router(user.router)
+app.include_router(assets.router)
+app.include_router(investments.router)
+app.include_router(users.router)
 app.include_router(auth.router)
 
 

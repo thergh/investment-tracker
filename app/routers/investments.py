@@ -7,20 +7,24 @@ from ..database import get_db_session
 
 router = APIRouter(
     prefix="/investments",
-    tags=['Posts']
+    tags=['Investments']
 )
 
 
-@router.get("/", response_model=List[schemas.InvestmentResponse])
+@router.get("/user/{user_id}", response_model=List[schemas.InvestmentResponse])
 def get_investments(
-        db_session: Session = Depends(get_db_session),
-        current_user_id: int = Depends(oauth2.get_current_user)
-    ):
-      
-      investments = db_session.query(models.Investment).all()
+		user_id: int,
+		db_session: Session = Depends(get_db_session)
+	):
+	  
+	investments = (
+		db_session.query(models.Investment)
+		.filter(models.Investment.user_id == user_id)
+		.all()
+	)
 
-      return investments
-
+	return investments
+    
 
 @router.get("/{id}", response_model=schemas.InvestmentResponse)
 def get_investment(
