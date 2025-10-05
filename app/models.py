@@ -10,14 +10,14 @@ class Base(DeclarativeBase):
 
 
 class User(Base):
-	__tablename__ = "users"
+	__tablename__ = "users" 
 
 	id = Column(Integer, primary_key=True)
 	email = Column(String(255), unique=True, nullable=False)
 	password = Column(Text, nullable=False)
 	created_date = Column(DateTime, server_default=func.now())
 	currency = Column(String(10))
-	portfolio_value = Column(Numeric(18, 2), nullable=False)
+	portfolio_value = Column(Numeric(18, 2), server_default="0")
 
 	investments = relationship("Investment", back_populates="user", cascade="all, delete-orphan")
 

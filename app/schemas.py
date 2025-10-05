@@ -31,6 +31,7 @@ class InvestmentResponse(BaseModel):
 	quantity: float
 	purchase_price: float
 	purchase_date: datetime
+	asset: Optional[AssetResponse]
 	
 
 class InvestmentBase(BaseModel):
@@ -39,9 +40,11 @@ class InvestmentBase(BaseModel):
 	
 
 class InvestmentAdd(BaseModel):
-	name: str
-	amount: float
-	user_id: int
+	asset_symbol: str
+	asset_type: str
+	quantity: float
+	purchase_price: float
+	purchase_date: datetime
 	
 
 class InvestmentRemove(BaseModel):
@@ -63,7 +66,7 @@ class UserCreate(BaseModel):
 class UserResponse(BaseModel):
 	id: int
 	email: EmailStr
-	created_at: datetime
+	created_date: datetime
 
 	class Config:
 		from_attributes = True
