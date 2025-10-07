@@ -3,6 +3,7 @@ from typing import Optional, List
 from sqlalchemy.orm import Session, joinedload
 from .. import models, schemas, oauth2
 from ..database import get_db_session
+import yfinance as yf
 
 
 router = APIRouter(
@@ -123,3 +124,6 @@ def remove_investment(id: int, db_session: Session = Depends(get_db_session)):
 	db_session.commit()
 	
 	return Response(status_code=status.HTTP_204_NO_CONTENT)
+
+
+

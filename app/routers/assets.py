@@ -96,7 +96,7 @@ def add_stock(stock_data: schemas.StockCreate, db_session: Session = Depends(get
 	except Exception as e:
 		raise
 
-	stock_price = yf_stock_info.get("ask")
+	stock_price = yf_stock_info.get("regularMarketPrice")
 	stock_name = yf_stock_info.get("longName")
 	stock_exchange = yf_stock_info.get("exchange")
 	stock_currency = yf_stock_info.get("currency")
