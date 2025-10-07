@@ -84,3 +84,7 @@ class Token(BaseModel):
 
 class TokenData(BaseModel):
 	id: Optional[int] = None
+
+
+class PortfolioValueResponse(BaseModel):
+	value: float
