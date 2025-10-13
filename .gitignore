@@ -1,6 +1,6 @@
-myvenv
-app/__pycache__
-app/routers/__pycache__
-requirements.txt
-ticker_data.txt
-finance_test.py
+backend/myvenv
+backend/app/__pycache__
+backend/app/routers/__pycache__
+backend/requirements.txt
+backend/ticker_data.txt
+backend/finance_test.py
