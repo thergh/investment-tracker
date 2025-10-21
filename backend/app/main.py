@@ -2,6 +2,7 @@ from . import models
 from .database import engine
 from .routers import auth, investments, users, assets
 from fastapi import FastAPI
+from fastapi.middleware.cors import CORSMiddleware
 import psycopg2
 from psycopg2.extras import RealDictCursor
 import time
@@ -11,6 +12,18 @@ import time
 # source /home/thergh/dev/investment-tracker/myvenv/bin/activate
 
 app = FastAPI()
+
+app.add_middleware(
+	CORSMiddleware,
+	allow_origins=["*"],  # or ["http://localhost:5173"]
+	allow_credentials=True,
+	allow_methods=["*"],
+	allow_headers=["*"],
+)
+
+@app.get("/api/investments")
+def get_investments():
+	return [{"id": 1, "name": "Stock A"}, {"id": 2, "name": "Bond B"}]
 
 models.Base.metadata.create_all(bind=engine)
 
