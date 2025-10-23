@@ -21,9 +21,6 @@ app.add_middleware(
 	allow_headers=["*"],
 )
 
-@app.get("/api/investments")
-def get_investments():
-	return [{"id": 1, "name": "Stock A"}, {"id": 2, "name": "Bond B"}]
 
 models.Base.metadata.create_all(bind=engine)
 
