@@ -40,7 +40,7 @@ function ContentPage({token, userId}){
 			<p>Api message: {apiMessage}</p>
 			<p>Your access token: {token}</p>
 			<p>Your user ID: {userId}</p>
-			<InvestmentList token={token}/>
+			<InvestmentList token={token} userId={userId}/>
 		</div>
 	);
 	
