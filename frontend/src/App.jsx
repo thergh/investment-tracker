@@ -5,13 +5,17 @@ import {useEffect, useState} from 'react';
 
 
 function App(){
-	const [token, setToken] = useState('')
+	const [token, setToken] = useState('');
+	const [user_id, setUserId] = useState('');
 
 	if(!token){
-		return <LoginPage onLogin={setToken}></LoginPage>
+		return <LoginPage onLogin={(token, user_id) => {
+			setToken(token);
+			setUserId(user_id);
+		}}/>
 	}
 
-	return <ContentPage token={token}></ContentPage>
+	return <ContentPage token={token} user_id={user_id} ></ContentPage>
 }
 
 export default App

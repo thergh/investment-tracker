@@ -1,7 +1,8 @@
 import {useEffect, useState} from 'react';
+import InvestmentList from './InvestmentList';
 
 
-function ContentPage({token}){
+function ContentPage({token, user_id}){
 	const [apiMessage, setApiMessage] = useState('');
 	const [loading, setLoading] = useState(true);
 
@@ -22,18 +23,26 @@ function ContentPage({token}){
 				setLoading(false);
 			}
 		};
+	
 		fetchData();
 	}, [token]);
 
-	if(loading) return <p>Loading...</p>;
+	
+	if(loading){
+		return(
+			<p>Loading API message...</p>
+		)
+	}
 
 	return(
-	<div className="container">
-		<h1>Successfuly connected to the API</h1>
-		<p>Api message: {apiMessage}</p>
-		<p>Your access token: {token}</p>
-	</div>
-	)
+		<div className="container">
+			<h1>Successfuly connected to the API</h1>
+			<p>Api message: {apiMessage}</p>
+			<p>Your access token: {token}</p>
+			<p>Your user ID: {user_id}</p>
+			<InvestmentList token={token}/>
+		</div>
+	);
 	
 }
 

@@ -29,7 +29,7 @@ function LoginPage({onLogin}){
 			}
 
 			setLoginMessage('Login successful!');
-			onLogin(data.access_token);
+			onLogin(data.access_token, data.user_id);
 			
 		}
 		catch(error){
