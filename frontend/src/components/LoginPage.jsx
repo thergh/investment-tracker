@@ -15,21 +15,21 @@ function LoginPage({onLogin}){
 			body.append('username', email);
 			body.append('password', password);
 
-			const res = await fetch('http://127.0.0.1:8000/login', {
+			const loginResponse = await fetch('http://127.0.0.1:8000/login', {
 				method: 'POST',
 				headers: {'Content-Type': 'application/x-www-form-urlencoded'},
 				body: body.toString()
 			});
 
-			const data = await res.json();
+			const loginJson = await loginResponse.json();
 
-			if(!res.ok){
-				setLoginMessage(data.detail || "Invalid credentials");
+			if(!loginResponse.ok){
+				setLoginMessage(loginJson.detail || "Invalid credentials");
 				return;
 			}
 
 			setLoginMessage('Login successful!');
-			onLogin(data.access_token, data.user_id);
+			onLogin(loginJson.access_token, loginJson.user_id);
 			
 		}
 		catch(error){

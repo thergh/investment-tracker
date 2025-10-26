@@ -8,11 +8,11 @@ function InvestmentList({token}){
 	useEffect(() => {
 		const fetchInvestments = async() => {
 			try{
-				const api_response = await fetch("http://127.0.0.1:8000/", {
+				const apiResponse = await fetch("http://127.0.0.1:8000/", {
 					headers: {"Authorization": "Bearer" + token}
 				});
-				const json_response = await api_response.json();
-				setApiMessage(json_response.message);
+				const jsonResponse = await apiResponse.json();
+				setApiMessage(jsonResponse.message);
 			}
 			catch(err){
 				console.error("")

@@ -6,16 +6,16 @@ import {useEffect, useState} from 'react';
 
 function App(){
 	const [token, setToken] = useState('');
-	const [user_id, setUserId] = useState('');
+	const [userId, setUserId] = useState('');
 
 	if(!token){
-		return <LoginPage onLogin={(token, user_id) => {
+		return <LoginPage onLogin={(token, userId) => {
 			setToken(token);
-			setUserId(user_id);
+			setUserId(userId);
 		}}/>
 	}
 
-	return <ContentPage token={token} user_id={user_id} ></ContentPage>
+	return <ContentPage token={token} userId={userId} ></ContentPage>
 }
 
 export default App

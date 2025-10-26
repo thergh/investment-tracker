@@ -2,18 +2,18 @@ import {useEffect, useState} from 'react';
 import InvestmentList from './InvestmentList';
 
 
-function ContentPage({token, user_id}){
+function ContentPage({token, userId}){
 	const [apiMessage, setApiMessage] = useState('');
 	const [loading, setLoading] = useState(true);
 
 	useEffect(() => {
 		const fetchData = async() => {
 			try{
-				const api_response = await fetch("http://127.0.0.1:8000/", {
+				const apiResponse = await fetch("http://127.0.0.1:8000/", {
 					headers: {'Authorization': "Bearer " + token}
 				});
-				const json_response = await api_response.json();
-				setApiMessage(json_response.message);
+				const jsonResponse = await apiResponse.json();
+				setApiMessage(jsonResponse.message);
 			}
 			catch(err){
 				console.error("Error fetching data:", err);
@@ -39,7 +39,7 @@ function ContentPage({token, user_id}){
 			<h1>Successfuly connected to the API</h1>
 			<p>Api message: {apiMessage}</p>
 			<p>Your access token: {token}</p>
-			<p>Your user ID: {user_id}</p>
+			<p>Your user ID: {userId}</p>
 			<InvestmentList token={token}/>
 		</div>
 	);
