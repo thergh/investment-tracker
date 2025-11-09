@@ -50,11 +50,6 @@ def get_investment(
 
 
 @router.post("/", status_code=status.HTTP_201_CREATED, response_model=schemas.InvestmentResponse)
-# def add_investment(
-# 		investment: schemas.InvestmentAdd,
-# 		db_session: Session = Depends(get_db_session),
-# 		current_user_id: int = Depends(oauth2.get_current_user)
-# 	):
 def add_investment(
 		investment: schemas.InvestmentAdd,
 		db_session: Session = Depends(get_db_session),
@@ -105,12 +100,7 @@ def add_investment(
 		)
 	
 
-@router.delete("/{id}", response_model=schemas.InvestmentResponse)
-# def add_investment(
-# 		investment: schemas.InvestmentAdd,
-# 		db_session: Session = Depends(get_db_session),
-# 		current_user_id: int = Depends(oauth2.get_current_user)
-# 	):
+@router.delete("/{id}", status_code=status.HTTP_204_NO_CONTENT)
 def remove_investment(id: int, db_session: Session = Depends(get_db_session)):
 	investment = db_session.query(models.Investment).filter(models.Investment.id == id).first()
 
