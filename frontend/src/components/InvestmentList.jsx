@@ -2,7 +2,7 @@ import {useEffect, useState} from 'react';
 import './InvestmentList.css'
 
 
-function InvestmentList({token, userId}){
+function InvestmentList({token, userId, refreshKey}){
 	const [investments, setInvestments] = useState([]);
 	const [loading, setLoading] = useState(true);
 
@@ -32,7 +32,7 @@ function InvestmentList({token, userId}){
 		};
 
 		fetchInvestments();
-	}, [token, userId]);
+	}, [token, userId, refreshKey]);
 
 
 	const handleRemove = async(investment_id) => {

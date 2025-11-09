@@ -1,11 +1,14 @@
 import {useEffect, useState} from 'react';
 import InvestmentList from './InvestmentList';
 import Sidebar from './Sidebar'
+import AddInvestmentModal from './AddInvestmentModal';
 
 
 function ContentPage({token, userId}){
 	const [apiMessage, setApiMessage] = useState('');
 	const [loading, setLoading] = useState(true);
+	const [showAddModal, setShowAddModal] = useState(false);
+	const [refreshKey, setRefreshKey] = useState(0);
 
 	const handleLogout = () => {
 		console.log("Login clicked");
@@ -40,6 +43,11 @@ function ContentPage({token, userId}){
 		fetchData();
 	}, [token]);
 
+
+	const handleInvestmentAdded = () => {
+		setRefreshKey(prev => prev + 1); // trigger refresh in InvestmentList
+	};
+
 	
 	if(loading){
 		return(
@@ -59,8 +67,26 @@ function ContentPage({token, userId}){
 				<p>Api message: {apiMessage}</p>
 				<p>Your access token: {token}</p>
 				<p>Your user ID: {userId}</p>
-				<InvestmentList token={token} userId={userId}/>
+
+				<button onClick={() => setShowAddModal(true)}>
+					Add Investment
+				</button>
+
+				<InvestmentList
+					token={token}
+					userId={userId}
+					refreshKey={refreshKey}
+				/>
 			</div>
+
+			{showAddModal && (
+				<AddInvestmentModal 
+					token={token}
+					userId={userId}
+					onClose={() => setShowAddModal(false)}
+					onInvestmentAdded={handleInvestmentAdded}
+				/>
+			)}
 			
 		</div>
 		
