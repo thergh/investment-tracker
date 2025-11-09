@@ -100,14 +100,14 @@ def add_investment(
 		)
 	
 
-@router.delete("/{id}", status_code=status.HTTP_204_NO_CONTENT)
-def remove_investment(id: int, db_session: Session = Depends(get_db_session)):
-	investment = db_session.query(models.Investment).filter(models.Investment.id == id).first()
+@router.delete("/{investment_id}", status_code=status.HTTP_204_NO_CONTENT)
+def remove_investment(investment_id: int, db_session: Session = Depends(get_db_session)):
+	investment = db_session.query(models.Investment).filter(models.Investment.id == investment_id).first()
 
 	if not investment:
 		raise HTTPException(
 			status_code=status.HTTP_404_NOT_FOUND,
-			detail=f"Investment with id {id} was not found"
+			detail=f"Investment with id {investment_id} was not found"
 		)
 	
 	db_session.delete(investment)  
