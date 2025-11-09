@@ -1,4 +1,5 @@
 import {useEffect, useState} from 'react';
+import './InvestmentList.css'
 
 
 function InvestmentList({token, userId}){
@@ -34,6 +35,11 @@ function InvestmentList({token, userId}){
 	}, [token]);
 
 
+	const handleRemove = async(id) => {
+		console.log("Clicked remove investment " + id);
+	}
+
+
 	if(loading){
 		return(
 			<p>Loading investments...</p>
@@ -61,7 +67,11 @@ function InvestmentList({token, userId}){
 								current value: {value}; 
 								price difference: {flatDifference.toFixed(2)}; 
 								price change: {percentDifference.toFixed(2)}%; 
-
+								<button
+									onClick={() => handleRemove(inv.id)}
+								>
+									Remove
+								</button>
 							</li>
 						);
 					})}
