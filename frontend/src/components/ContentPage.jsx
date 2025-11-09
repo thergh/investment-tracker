@@ -1,11 +1,11 @@
-import {useEffect, useState} from 'react';
-import InvestmentList from './InvestmentList';
-import Sidebar from './Sidebar'
-import AddInvestmentModal from './AddInvestmentModal';
+import {useEffect, useState} from "react";
+import InvestmentList from "./InvestmentList";
+import Sidebar from "./Sidebar"
+import AddInvestmentModal from "./AddInvestmentModal";
 
 
 function ContentPage({token, userId}){
-	const [apiMessage, setApiMessage] = useState('');
+	const [apiMessage, setApiMessage] = useState("");
 	const [loading, setLoading] = useState(true);
 	const [showAddModal, setShowAddModal] = useState(false);
 	const [refreshKey, setRefreshKey] = useState(0);
@@ -26,7 +26,7 @@ function ContentPage({token, userId}){
 		const fetchData = async() => {
 			try{
 				const apiResponse = await fetch("http://127.0.0.1:8000/", {
-					headers: {'Authorization': "Bearer " + token}
+					headers: {"Authorization": "Bearer " + token}
 				});
 				const jsonResponse = await apiResponse.json();
 				setApiMessage(jsonResponse.message);
@@ -45,7 +45,7 @@ function ContentPage({token, userId}){
 
 
 	const handleInvestmentAdded = () => {
-		setRefreshKey(prev => prev + 1); // trigger refresh in InvestmentList
+		setRefreshKey(prev => prev + 1);
 	};
 
 	

@@ -1,6 +1,6 @@
 
 
-.sidebar {
+.sidebar{
     position: fixed;
     left: 0;
     top: 0;
@@ -15,13 +15,13 @@
 }
 
 
-.sidebar button {
+.sidebar button{
     background-color: #515962;
     cursor: pointer;
 }
 
 
-.sidebar button:hover {
+.sidebar button:hover{
     background-color: #666a6e;
 }
 

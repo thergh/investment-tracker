@@ -16,7 +16,7 @@ function InvestmentList({token, userId, refreshKey}){
 				);
 
 				if(!response.ok){
-					throw new Error("Failed to fetch investments. (status " + response.status + ")");
+					throw new Error("HTTP error: " + response.status);
 				}
 
 				const investmetsData = await response.json();
@@ -46,7 +46,7 @@ function InvestmentList({token, userId, refreshKey}){
 			);
 
 			if(!response.ok){
-				throw new Error("Failed to delete investment (status " + response.status + ")");
+				throw new Error("HTTP error:  " + response.status);
 			}
 
 			setInvestments(prev => prev.filter(inv => inv.id !== investment_id));
@@ -80,11 +80,11 @@ function InvestmentList({token, userId, refreshKey}){
 							<li key={inv.id}>
 								<strong>{inv.asset.symbol} </strong>
 								quantity: {inv.quantity}; 
-								purchase price: {inv.purchase_price}; 
-								current price: {inv.asset.stock.price}; 
-								current value: {value}; 
-								price difference: {flatDifference.toFixed(2)}; 
-								price change: {percentDifference.toFixed(2)}%; 
+								Purchase price: {inv.purchase_price}; 
+								Current price: {inv.asset.stock.price}; 
+								Current value: {value}; 
+								Price difference: {flatDifference.toFixed(2)}; 
+								Price change: {percentDifference.toFixed(2)}%; 
 								<button
 									onClick={() => handleRemove(inv.id)}
 								>
