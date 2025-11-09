@@ -9,17 +9,17 @@ function InvestmentList({token, userId}){
 	useEffect(() => {
 		const fetchInvestments = async() => {
 			try{
-				const investmentsResponse = await fetch(
+				const response = await fetch(
 					"http://127.0.0.1:8000/investments/user/" + userId
 					// "http://127.0.0.1:8000/investments/user/" + {userId}, 
 					// {headers: {"Authorization": "Bearer" + token}}
 				);
 
-				if(!investmentsResponse.ok){
-					throw new Error("HTTP error: " + investmentsResponse.status);
+				if(!response.ok){
+					throw new Error("Failed to fetch investments. (status " + response.status + ")");
 				}
 
-				const investmetsData = await investmentsResponse.json();
+				const investmetsData = await response.json();
 				setInvestments(investmetsData);
 			}
 			catch(err){
@@ -32,12 +32,30 @@ function InvestmentList({token, userId}){
 		};
 
 		fetchInvestments();
-	}, [token]);
+	}, [token, userId]);
 
 
-	const handleRemove = async(id) => {
-		console.log("Clicked remove investment " + id);
-	}
+	const handleRemove = async(investment_id) => {
+		try{
+			const response = await fetch(
+				// "http://127.0.0.1:8000/investments/" + investment_id
+				"http://127.0.0.1:8000/investments/" + investment_id, {
+					method: "DELETE",
+					headers: {"Authorization": "Bearer " + token}
+				}
+			);
+
+			if(!response.ok){
+				throw new Error("Failed to delete investment (status " + response.status + ")");
+			}
+
+			setInvestments(prev => prev.filter(inv => inv.id !== investment_id));
+		}
+		catch(err){
+			console.error("Error deleting investment " + investment_id + ":", err);
+			alert("Failed to remove investment.");
+		}
+	};
 
 
 	if(loading){
