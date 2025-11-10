@@ -1,4 +1,4 @@
-.modal-overlay{
+.modalOverlay{
 	position: fixed;
 	top: 0;
 	left: 0;
@@ -38,7 +38,7 @@
 	font-size: 1rem;
 }
 
-.modal-buttons{
+.modalButtons{
 	display: flex;
 	justify-content: flex-end;
 	gap: 1rem;

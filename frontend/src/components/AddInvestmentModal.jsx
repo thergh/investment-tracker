@@ -56,12 +56,17 @@ function AddInvestmentModal({token, userId, onClose, onInvestmentAdded}){
 	};
 
 	return(
-		<div className="modal-overlay">
+		<div className="modalOverlay">
 			<div className="modal">
 				<h2>Add Investment</h2>
 				<form onSubmit={handleSubmit}>
 					<label>Asset Symbol:</label>
-					<input name="asset_symbol" value={formData.asset_symbol} onChange={handleChange} required />
+					<input
+						name="asset_symbol"
+						value={formData.asset_symbol}
+						onChange={handleChange}
+						required 
+					/>
 
 					<label>Asset Type:</label>
 					<select name="asset_type" value={formData.asset_type} onChange={handleChange}>
@@ -70,19 +75,42 @@ function AddInvestmentModal({token, userId, onClose, onInvestmentAdded}){
 					</select>
 
 					<label>Quantity:</label>
-					<input type="number" name="quantity" value={formData.quantity} onChange={handleChange} required />
+					<input
+						type="number"
+						name="quantity"
+						value={formData.quantity}
+						onChange={handleChange}
+						required
+					/>
 
 					<label>Purchase Price:</label>
-					<input type="number" step="0.01" name="purchase_price" value={formData.purchase_price} onChange={handleChange} required />
+					<input
+						type="number"
+						step="0.01"
+						name="purchase_price"
+						value={formData.purchase_price}
+						onChange={handleChange}
+						required
+					/>
 
 					<label>Purchase Date:</label>
-					<input type="date" name="purchase_date" value={formData.purchase_date} onChange={handleChange} required />
+					<input
+						type="date"
+						name="purchase_date"
+						value={formData.purchase_date}
+						onChange={handleChange}
+						required
+					/>
 
 					{error && <p className="error">{error}</p>}
 
-					<div className="modal-buttons">
-						<button type="submit" disabled={loading}>{loading ? "Adding..." : "Add"}</button>
-						<button type="button" onClick={onClose}>Cancel</button>
+					<div className="modalButtons">
+						<button	type="submit" disabled={loading}>
+							{loading ? "Adding..." : "Add"}
+						</button>
+						<button type="button" onClick={onClose}>
+							Cancel
+						</button>
 					</div>
 				</form>
 			</div>
