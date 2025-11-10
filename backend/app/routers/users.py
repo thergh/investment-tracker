@@ -102,6 +102,7 @@ def update_investments(
 			)
 
 	db_session.commit()
+	return {"message": f"Updated investment data for user {user_id}"}
 	
 
 @router.get("/{user_id}/portfolio_value", response_model=schemas.PortfolioValueResponse)
