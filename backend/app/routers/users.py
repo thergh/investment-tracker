@@ -141,7 +141,7 @@ def calculate_portfolio_value(user_id: int, db_session: Session) -> float:
 
 		value += float(quantity) * float(price)
 		
-	return {value, stocks_value, bonds_value}
+	return [value, stocks_value, bonds_value]
 
 
 
