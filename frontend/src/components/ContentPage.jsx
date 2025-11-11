@@ -2,6 +2,7 @@ import {useEffect, useState} from "react";
 import InvestmentList from "./InvestmentList";
 import Sidebar from "./Sidebar"
 import AddInvestmentModal from "./AddInvestmentModal";
+import {PieChart, ResponsiveContainer, Pie, Cell, Tooltip, Legend} from "recharts";
 
 
 function ContentPage({token, userId}){
@@ -122,19 +123,47 @@ function ContentPage({token, userId}){
 				<p>Your access token: {token}</p>
 				<p>Your user ID: {userId}</p>
 
-				<button onClick={() => setShowAddModal(true)}>
-					Add Investment
-				</button>
-
-				<button onClick={handleRefreshData}>Refresh investment data</button>
-				<button onClick={handleRefreshValues}>Refresh portfolio values</button>
-
-				<div>
+								<div>
 					<h2>Portfolio values</h2>
 					<p><strong>Total value:</strong> ${totalValue.toFixed(2)}</p>
 					<p><strong>Stocks value:</strong> ${stocksValue.toFixed(2)}</p>
 					<p><strong>Bonds value:</strong> ${bondsValue.toFixed(2)}</p>
 				</div>
+
+				<div>
+					<h2>Portfolio Composition</h2>
+					{totalValue > 0 ? (
+						<ResponsiveContainer width="50%" height={300}>
+							<PieChart>
+								<Pie
+									data={[
+										{name: "Stocks", value: stocksValue},
+										{name: "Bonds", value: bondsValue}
+									]}
+									dataKey="value"
+									nameKey="name"
+									cx="50%"
+									cy="50%"
+									outerRadius={100}
+									label={({name, value}) => `${name}: ${(value / totalValue * 100).toFixed(1)}%`}
+								>
+									<Cell fill="#4caf50" />
+									<Cell fill="#2196f3" />
+								</Pie>
+								<Tooltip formatter={(val) => `$${val.toFixed(2)}`} />
+								<Legend />
+							</PieChart>
+						</ResponsiveContainer>
+					) : (
+						<p>Values are not available.</p>
+					)}
+				</div>
+
+				<button onClick={() => setShowAddModal(true)}>
+					Add Investment
+				</button>
+				<button onClick={handleRefreshData}>Refresh investment data</button>
+				<button onClick={handleRefreshValues}>Refresh portfolio values</button>
 
 				<InvestmentList
 					token={token}
