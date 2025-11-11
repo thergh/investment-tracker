@@ -107,13 +107,18 @@ def update_investments(
 
 @router.get("/{user_id}/portfolio_value", response_model=schemas.PortfolioValueResponse)
 def get_portfolio_value(user_id: int, db_session: Session = Depends(get_db_session)):
-	value = calculate_portfolio_value(user_id, db_session)
-	portfolio_value = schemas.PortfolioValueResponse(value=value)
-	return portfolio_value
+	value, stocks_value, bonds_value = calculate_portfolio_value(user_id, db_session)
+
+	value_response = schemas.PortfolioValueResponse(value=value, stocks_value=stocks_value, bonds_value=bonds_value)
+
+	return value_response
 
 
 def calculate_portfolio_value(user_id: int, db_session: Session) -> float:
 	value: float = 0.0
+	stocks_value: float = 0.0
+	bonds_value: float = 0.0
+
 	investments: models.Investment = (
 		db_session.query(models.Investment)
 		.filter(models.Investment.user_id == user_id)
@@ -122,12 +127,21 @@ def calculate_portfolio_value(user_id: int, db_session: Session) -> float:
 
 	for inv in investments:
 		asset: models.Asset =  inv.asset
-		stock: models.Stock = asset.stock
-		stock_price = stock.price
-		stock_quantity = inv.quantity
-		value += float(stock_quantity) * float(stock_price)
+		quantity = inv.quantity
 
-	return value
+		if(asset.asset_type == 'STOCK'):
+			stock: models.Stock = asset.stock
+			price = stock.price
+			stocks_value += float(quantity) * float(price)
+			
+		elif(asset.asset_type == 'BOND'):
+			bond: models.Bond = asset.bond
+			price = bond.price
+			bonds_value += float(quantity) * float(price)
+
+		value += float(quantity) * float(price)
+		
+	return {value, stocks_value, bonds_value}
 
 
 

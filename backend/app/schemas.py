@@ -88,3 +88,5 @@ class TokenData(BaseModel):
 
 class PortfolioValueResponse(BaseModel):
 	value: float
+	stocks_value: float
+	bonds_value: float
