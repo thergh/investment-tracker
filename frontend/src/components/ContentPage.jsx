@@ -9,6 +9,9 @@ function ContentPage({token, userId}){
 	const [loading, setLoading] = useState(true);
 	const [showAddModal, setShowAddModal] = useState(false);
 	const [refreshKey, setRefreshKey] = useState(0);
+	const [totalValue, setTotalValue] = useState(0);
+	const [stocksValue, setStocksValue] = useState(0);
+	const [bondsValue, setBondsValue] = useState(0);
 
 	const handleLogout = () => {
 		console.log("Login clicked");
@@ -48,6 +51,57 @@ function ContentPage({token, userId}){
 		setRefreshKey(prev => prev + 1);
 	};
 
+
+	const handleRefreshData = async() => {
+		console.log("Refreshed investment data.");
+
+		try{
+			const response = await fetch(
+				"http://127.0.0.1:8000/users/" + userId + "/update", {
+					method: "POST",
+					headers: {"Authorization": "Bearer " + token}
+				}
+			);
+
+			if(!response.ok){
+				throw new Error("HTTP error:  " + response.status);
+			}
+
+			setRefreshKey(prev => prev + 1);
+		}
+		catch(err){
+			console.error("Error refreshing user " + userId + " investments:", err);
+			alert("Failed to refresh investments.");
+		}
+	};
+
+
+	const handleRefreshValues = async() => {
+		console.log("Clicked to get portfolio values data.");
+
+		try{
+			const response = await fetch(
+				"http://127.0.0.1:8000/users/" + userId + "/portfolio_value", {
+					headers: {"Authorization": "Bearer " + token}
+				}
+			);
+
+			if(!response.ok){
+				throw new Error("HTTP error:  " + response.status);
+			}
+
+			const data = await response.json();
+			setTotalValue(data.value);
+			setStocksValue(data.stocks_value);
+			setBondsValue(data.bonds_value);
+
+		}
+		catch(err){
+			console.error("Error getting values for user " + userId + ": ", err);
+			alert("Failed to get values.");
+		}
+	}
+
 	
 	if(loading){
 		return(
@@ -71,6 +125,16 @@ function ContentPage({token, userId}){
 				<button onClick={() => setShowAddModal(true)}>
 					Add Investment
 				</button>
+
+				<button onClick={handleRefreshData}>Refresh investment data</button>
+				<button onClick={handleRefreshValues}>Refresh portfolio values</button>
+
+				<div>
+					<h2>Portfolio values</h2>
+					<p><strong>Total value:</strong> ${totalValue.toFixed(2)}</p>
+					<p><strong>Stocks value:</strong> ${stocksValue.toFixed(2)}</p>
+					<p><strong>Bonds value:</strong> ${bondsValue.toFixed(2)}</p>
+				</div>
 
 				<InvestmentList
 					token={token}
