@@ -12,25 +12,6 @@ router = APIRouter(
 )
 
 
-@router.get("/user/{user_id}", response_model=List[schemas.InvestmentResponse])
-def get_investments(
-		user_id: int,
-		db_session: Session = Depends(get_db_session)
-	):
-	  
-	investments = (
-		db_session.query(models.Investment)
-		.options(
-			joinedload(models.Investment.asset).joinedload(models.Asset.stock),
-			joinedload(models.Investment.asset).joinedload(models.Asset.bond)
-		)
-		.filter(models.Investment.user_id == user_id)
-		.all()
-	)
-
-	return investments
-	
-
 @router.get("/{id}", response_model=schemas.InvestmentResponse)
 def get_investment(
 		id: int,

@@ -1,7 +1,7 @@
 from .. import models, schemas, utils
 from ..database import get_db_session
 from fastapi import Body, FastAPI, Response, status, HTTPException, Depends, APIRouter, UploadFile, File
-from sqlalchemy.orm import Session
+from sqlalchemy.orm import Session, joinedload
 from typing import Optional, List
 from io import BytesIO
 import pandas as pd
@@ -65,6 +65,25 @@ def delete_user(id: int, db_session: Session = Depends(get_db_session)):
 	db_session.commit()
 	
 	return Response(status_code=status.HTTP_204_NO_CONTENT)
+
+
+@router.get("/{user_id}/investments", response_model=List[schemas.InvestmentResponse])
+def get_investments(
+		user_id: int,
+		db_session: Session = Depends(get_db_session)
+	):
+	  
+	investments = (
+		db_session.query(models.Investment)
+		.options(
+			joinedload(models.Investment.asset).joinedload(models.Asset.stock),
+			joinedload(models.Investment.asset).joinedload(models.Asset.bond)
+		)
+		.filter(models.Investment.user_id == user_id)
+		.all()
+	)
+
+	return investments
 
 
 # may optimize later. repeated checks on the same stock are unnecessary
@@ -143,7 +162,6 @@ async def import_xtb(
 			status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
 			detail=f"Failed to parse the import file.")
 
-	pass
 
 
 
