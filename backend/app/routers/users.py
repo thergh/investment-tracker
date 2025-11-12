@@ -67,6 +67,56 @@ def delete_user(id: int, db_session: Session = Depends(get_db_session)):
 	return Response(status_code=status.HTTP_204_NO_CONTENT)
 
 
+@router.post("/{user_id}/investments", status_code=status.HTTP_201_CREATED, response_model=schemas.InvestmentResponse)
+def add_investment(
+		user_id: int,
+		investment: schemas.InvestmentAdd,
+		db_session: Session = Depends(get_db_session)
+	):
+
+	if investment.asset_type == 'STOCK':
+		asset = (
+			db_session.query(models.Asset)
+			.filter(models.Asset.asset_type == investment.asset_type)
+			.filter(models.Asset.symbol == investment.asset_symbol)
+			.first()
+		)
+
+		if not asset:
+			raise HTTPException(
+				status_code=status.HTTP_400_BAD_REQUEST,
+				detail=(
+					f"Asset type {investment.asset_type}"
+					+ f" with symbol {investment.asset_symbol} not is not recognised."
+				)
+			)
+
+		new_investment = models.Investment(
+			user_id = user_id,
+			asset_id = asset.id,
+			quantity = investment.quantity,
+			purchase_price = investment.purchase_price,
+			purchase_date = investment.purchase_date
+		)
+
+		db_session.add(new_investment)
+		db_session.commit()
+
+		return new_investment
+	
+	elif investment.asset_type == 'BOND':
+		pass
+
+	else:
+		raise HTTPException(
+			status_code=status.HTTP_400_BAD_REQUEST,
+			detail=(
+				f"Asset type {investment.asset_type}"
+				+ f" with symbol {investment.asset_symbol} not is not recognised."
+			)
+		)
+
+
 @router.get("/{user_id}/investments", response_model=List[schemas.InvestmentResponse])
 def get_investments(
 		user_id: int,
@@ -230,3 +280,4 @@ def read_stock_price(symbol: str):
 		)
 	
 
+# def add_investment():

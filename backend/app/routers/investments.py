@@ -30,55 +30,10 @@ def get_investment(
 	return investment
 
 
-@router.post("/", status_code=status.HTTP_201_CREATED, response_model=schemas.InvestmentResponse)
-def add_investment(
-		investment: schemas.InvestmentAdd,
-		db_session: Session = Depends(get_db_session),
-		current_user_id: int = 1
-	):
 
-	if investment.asset_type == 'STOCK':
-		asset = (
-			db_session.query(models.Asset)
-			.filter(models.Asset.asset_type == investment.asset_type)
-			.filter(models.Asset.symbol == investment.asset_symbol)
-			.first()
-		)
-
-		if not asset:
-			raise HTTPException(
-				status_code=status.HTTP_400_BAD_REQUEST,
-				detail=(
-					f"Asset type {investment.asset_type}"
-					+ f" with symbol {investment.asset_symbol} not is not recognised."
-				)
-			)
-
-		new_investment = models.Investment(
-			user_id = current_user_id,
-			asset_id = asset.id,
-			quantity = investment.quantity,
-			purchase_price = investment.purchase_price,
-			purchase_date = investment.purchase_date
-		)
-
-		db_session.add(new_investment)
-		db_session.commit()
-
-		return new_investment
 		
 
-	elif investment.asset_type == 'BOND':
-		pass
 
-	else:
-		raise HTTPException(
-			status_code=status.HTTP_400_BAD_REQUEST,
-			detail=(
-				f"Asset type {investment.asset_type}"
-				+ f" with symbol {investment.asset_symbol} not is not recognised."
-			)
-		)
 	
 
 @router.delete("/{investment_id}", status_code=status.HTTP_204_NO_CONTENT)
