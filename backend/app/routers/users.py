@@ -1,8 +1,10 @@
 from .. import models, schemas, utils
 from ..database import get_db_session
-from fastapi import Body, FastAPI, Response, status, HTTPException, Depends, APIRouter
+from fastapi import Body, FastAPI, Response, status, HTTPException, Depends, APIRouter, UploadFile, File
 from sqlalchemy.orm import Session
 from typing import Optional, List
+from io import BytesIO
+import pandas as pd
 import yfinance as yf
 
 router = APIRouter(
@@ -112,6 +114,40 @@ def get_portfolio_value(user_id: int, db_session: Session = Depends(get_db_sessi
 	value_response = schemas.PortfolioValueResponse(value=value, stocks_value=stocks_value, bonds_value=bonds_value)
 
 	return value_response
+
+
+@router.post("/{user_id}/import/xtb", status_code=status.HTTP_200_OK)
+async def import_xtb(
+		user_id: int,
+		file: UploadFile = File(...),
+		db_session: Session = Depends(get_db_session)
+	):
+	try:
+		content = await file.read()
+		excel_data = BytesIO(content)
+
+		data_sheet = pd.read_excel(
+			excel_data,
+			sheet_name=1,
+			usecols=list(range(2,8+1)),
+			skiprows=10,
+			skipfooter=1
+		)
+
+		data_dicts = data_sheet.to_dict(orient="records")
+
+		return {"status": "success", "count": len(data_dicts), "investments": data_dicts}
+
+	except Exception as e:
+		raise HTTPException(
+			status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
+			detail=f"Failed to parse the import file.")
+
+	pass
+
+
+
+
 
 
 def calculate_portfolio_value(user_id: int, db_session: Session) -> float:

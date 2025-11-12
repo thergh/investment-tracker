@@ -4,3 +4,5 @@ app/routers/__pycache__
 requirements.txt
 ticker_data.txt
 finance_test.py
+parser.py
+xtb_eur.xlsx
