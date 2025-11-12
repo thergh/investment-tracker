@@ -28,14 +28,17 @@ function AddInvestmentModal({token, userId, onClose, onInvestmentAdded}){
 		setError(null);
 
 		try{
-			const response = await fetch("http://127.0.0.1:8000/investments/", {
-				method: "POST",
-				headers: {
-					"Content-Type": "application/json",
-					"Authorization": "Bearer " + token
-				},
-				body: JSON.stringify(formData)
-			});
+			const response = await fetch(
+				"http://127.0.0.1:8000/users/" + userId + "/investments",
+				{
+					method: "POST",
+					headers: {
+						"Content-Type": "application/json",
+						"Authorization": "Bearer " + token
+					},
+					body: JSON.stringify(formData)
+				}
+			);
 
 			if(!response.ok){
 				throw new Error("HTTP error: " + response.status);
