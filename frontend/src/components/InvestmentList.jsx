@@ -72,7 +72,7 @@ function InvestmentList({token, userId, refreshKey}){
 			): (
 				<ul>
 					{investments.map(inv => {
-						const flatDifference = inv.purchase_price - inv.asset.stock.price;
+						const flatDifference = inv.asset.stock.price - inv.purchase_price;
 						const percentDifference = 100 * flatDifference / inv.purchase_price;
 						const value = inv.asset.stock.price * inv.quantity;
 
