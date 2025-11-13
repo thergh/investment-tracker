@@ -68,6 +68,7 @@ function InvestmentList({token, userId, refreshKey}){
 			): (
 				<table className='investmentsTable'>
 					<thead>
+						<th>Purchase Date</th>
 						<th>Name</th>
 						<th>Volume</th>
 						<th>Purchase Price</th>
@@ -85,11 +86,22 @@ function InvestmentList({token, userId, refreshKey}){
 
 							return(
 								<tr key={inv.id}>
+									<td>
+										{new Date(inv.purchase_date).toLocaleString(
+											"pl-PL", {
+												year: "numeric",
+												month: "2-digit",
+												day: "2-digit",
+												hour: "2-digit",
+												minute: "2-digit"
+											}
+										)}
+									</td>
 									<td>{inv.asset.symbol}</td>
-									<td>{inv.quantity}</td>
-									<td>{inv.purchase_price}</td>
-									<td>{inv.asset.stock.price}</td>
-									<td>{value}</td>
+									<td>{inv.quantity.toFixed(2)}</td>
+									<td>{inv.purchase_price.toFixed(2)}</td>
+									<td>{inv.asset.stock.price.toFixed(2)}</td>
+									<td>{value.toFixed(2)}</td>
 									<td>{flatDifference.toFixed(2)}</td>
 									<td>{percentDifference.toFixed(2)}%</td>
 									<td><button onClick={() => handleRemove(inv.id)}>Remove</button></td>

@@ -14,6 +14,9 @@ function ContentPage({token, userId}){
 	const [totalValue, setTotalValue] = useState(0);
 	const [stocksValue, setStocksValue] = useState(0);
 	const [bondsValue, setBondsValue] = useState(0);
+	const [totalProfit, setTotalProfit] = useState(0);
+	const [stocksProfit, setStocksProfit] = useState(0);
+	const [bondsProfit, setBondsProfit] = useState(0);
 
 	const handleLogout = () => {
 		console.log("Login clicked");
@@ -96,6 +99,9 @@ function ContentPage({token, userId}){
 			setTotalValue(data.value);
 			setStocksValue(data.stocks_value);
 			setBondsValue(data.bonds_value);
+			setTotalProfit(data.total_profit);
+			setStocksProfit(data.stocks_profit);
+			setBondsProfit(data.bonds_profit);
 
 		}
 		catch(err){
@@ -151,8 +157,11 @@ function ContentPage({token, userId}){
 					</div>
 					<div className="valuesDiv">
 						<p><strong>Total value:</strong> ${totalValue.toFixed(2)}</p>
+						<p><strong>Total profit:</strong> ${totalProfit.toFixed(2)}</p>
 						<p><strong>Stocks value:</strong> ${stocksValue.toFixed(2)}</p>
+						<p><strong>Stocks profit:</strong> ${stocksProfit.toFixed(2)}</p>
 						<p><strong>Bonds value:</strong> ${bondsValue.toFixed(2)}</p>
+						<p><strong>Bonds profit:</strong> ${bondsProfit.toFixed(2)}</p>
 					</div>
 				</div>
 
