@@ -165,12 +165,13 @@ function ContentPage({token, userId}){
 					</div>
 				</div>
 
-				<button onClick={() => setShowAddModal(true)}>
+				<button className="actionButton" onClick={() => setShowAddModal(true)}>
 					Add Investment
 				</button>
-				<button onClick={handleRefreshData}>Refresh investment data</button>
-				<button onClick={handleRefreshValues}>Refresh portfolio values</button>
+				<button className="actionButton" onClick={handleRefreshData}>Refresh investment data</button>
+				<button className="actionButton" onClick={handleRefreshValues}>Refresh portfolio values</button>
 
+				
 				<InvestmentList
 					token={token}
 					userId={userId}

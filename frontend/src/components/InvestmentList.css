@@ -2,3 +2,13 @@
 	padding: 10px 12px;
 	border-bottom: 1px solid;
 }
+
+th{
+	cursor: pointer;
+	user-select: none;
+}
+
+.actionButton{
+	cursor: pointer;
+	user-select: none;
+}

@@ -16,3 +16,8 @@
 		grid-template-columns: 1fr;
 	}
 }
+
+.actionButton{
+	cursor: pointer;
+	user-select: none;
+}

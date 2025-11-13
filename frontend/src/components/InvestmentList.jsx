@@ -5,6 +5,7 @@ import './InvestmentList.css'
 function InvestmentList({token, userId, refreshKey}){
 	const [investments, setInvestments] = useState([]);
 	const [loading, setLoading] = useState(true);
+	const [sortConfig, setSortConfig] = useState({sortColumn: null, direction: "asc"});
 
 	useEffect(() => {
 		const fetchInvestments = async() => {
@@ -55,6 +56,79 @@ function InvestmentList({token, userId, refreshKey}){
 	};
 
 
+	const handleSort = (sortColumn) => {
+		let direction = "asc";
+		if(sortConfig.sortColumn === sortColumn && sortConfig.direction === "asc"){
+			direction = "desc";
+		}
+		setSortConfig({sortColumn, direction})
+	}
+
+
+	const sortedInvestments = [...investments].sort((a, b) => {
+		if(!sortConfig.sortColumn){
+			return 0;
+		}
+
+		let aValue, bValue;
+
+		// if
+		// const flatDifference = inv.asset.stock.price - inv.purchase_price;
+		// const percentDifference = 100 * flatDifference / inv.purchase_price;
+		// const value = inv.asset.stock.price * inv.quantity;
+
+		switch(sortConfig.sortColumn){
+			case "purchaseDate":
+				aValue = a.purchase_date;
+				bValue = b.purchase_date;
+				break;
+			case "symbol":
+				aValue = a.asset.symbol;
+				bValue = b.asset.symbol;
+				break;
+			case "volume":
+				aValue = a.quanity;
+				bValue = b.quantity;
+				break;
+			case "purchasePrice":
+				aValue = a.purchase_price;
+				bValue = b.purchase_price;
+				break;
+			// TODO
+			// case "currentPrice":
+
+			// 	aValue = a.asset;
+			// 	bValue = ;
+			// 	break;
+			// case "currentValue":
+			// 	aValue = ;
+			// 	bValue = ;
+			// 	break;
+			// case "priceDifference":
+			// 	aValue = ;
+			// 	bValue = ;
+			// 	break;
+			// case "priceIncrease":
+			// 	aValue = ;
+			// 	bValue = ;
+			// 	break;
+			default:
+				return 0;
+		}
+
+		if(aValue < bValue){
+			return sortConfig.direction === "asc" ? -1 : 1;
+		}
+		if(aValue < bValue){
+			return sortConfig.direction === "asc" ? 1 : -1;
+		}
+		else{
+			return 0;
+		}
+
+	});
+
+
 	if(loading){
 		return(
 			<p>Loading investments...</p>
@@ -63,15 +137,15 @@ function InvestmentList({token, userId, refreshKey}){
 
 	return(
 		<div className="investmentContainer">
-			{investments.length === 0 ? (
+			{sortedInvestments.length === 0 ? (
 				<p>No investments found.</p>
 			): (
-				<table className='investmentsTable'>
+				<table className="investmentsTable">
 					<thead>
-						<th>Purchase Date</th>
-						<th>Name</th>
-						<th>Volume</th>
-						<th>Purchase Price</th>
+						<th onClick={() => handleSort("purchaseDate")}>Purchase Date</th>
+						<th onClick={() => handleSort("symbol")}>Symbol</th>
+						<th onClick={() => handleSort("volume")}>Volume</th>
+						<th onClick={() => handleSort("purchasePrice")}>Purchase Price</th>
 						<th>Current Price</th>
 						<th>Current Value</th>
 						<th>Price Difference</th>
@@ -79,7 +153,7 @@ function InvestmentList({token, userId, refreshKey}){
 						<th>Remove</th>
 					</thead>
 					<tbody>
-						{investments.map(inv => {
+						{sortedInvestments.map(inv => {
 							const flatDifference = inv.asset.stock.price - inv.purchase_price;
 							const percentDifference = 100 * flatDifference / inv.purchase_price;
 							const value = inv.asset.stock.price * inv.quantity;
@@ -104,7 +178,7 @@ function InvestmentList({token, userId, refreshKey}){
 									<td>{value.toFixed(2)}</td>
 									<td>{flatDifference.toFixed(2)}</td>
 									<td>{percentDifference.toFixed(2)}%</td>
-									<td><button onClick={() => handleRemove(inv.id)}>Remove</button></td>
+									<td><button className='actionButton' onClick={() => handleRemove(inv.id)}>Remove</button></td>
 								</tr>
 							);
 						})}
