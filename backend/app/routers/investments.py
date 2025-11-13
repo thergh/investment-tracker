@@ -170,9 +170,16 @@ async def import_xtb(
 
 @router.get("/user/{user_id}/portfolioValue", response_model=schemas.PortfolioValueResponse)
 def get_portfolio_value(user_id: int, db_session: Session = Depends(get_db_session)):
-	value, stocks_value, bonds_value = calculate_portfolio_value(user_id, db_session)
+	value, stocks_value, bonds_value, total_profit, stocks_profit, bonds_profit = calculate_portfolio_value(user_id, db_session)
 
-	value_response = schemas.PortfolioValueResponse(value=value, stocks_value=stocks_value, bonds_value=bonds_value)
+	value_response = schemas.PortfolioValueResponse(
+		value=value,
+		stocks_value=stocks_value,
+		bonds_value=bonds_value,
+		total_profit=total_profit,
+		stocks_profit=stocks_profit,
+		bonds_profit=bonds_profit
+	)
 
 	return value_response
 
@@ -184,8 +191,11 @@ def calculate_portfolio_value(user_id: int, db_session: Session) -> float:
 	value: float = 0.0
 	stocks_value: float = 0.0
 	bonds_value: float = 0.0
+	total_profit: float = 0.0
+	stocks_profit: float = 0.0
+	bonds_profit: float = 0.0
 
-	investments: models.Investment = (
+	investments = (
 		db_session.query(models.Investment)
 		.filter(models.Investment.user_id == user_id)
 		.all()
@@ -194,20 +204,24 @@ def calculate_portfolio_value(user_id: int, db_session: Session) -> float:
 	for inv in investments:
 		asset: models.Asset =  inv.asset
 		quantity = inv.quantity
+		purchase_price = inv.purchase_price
 
 		if(asset.asset_type == 'STOCK'):
 			stock: models.Stock = asset.stock
 			price = stock.price
 			stocks_value += float(quantity) * float(price)
-			
+			stocks_profit += (float(quantity) * float(purchase_price)) - (float(quantity) * float(price))
+			total_profit += stocks_profit
 		elif(asset.asset_type == 'BOND'):
 			bond: models.Bond = asset.bond
 			price = bond.price
 			bonds_value += float(quantity) * float(price)
+			bonds_profit += (float(quantity) * float(purchase_price)) - (float(quantity) * float(price))
+			total_profit += bonds_profit
 
 		value += float(quantity) * float(price)
 		
-	return [value, stocks_value, bonds_value]
+	return [value, stocks_value, bonds_value, total_profit, stocks_profit, bonds_profit]
 
 
 def read_stock_price(symbol: str):

@@ -90,3 +90,6 @@ class PortfolioValueResponse(BaseModel):
 	value: float
 	stocks_value: float
 	bonds_value: float
+	total_profit: float
+	stocks_profit: float
+	bonds_profit: float
