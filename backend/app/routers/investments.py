@@ -6,6 +6,7 @@ from ..database import get_db_session
 from io import BytesIO
 import pandas as pd
 import yfinance as yf
+from datetime import datetime
 
 
 router = APIRouter(
@@ -55,47 +56,17 @@ def add_user_investment(
 		db_session: Session = Depends(get_db_session)
 	):
 
-	if investment.asset_type == 'STOCK':
-		asset = (
-			db_session.query(models.Asset)
-			.filter(models.Asset.asset_type == investment.asset_type)
-			.filter(models.Asset.symbol == investment.asset_symbol)
-			.first()
-		)
-
-		if not asset:
-			raise HTTPException(
-				status_code=status.HTTP_400_BAD_REQUEST,
-				detail=(
-					f"Asset type {investment.asset_type}"
-					+ f" with symbol {investment.asset_symbol} not is not recognised."
-				)
-			)
-
-		new_investment = models.Investment(
-			user_id = user_id,
-			asset_id = asset.id,
-			quantity = investment.quantity,
-			purchase_price = investment.purchase_price,
-			purchase_date = investment.purchase_date
-		)
-
-		db_session.add(new_investment)
-		db_session.commit()
-
-		return new_investment
+	new_investment = add_investment_to_db(
+		user_id=user_id,
+		asset_type=investment.asset_type,
+		asset_symbol=investment.asset_symbol,
+		quantity=investment.quantity,
+		purchase_price=investment.purchase_price,
+		purchase_date=investment.purchase_date,
+		db_session=db_session
+	)
 	
-	elif investment.asset_type == 'BOND':
-		pass
-
-	else:
-		raise HTTPException(
-			status_code=status.HTTP_400_BAD_REQUEST,
-			detail=(
-				f"Asset type {investment.asset_type}"
-				+ f" with symbol {investment.asset_symbol} not is not recognised."
-			)
-		)
+	return new_investment
 
 
 @router.get("/user/{user_id}", response_model=List[schemas.InvestmentResponse])
@@ -177,6 +148,18 @@ async def import_xtb(
 
 		data_dicts = data_sheet.to_dict(orient="records")
 
+		# add stocks to db
+		for dict in data_dicts:
+			add_investment_to_db(
+				user_id=user_id,
+				asset_type="STOCK",
+				asset_symbol=dict["Symbol"],
+				quantity=dict["Volume"],
+				purchase_price=dict["Open price"],
+				purchase_date=pd.to_datetime(dict["Open time"]),
+				db_session=db_session
+			)
+
 		return {"status": "success", "count": len(data_dicts), "investments": data_dicts}
 
 	except Exception as e:
@@ -256,3 +239,54 @@ def read_stock_price(symbol: str):
 			status_code=status.HTTP_404_NOT_FOUND,
 			detail=f"Failed to fetch price for symbol '{symbol}': {str(e)}"
 		)
+	
+
+def add_investment_to_db(
+		user_id: int,
+		asset_type: str,
+		asset_symbol: str,
+		quantity: float,
+		purchase_price: float,
+		purchase_date: datetime,
+		db_session: Session
+	):
+
+	if asset_type == 'STOCK':
+		asset = (
+			db_session.query(models.Asset)
+			.filter(models.Asset.asset_type == asset_type)
+			.filter(models.Asset.symbol == asset_symbol)
+			.first()
+		)
+
+		if not asset:
+			raise Exception(
+				detail=(
+					f"Asset type {asset_type}"
+					+ f" with symbol {asset_symbol} not is not recognised."
+				)
+			)
+
+		new_investment = models.Investment(
+			user_id = user_id,
+			asset_id = asset.id,
+			quantity = quantity,
+			purchase_price = purchase_price,
+			purchase_date = purchase_date
+		)
+
+		db_session.add(new_investment)
+		db_session.commit()
+
+		return new_investment
+	
+	elif asset_type == 'BOND':
+		pass
+
+	else:
+		raise Exception(
+			detail=(
+				f"Asset type {asset_type}"
+				+ f" with symbol {asset_symbol} not is not recognised."
+			)
+		)	
