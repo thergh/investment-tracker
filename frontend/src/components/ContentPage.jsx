@@ -58,7 +58,7 @@ function ContentPage({token, userId}){
 
 		try{
 			const response = await fetch(
-				"http://127.0.0.1:8000/users/" + userId + "/update", {
+				"http://127.0.0.1:8000/investments/user/" + userId + "/update", {
 					method: "POST",
 					headers: {"Authorization": "Bearer " + token}
 				}
@@ -82,7 +82,7 @@ function ContentPage({token, userId}){
 
 		try{
 			const response = await fetch(
-				"http://127.0.0.1:8000/users/" + userId + "/portfolio_value", {
+				"http://127.0.0.1:8000/investments/user/" + userId + "/portfolioValue", {
 					headers: {"Authorization": "Bearer " + token}
 				}
 			);

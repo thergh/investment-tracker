@@ -10,7 +10,7 @@ function InvestmentList({token, userId, refreshKey}){
 		const fetchInvestments = async() => {
 			try{
 				const response = await fetch(
-					"http://127.0.0.1:8000/users/" + userId + "/investments"
+					"http://127.0.0.1:8000/investments/user/" + userId
 					// "http://127.0.0.1:8000/investments/user/" + {userId}, 
 					// {headers: {"Authorization": "Bearer" + token}}
 				);

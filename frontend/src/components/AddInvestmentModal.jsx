@@ -29,7 +29,7 @@ function AddInvestmentModal({token, userId, onClose, onInvestmentAdded}){
 
 		try{
 			const response = await fetch(
-				"http://127.0.0.1:8000/users/" + userId + "/investments",
+				"http://127.0.0.1:8000/investments/user/" + userId,
 				{
 					method: "POST",
 					headers: {
