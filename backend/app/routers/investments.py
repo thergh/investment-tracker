@@ -210,14 +210,17 @@ def calculate_portfolio_value(user_id: int, db_session: Session) -> float:
 			stock: models.Stock = asset.stock
 			price = stock.price
 			stocks_value += float(quantity) * float(price)
-			stocks_profit += (float(quantity) * float(price)) - (float(quantity) * float(purchase_price))
-			total_profit += stocks_profit
+			price_diff = (float(quantity) * float(price)) - (float(quantity) * float(purchase_price))
+			stocks_profit += price_diff
+			total_profit += price_diff 
+
 		elif(asset.asset_type == 'BOND'):
 			bond: models.Bond = asset.bond
 			price = bond.price
 			bonds_value += float(quantity) * float(price)
-			bonds_profit += (float(quantity) * float(price)) - (float(quantity) * float(purchase_price))
-			total_profit += bonds_profit
+			price_diff = (float(quantity) * float(price)) - (float(quantity) * float(purchase_price))
+			bonds_profit += price_diff
+			total_profit += price_diff
 
 		value += float(quantity) * float(price)
 		
