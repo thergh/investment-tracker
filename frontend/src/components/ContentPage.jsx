@@ -116,47 +116,45 @@ function ContentPage({token, userId}){
 				onLogoutClick={handleLogout}
 				onImportClick={handleImport}
 				onExportClick={handleExport}
+				token={token}
+				userId={userId}
 			/>
 			<div style={{marginLeft: "220px", padding: "20px", flexGrow: 1}}>
-				<h1>Successfuly connected to the API</h1>
-				<p>Api message: {apiMessage}</p>
-				<p>Your access token: {token}</p>
-				<p>Your user ID: {userId}</p>
-
-								<div>
-					<h2>Portfolio values</h2>
-					<p><strong>Total value:</strong> ${totalValue.toFixed(2)}</p>
-					<p><strong>Stocks value:</strong> ${stocksValue.toFixed(2)}</p>
-					<p><strong>Bonds value:</strong> ${bondsValue.toFixed(2)}</p>
-				</div>
-
-				<div>
-					<h2>Portfolio Composition</h2>
-					{totalValue > 0 ? (
-						<ResponsiveContainer width="50%" height={300}>
-							<PieChart>
-								<Pie
-									data={[
-										{name: "Stocks", value: stocksValue},
-										{name: "Bonds", value: bondsValue}
-									]}
-									dataKey="value"
-									nameKey="name"
-									cx="50%"
-									cy="50%"
-									outerRadius={100}
-									label={({name, value}) => `${name}: ${(value / totalValue * 100).toFixed(1)}%`}
-								>
-									<Cell fill="#4caf50" />
-									<Cell fill="#2196f3" />
-								</Pie>
-								<Tooltip formatter={(val) => `$${val.toFixed(2)}`} />
-								<Legend />
-							</PieChart>
-						</ResponsiveContainer>
-					) : (
-						<p>Values are not available.</p>
-					)}
+				<div className="dashboard">
+					<div className="pieChartDiv">
+						<h2>Portfolio Composition</h2>
+						{totalValue > 0 ? (
+							<ResponsiveContainer width="100%" height={300}>
+								<PieChart>
+									<Pie
+										data={[
+											{name: "Stocks", value: stocksValue},
+											{name: "Bonds", value: bondsValue}
+										]}
+										dataKey="value"
+										nameKey="name"
+										cx="50%"
+										cy="50%"
+										outerRadius={100}
+										label={({name, value}) => `${name}: ${(value / totalValue * 100).toFixed(1)}%`}
+									>
+										<Cell fill="#4caf50" />
+										<Cell fill="#2196f3" />
+									</Pie>
+									<Tooltip formatter={(val) => `$${val.toFixed(2)}`} />
+									<Legend />
+								</PieChart>
+							</ResponsiveContainer>
+						) : (
+							<p>Values are not available.</p>
+						)}
+					</div>
+					<div className="valuesDiv">
+						<h2>Portfolio values</h2>
+						<p><strong>Total value:</strong> ${totalValue.toFixed(2)}</p>
+						<p><strong>Stocks value:</strong> ${stocksValue.toFixed(2)}</p>
+						<p><strong>Bonds value:</strong> ${bondsValue.toFixed(2)}</p>
+					</div>
 				</div>
 
 				<button onClick={() => setShowAddModal(true)}>
