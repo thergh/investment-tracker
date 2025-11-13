@@ -11,8 +11,6 @@ function InvestmentList({token, userId, refreshKey}){
 			try{
 				const response = await fetch(
 					"http://127.0.0.1:8000/investments/user/" + userId
-					// "http://127.0.0.1:8000/investments/user/" + {userId}, 
-					// {headers: {"Authorization": "Bearer" + token}}
 				);
 
 				if(!response.ok){
@@ -38,7 +36,6 @@ function InvestmentList({token, userId, refreshKey}){
 	const handleRemove = async(investment_id) => {
 		try{
 			const response = await fetch(
-				// "http://127.0.0.1:8000/investments/" + investment_id
 				"http://127.0.0.1:8000/investments/" + investment_id, {
 					method: "DELETE",
 					headers: {"Authorization": "Bearer " + token}
@@ -65,35 +62,43 @@ function InvestmentList({token, userId, refreshKey}){
 	}
 
 	return(
-		<div className="container">
-			<h1>Loaded investments for user {userId}</h1>
+		<div className="investmentContainer">
 			{investments.length === 0 ? (
 				<p>No investments found.</p>
 			): (
-				<ul>
-					{investments.map(inv => {
-						const flatDifference = inv.asset.stock.price - inv.purchase_price;
-						const percentDifference = 100 * flatDifference / inv.purchase_price;
-						const value = inv.asset.stock.price * inv.quantity;
+				<table className='investmentsTable'>
+					<thead>
+						<th>Name</th>
+						<th>Volume</th>
+						<th>Purchase Price</th>
+						<th>Current Price</th>
+						<th>Current Value</th>
+						<th>Price Difference</th>
+						<th>Price Increase</th>
+						<th>Remove</th>
+					</thead>
+					<tbody>
+						{investments.map(inv => {
+							const flatDifference = inv.asset.stock.price - inv.purchase_price;
+							const percentDifference = 100 * flatDifference / inv.purchase_price;
+							const value = inv.asset.stock.price * inv.quantity;
 
-						return(
-							<li key={inv.id}>
-								<strong>{inv.asset.symbol} </strong>
-								quantity: {inv.quantity}; 
-								Purchase price: {inv.purchase_price}; 
-								Current price: {inv.asset.stock.price}; 
-								Current value: {value}; 
-								Price difference: {flatDifference.toFixed(2)}; 
-								Price change: {percentDifference.toFixed(2)}%; 
-								<button
-									onClick={() => handleRemove(inv.id)}
-								>
-									Remove
-								</button>
-							</li>
-						);
-					})}
-				</ul>
+							return(
+								<tr key={inv.id}>
+									<td>{inv.asset.symbol}</td>
+									<td>{inv.quantity}</td>
+									<td>{inv.purchase_price}</td>
+									<td>{inv.asset.stock.price}</td>
+									<td>{value}</td>
+									<td>{flatDifference.toFixed(2)}</td>
+									<td>{percentDifference.toFixed(2)}%</td>
+									<td><button onClick={() => handleRemove(inv.id)}>Remove</button></td>
+								</tr>
+							);
+						})}
+					</tbody>
+
+				</table>
 			)}
 		</div>
 	);

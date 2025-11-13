@@ -1,18 +1,4 @@
-
-
-.dashboard{
-	display: grid;
-	grid-template-columns: 2fr 1fr;
-	gap: 20px;
-	margin-bottom: 20px;
-}
-
-.dashboard > div{
-	padding: 20px;
-}
-
-@media(max-width: 900px){
-	.dashboard{
-		grid-template-columns: 1fr;
-	}
+.investmentsTable th, .investmentsTable {
+	padding: 10px 12px;
+	border-bottom: 1px solid;
 }

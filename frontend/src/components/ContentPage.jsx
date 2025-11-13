@@ -3,6 +3,7 @@ import InvestmentList from "./InvestmentList";
 import Sidebar from "./Sidebar"
 import AddInvestmentModal from "./AddInvestmentModal";
 import {PieChart, ResponsiveContainer, Pie, Cell, Tooltip, Legend} from "recharts";
+import './ContentPage.css'
 
 
 function ContentPage({token, userId}){
@@ -122,7 +123,6 @@ function ContentPage({token, userId}){
 			<div style={{marginLeft: "220px", padding: "20px", flexGrow: 1}}>
 				<div className="dashboard">
 					<div className="pieChartDiv">
-						<h2>Portfolio Composition</h2>
 						{totalValue > 0 ? (
 							<ResponsiveContainer width="100%" height={300}>
 								<PieChart>
@@ -150,7 +150,6 @@ function ContentPage({token, userId}){
 						)}
 					</div>
 					<div className="valuesDiv">
-						<h2>Portfolio values</h2>
 						<p><strong>Total value:</strong> ${totalValue.toFixed(2)}</p>
 						<p><strong>Stocks value:</strong> ${stocksValue.toFixed(2)}</p>
 						<p><strong>Bonds value:</strong> ${bondsValue.toFixed(2)}</p>
