@@ -5,7 +5,7 @@ import './InvestmentList.css'
 function InvestmentList({token, userId, refreshKey}){
 	const [investments, setInvestments] = useState([]);
 	const [loading, setLoading] = useState(true);
-	const [sortConfig, setSortConfig] = useState({sortColumn: null, direction: "asc"});
+	const [sortConfig, setSortConfig] = useState({sortColumn: "purchaseDate", direction: "asc"});
 
 	useEffect(() => {
 		const fetchInvestments = async() => {
@@ -71,6 +71,9 @@ function InvestmentList({token, userId, refreshKey}){
 		}
 
 		let aValue, bValue;
+		// let flatDifference = inv.asset.stock.price - inv.purchase_price;
+		// let percentDifference = 100 * flatDifference / inv.purchase_price;
+		// let value = inv.asset.stock.price * inv.quantity;
 
 		// if
 		// const flatDifference = inv.asset.stock.price - inv.purchase_price;
