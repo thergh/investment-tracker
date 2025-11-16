@@ -1,11 +1,37 @@
-.investmentsTable th, .investmentsTable {
-	padding: 10px 12px;
-	border-bottom: 1px solid;
+
+.tableWrapper {
+	max-height: 300px;
+	overflow-y: auto;
+	overflow-x: auto;
+
 }
 
-th{
+.investmentsTable {
+	border-collapse: separate;
+	border-spacing: 0;
+}
+
+.investmentsTable th {
+	padding: 10px 12px;
+	border: none;
 	cursor: pointer;
 	user-select: none;
+}
+
+.investmentsTable td {
+	padding: 10px 12px;
+}
+
+.investmentsTable td, .investmentsTable th {
+	border-bottom: 1px solid #333;
+}
+
+.investmentsTable thead th {
+	position: sticky;
+	top: 0;
+	background-color: #252529;
+	z-index: 1;
+	cursor: pointer;
 }
 
 .actionButton{

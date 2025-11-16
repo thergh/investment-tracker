@@ -130,7 +130,7 @@ function ContentPage({token, userId}){
 				<div className="dashboard">
 					<div className="pieChartDiv">
 						{totalValue > 0 ? (
-							<ResponsiveContainer width="100%" height={300}>
+							<ResponsiveContainer width="80%" height={300}>
 								<PieChart>
 									<Pie
 										data={[
@@ -142,12 +142,10 @@ function ContentPage({token, userId}){
 										cx="50%"
 										cy="50%"
 										outerRadius={100}
-										label={({name, value}) => `${name}: ${(value / totalValue * 100).toFixed(1)}%`}
 									>
 										<Cell fill="#4caf50" />
 										<Cell fill="#2196f3" />
 									</Pie>
-									<Tooltip formatter={(val) => `$${val.toFixed(2)}`} />
 									<Legend />
 								</PieChart>
 							</ResponsiveContainer>

@@ -143,51 +143,55 @@ function InvestmentList({token, userId, refreshKey}){
 			{sortedInvestments.length === 0 ? (
 				<p>No investments found.</p>
 			): (
-				<table className="investmentsTable">
-					<thead>
-						<th onClick={() => handleSort("purchaseDate")}>Purchase Date</th>
-						<th onClick={() => handleSort("symbol")}>Symbol</th>
-						<th onClick={() => handleSort("volume")}>Volume</th>
-						<th onClick={() => handleSort("purchasePrice")}>Purchase Price</th>
-						<th>Current Price</th>
-						<th>Current Value</th>
-						<th>Price Difference</th>
-						<th>Price Increase</th>
-						<th>Remove</th>
-					</thead>
-					<tbody>
-						{sortedInvestments.map(inv => {
-							const flatDifference = inv.asset.stock.price - inv.purchase_price;
-							const percentDifference = 100 * flatDifference / inv.purchase_price;
-							const value = inv.asset.stock.price * inv.quantity;
+				<div className='tableWrapper'>
+					<table className="investmentsTable">
+						<thead>
+							<tr>
+								<th onClick={() => handleSort("purchaseDate")}>Purchase Date</th>
+								<th onClick={() => handleSort("symbol")}>Symbol</th>
+								<th onClick={() => handleSort("volume")}>Volume</th>
+								<th onClick={() => handleSort("purchasePrice")}>Purchase Price</th>
+								<th>Current Price</th>
+								<th>Current Value</th>
+								<th>Price Difference</th>
+								<th>Price Increase</th>
+								<th>Remove</th>
+							</tr>
+						</thead>
+						<tbody>
+							{sortedInvestments.map(inv => {
+								const flatDifference = inv.asset.stock.price - inv.purchase_price;
+								const percentDifference = 100 * flatDifference / inv.purchase_price;
+								const value = inv.asset.stock.price * inv.quantity;
 
-							return(
-								<tr key={inv.id}>
-									<td>
-										{new Date(inv.purchase_date).toLocaleString(
-											"pl-PL", {
-												year: "numeric",
-												month: "2-digit",
-												day: "2-digit",
-												hour: "2-digit",
-												minute: "2-digit"
-											}
-										)}
-									</td>
-									<td>{inv.asset.symbol}</td>
-									<td>{inv.quantity.toFixed(2)}</td>
-									<td>{inv.purchase_price.toFixed(2)}</td>
-									<td>{inv.asset.stock.price.toFixed(2)}</td>
-									<td>{value.toFixed(2)}</td>
-									<td>{flatDifference.toFixed(2)}</td>
-									<td>{percentDifference.toFixed(2)}%</td>
-									<td><button className='actionButton' onClick={() => handleRemove(inv.id)}>Remove</button></td>
-								</tr>
-							);
-						})}
-					</tbody>
+								return(
+									<tr key={inv.id}>
+										<td>
+											{new Date(inv.purchase_date).toLocaleString(
+												"pl-PL", {
+													year: "numeric",
+													month: "2-digit",
+													day: "2-digit",
+													hour: "2-digit",
+													minute: "2-digit"
+												}
+											)}
+										</td>
+										<td>{inv.asset.symbol}</td>
+										<td>{inv.quantity.toFixed(2)}</td>
+										<td>{inv.purchase_price.toFixed(2)}</td>
+										<td>{inv.asset.stock.price.toFixed(2)}</td>
+										<td>{value.toFixed(2)}</td>
+										<td>{flatDifference.toFixed(2)}</td>
+										<td>{percentDifference.toFixed(2)}%</td>
+										<td><button className='actionButton' onClick={() => handleRemove(inv.id)}>Remove</button></td>
+									</tr>
+								);
+							})}
+						</tbody>
 
-				</table>
+					</table>
+				</div>
 			)}
 		</div>
 	);
