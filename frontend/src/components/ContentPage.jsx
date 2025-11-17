@@ -110,6 +110,40 @@ function ContentPage({token, userId}){
 		}
 	}
 
+
+	const handleImportFile = async(file) => {
+		if(!file){
+			return;
+		}
+
+		const formData = new FormData();
+		formData.append("file", file);
+
+		try{
+			const response = await fetch(
+				"http://127.0.0.1:8000/investments/user/" + userId + "/import/xtb", {
+					method: "POST",
+					headers: {"Authorization": "Bearer " + token},
+					body: formData
+				}
+			);
+
+			if(!response.ok){
+				throw new Error("HTTP error " + response.status);
+			}
+
+			const result = await response.json();
+			alert("Imported " + result.count + " investments.");
+
+			setRefreshKey(prev => prev + 1);
+
+		}
+		catch(err){
+			console.error("Import error: ", err);
+			alert("Failed to import file.");
+		}
+	};
+
 	
 	if(loading){
 		return(
@@ -121,7 +155,7 @@ function ContentPage({token, userId}){
 		<div>
 			<Sidebar 
 				onLogoutClick={handleLogout}
-				onImportClick={handleImport}
+				onImportFile={handleImportFile}
 				onExportClick={handleExport}
 				token={token}
 				userId={userId}
