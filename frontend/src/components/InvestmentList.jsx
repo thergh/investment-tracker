@@ -82,15 +82,15 @@ function InvestmentList({token, userId, refreshKey}){
 
 		switch(sortConfig.sortColumn){
 			case "purchaseDate":
-				aValue = a.purchase_date;
-				bValue = b.purchase_date;
+				aValue = new Date(a.purchase_date);
+				bValue = new Date(b.purchase_date);
 				break;
 			case "symbol":
 				aValue = a.asset.symbol;
 				bValue = b.asset.symbol;
 				break;
 			case "volume":
-				aValue = a.quanity;
+				aValue = a.quantity;
 				bValue = b.quantity;
 				break;
 			case "purchasePrice":
@@ -122,7 +122,7 @@ function InvestmentList({token, userId, refreshKey}){
 		if(aValue < bValue){
 			return sortConfig.direction === "asc" ? -1 : 1;
 		}
-		if(aValue < bValue){
+		if(aValue > bValue){
 			return sortConfig.direction === "asc" ? 1 : -1;
 		}
 		else{
