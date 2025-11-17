@@ -2,7 +2,7 @@ import {useEffect, useState} from "react";
 import InvestmentList from "./InvestmentList";
 import Sidebar from "./Sidebar"
 import AddInvestmentModal from "./AddInvestmentModal";
-import {PieChart, ResponsiveContainer, Pie, Cell, Tooltip, Legend} from "recharts";
+import ValueChart from "./ValueChart";
 import './ContentPage.css'
 
 
@@ -126,33 +126,15 @@ function ContentPage({token, userId}){
 				token={token}
 				userId={userId}
 			/>
+
 			<div style={{marginLeft: "220px", padding: "20px", flexGrow: 1}}>
 				<div className="dashboard">
-					<div className="pieChartDiv">
-						{totalValue > 0 ? (
-							<ResponsiveContainer width="80%" height={300}>
-								<PieChart>
-									<Pie
-										data={[
-											{name: "Stocks", value: stocksValue},
-											{name: "Bonds", value: bondsValue}
-										]}
-										dataKey="value"
-										nameKey="name"
-										cx="50%"
-										cy="50%"
-										outerRadius={100}
-									>
-										<Cell fill="#4caf50" />
-										<Cell fill="#2196f3" />
-									</Pie>
-									<Legend />
-								</PieChart>
-							</ResponsiveContainer>
-						) : (
-							<p>Values are not available.</p>
-						)}
-					</div>
+					<ValueChart
+						stocksValue={stocksValue}
+						bondsValue={bondsValue}
+						totalValue={totalValue}
+					/>
+
 					<div className="valuesDiv">
 						<p><strong>Total value:</strong> ${totalValue.toFixed(2)}</p>
 						<p><strong>Total profit:</strong> ${totalProfit.toFixed(2)}</p>
@@ -168,7 +150,6 @@ function ContentPage({token, userId}){
 				</button>
 				<button className="actionButton" onClick={handleRefreshData}>Refresh investment data</button>
 				<button className="actionButton" onClick={handleRefreshValues}>Refresh portfolio values</button>
-
 				
 				<InvestmentList
 					token={token}
