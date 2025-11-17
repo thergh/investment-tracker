@@ -70,59 +70,69 @@ function InvestmentList({token, userId, refreshKey}){
 			return 0;
 		}
 
-		let aValue, bValue;
-		// let flatDifference = inv.asset.stock.price - inv.purchase_price;
-		// let percentDifference = 100 * flatDifference / inv.purchase_price;
-		// let value = inv.asset.stock.price * inv.quantity;
+		let aCompare, bCompare;
+		let aPrice, bPrice
 
-		// if
-		// const flatDifference = inv.asset.stock.price - inv.purchase_price;
-		// const percentDifference = 100 * flatDifference / inv.purchase_price;
-		// const value = inv.asset.stock.price * inv.quantity;
+		if(a.asset.asset_type === "STOCK"){
+			aPrice = a.asset.stock.price
+			bPrice = b.asset.stock.price
+		}
+		else if(a.asset.asset_type === "BOND"){
+			aPrice = a.asset.bond.price
+			bPrice = b.asset.bond.price
+		}
+		else{
+			return;
+		}
+
+		let aValue = aPrice * a.quantity
+		let bValue = bPrice * b.quantity
+		let aflatValueDifference = (aValue - a.purchase_price * a.quantity);
+		let bflatValueDifference = (bValue - b.purchase_price * b.quantity);
+		let aPercentDifference = 100 * aPrice / a.purchase_price;
+		let bPercentDifference = 100 * bPrice / b.purchase_price;
 
 		switch(sortConfig.sortColumn){
 			case "purchaseDate":
-				aValue = new Date(a.purchase_date);
-				bValue = new Date(b.purchase_date);
+				aCompare = new Date(a.purchase_date);
+				bCompare = new Date(b.purchase_date);
 				break;
 			case "symbol":
-				aValue = a.asset.symbol;
-				bValue = b.asset.symbol;
+				aCompare = a.asset.symbol;
+				bCompare = b.asset.symbol;
 				break;
 			case "volume":
-				aValue = a.quantity;
-				bValue = b.quantity;
+				aCompare = a.quantity;
+				bCompare = b.quantity;
 				break;
 			case "purchasePrice":
-				aValue = a.purchase_price;
-				bValue = b.purchase_price;
+				aCompare = a.purchase_price;
+				bCompare = b.purchase_price;
 				break;
-			// TODO
-			// case "currentPrice":
-
-			// 	aValue = a.asset;
-			// 	bValue = ;
-			// 	break;
-			// case "currentValue":
-			// 	aValue = ;
-			// 	bValue = ;
-			// 	break;
-			// case "priceDifference":
-			// 	aValue = ;
-			// 	bValue = ;
-			// 	break;
-			// case "priceIncrease":
-			// 	aValue = ;
-			// 	bValue = ;
-			// 	break;
+			case "currentPrice":
+				aCompare = aPrice;
+				bCompare = bPrice;
+				break;
+			case "currentValue":
+				aCompare = aValue;
+				bCompare = bValue;
+				break;
+			case "valueDifference":
+				aCompare = aflatValueDifference;
+				bCompare = bflatValueDifference;
+				break;
+			case "valueIncrease":
+				aCompare = aPercentDifference;
+				bCompare = bPercentDifference;
+				break;
 			default:
 				return 0;
 		}
 
-		if(aValue < bValue){
+		if(aCompare < bCompare){
 			return sortConfig.direction === "asc" ? -1 : 1;
 		}
-		if(aValue > bValue){
+		if(aCompare > bCompare){
 			return sortConfig.direction === "asc" ? 1 : -1;
 		}
 		else{
@@ -151,17 +161,17 @@ function InvestmentList({token, userId, refreshKey}){
 								<th onClick={() => handleSort("symbol")}>Symbol</th>
 								<th onClick={() => handleSort("volume")}>Volume</th>
 								<th onClick={() => handleSort("purchasePrice")}>Purchase Price</th>
-								<th>Current Price</th>
-								<th>Current Value</th>
-								<th>Price Difference</th>
-								<th>Price Increase</th>
+								<th onClick={() => handleSort("currentPrice")}>Current Price</th>
+								<th onClick={() => handleSort("currentValue")}>Current Value</th>
+								<th onClick={() => handleSort("valueDifference")}>Value Difference</th>
+								<th onClick={() => handleSort("valueIncrease")}>Value Increase</th>
 								<th>Remove</th>
 							</tr>
 						</thead>
 						<tbody>
 							{sortedInvestments.map(inv => {
-								const flatDifference = inv.asset.stock.price - inv.purchase_price;
-								const percentDifference = 100 * flatDifference / inv.purchase_price;
+								const flatValueDifference = (inv.asset.stock.price - inv.purchase_price) * inv.quantity;
+								const percentDifference = 100 * (inv.asset.stock.price - inv.purchase_price) / inv.purchase_price;
 								const value = inv.asset.stock.price * inv.quantity;
 
 								return(
@@ -182,7 +192,7 @@ function InvestmentList({token, userId, refreshKey}){
 										<td>{inv.purchase_price.toFixed(2)}</td>
 										<td>{inv.asset.stock.price.toFixed(2)}</td>
 										<td>{value.toFixed(2)}</td>
-										<td>{flatDifference.toFixed(2)}</td>
+										<td>{flatValueDifference.toFixed(2)}</td>
 										<td>{percentDifference.toFixed(2)}%</td>
 										<td><button className='actionButton' onClick={() => handleRemove(inv.id)}>Remove</button></td>
 									</tr>
