@@ -9,7 +9,7 @@ import time
 
 
 # uvicorn app.main:app --reload
-# source /home/thergh/dev/investment-tracker/myvenv/bin/activate
+# source myvenv/bin/activate
 
 app = FastAPI()
 
