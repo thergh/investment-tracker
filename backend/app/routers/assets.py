@@ -118,6 +118,42 @@ def add_stock(stock_data: schemas.StockCreate, db_session: Session = Depends(get
 	return stock
 
 
+@router.post("/bonds", response_model=schemas.BondResponse, status_code=status.HTTP_201_CREATED)
+def add_bond(bond_data: schemas.BondCreate, db_session: Session = Depends(get_db_session)):
+
+	existing_bond = db_session.query(models.Bond).filter(models.Bond.symbol == bond_data.symbol).first()
+	if existing_bond:
+		raise HTTPException(
+			status_code=status.HTTP_400_BAD_REQUEST,
+			detail=f"Bond with symbol {bond_data.symbol} already exists."
+		)
+	
+	asset = models.Asset(
+		asset_type="BOND",
+		symbol=bond_data.symbol
+	)
+	db_session.add(asset)
+	db_session.flush()
+
+
+	bond = models.Bond(
+		id=asset.id,
+		symbol=bond_data.symbol,
+		name=f"Bond {bond_data.name}",
+		emission_date=bond_data.emission_date,
+		maturity_date=bond_data.maturity_date,
+		early_fee=bond_data.early_fee,
+		currency=bond_data.currency
+	)
+
+	db_session.add(bond)
+
+	db_session.commit()
+	db_session.refresh(bond)
+
+	return bond
+
+
 @router.delete("/stocks/{id}", response_model=schemas.StockResponse, status_code=status.HTTP_201_CREATED)
 def delete_stock(id: int, db_session: Session = Depends(get_db_session)):
 

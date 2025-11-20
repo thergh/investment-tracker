@@ -17,6 +17,26 @@ class StockResponse(BaseModel):
 	last_updated: datetime
 
 
+class BondCreate(BaseModel):
+	symbol: str
+	name: str
+	emission_date: datetime
+	maturity_date: datetime
+	early_fee: float
+	currency: str
+
+
+class BondResponse(BaseModel):
+	id: int
+	symbol: str
+	name: str
+	emission_date: datetime
+	maturity_date: datetime
+	early_fee: float
+	currency: str
+	last_updated: datetime
+
+
 class AssetResponse(BaseModel):
 	id: int
 	asset_type: str
