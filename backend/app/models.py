@@ -73,10 +73,8 @@ class Bond(Base):
 	id = Column(Integer, ForeignKey("assets.id", ondelete="CASCADE"), primary_key=True)
 	symbol = Column(String(10), unique=True)
 	name = Column(String(50), unique=True)
-	issuer = Column(String(100))
 	emission_date = Column(Date)
 	maturity_date = Column(Date)
-	coupon_rate = Column(Numeric(5, 2)) # in %
 	early_fee = Column(Numeric(10, 2))
 	currency = Column(String(10))
 	last_updated = Column(DateTime, server_default=func.now(), onupdate=func.now())
