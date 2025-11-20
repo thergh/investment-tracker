@@ -268,42 +268,30 @@ def add_investment_to_db(
 		db_session: Session
 	):
 
-	if asset_type == 'STOCK':
-		asset = (
-			db_session.query(models.Asset)
-			.filter(models.Asset.asset_type == asset_type)
-			.filter(models.Asset.symbol == asset_symbol)
-			.first()
-		)
+	asset = (
+		db_session.query(models.Asset)
+		.filter(models.Asset.asset_type == asset_type)
+		.filter(models.Asset.symbol == asset_symbol)
+		.first()
+	)
 
-		if not asset:
-			raise Exception(
-				detail=(
-					f"Asset type {asset_type}"
-					+ f" with symbol {asset_symbol} not is not recognised."
-				)
-			)
-
-		new_investment = models.Investment(
-			user_id = user_id,
-			asset_id = asset.id,
-			quantity = quantity,
-			purchase_price = purchase_price,
-			purchase_date = purchase_date
-		)
-
-		db_session.add(new_investment)
-		db_session.commit()
-
-		return new_investment
-	
-	elif asset_type == 'BOND':
-		pass
-
-	else:
+	if not asset:
 		raise Exception(
 			detail=(
 				f"Asset type {asset_type}"
 				+ f" with symbol {asset_symbol} not is not recognised."
 			)
-		)	
+		)
+
+	new_investment = models.Investment(
+		user_id = user_id,
+		asset_id = asset.id,
+		quantity = quantity,
+		purchase_price = purchase_price,
+		purchase_date = purchase_date
+	)
+
+	db_session.add(new_investment)
+	db_session.commit()
+
+	return new_investment
