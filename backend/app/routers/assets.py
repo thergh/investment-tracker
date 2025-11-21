@@ -154,7 +154,7 @@ def add_bond(bond_data: schemas.BondCreate, db_session: Session = Depends(get_db
 	return bond
 
 
-@router.delete("/stocks/{id}", response_model=schemas.StockResponse, status_code=status.HTTP_201_CREATED)
+@router.delete("/stocks/{id}", status_code=status.HTTP_204_NO_CONTENT)
 def delete_stock(id: int, db_session: Session = Depends(get_db_session)):
 
 	stock = db_session.query(models.Stock).filter(models.Stock.id == id).first()
@@ -173,6 +173,31 @@ def delete_stock(id: int, db_session: Session = Depends(get_db_session)):
 		)
 	
 	db_session.delete(stock)
+	db_session.delete(asset)
+	db_session.commit()
+
+	return Response(status_code=status.HTTP_204_NO_CONTENT)
+
+
+@router.delete("/bonds/{id}", status_code=status.HTTP_204_NO_CONTENT)
+def delete_bond(id: int, db_session: Session = Depends(get_db_session)):
+
+	bond = db_session.query(models.Bond).filter(models.Bond.id == id).first()
+	asset = db_session.query(models.Asset).filter(models.Asset.id == id).first()
+
+	if not bond:
+		raise HTTPException(
+			status_code=status.HTTP_404_NOT_FOUND,
+			detail=f"Bond with id {id} was not found"
+		)
+	
+	if not asset:
+		raise HTTPException(
+			status_code=status.HTTP_404_NOT_FOUND,
+			detail=f"Asset with id {id} was not found"
+		)
+	
+	db_session.delete(bond)
 	db_session.delete(asset)
 	db_session.commit()
 

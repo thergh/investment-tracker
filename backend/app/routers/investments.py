@@ -184,9 +184,6 @@ def get_portfolio_value(user_id: int, db_session: Session = Depends(get_db_sessi
 	return value_response
 
 
-
-
-
 def calculate_portfolio_value(user_id: int, db_session: Session) -> float:
 	value: float = 0.0
 	stocks_value: float = 0.0
