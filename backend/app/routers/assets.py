@@ -143,7 +143,8 @@ def add_bond(bond_data: schemas.BondCreate, db_session: Session = Depends(get_db
 		emission_date=bond_data.emission_date,
 		maturity_date=bond_data.maturity_date,
 		early_fee=bond_data.early_fee,
-		currency=bond_data.currency
+		currency=bond_data.currency,
+		price=bond_data.price
 	)
 
 	db_session.add(bond)

@@ -77,6 +77,7 @@ class Bond(Base):
 	maturity_date = Column(Date)
 	early_fee = Column(Numeric(10, 2))
 	currency = Column(String(10))
+	price = Column(Numeric(18, 4), nullable=False)
 	last_updated = Column(DateTime, server_default=func.now(), onupdate=func.now())
 
 	asset = relationship("Asset", back_populates="bond")

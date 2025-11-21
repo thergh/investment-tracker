@@ -24,6 +24,7 @@ class BondCreate(BaseModel):
 	maturity_date: datetime
 	early_fee: float
 	currency: str
+	price: float
 
 
 class BondResponse(BaseModel):
@@ -34,6 +35,7 @@ class BondResponse(BaseModel):
 	maturity_date: datetime
 	early_fee: float
 	currency: str
+	price: float
 	last_updated: datetime
 
 
