@@ -111,7 +111,7 @@ function ContentPage({token, userId}){
 	}
 
 
-	const handleImportFile = async(file) => {
+	const handleImportStocks = async(file) => {
 		if(!file){
 			return;
 		}
@@ -144,6 +144,11 @@ function ContentPage({token, userId}){
 		}
 	};
 
+
+	const handleImportBonds = async(file) => {
+		alert("Bond import is not yet implemented.");
+	}
+
 	
 	if(loading){
 		return(
@@ -155,7 +160,8 @@ function ContentPage({token, userId}){
 		<div>
 			<Sidebar 
 				onLogoutClick={handleLogout}
-				onImportFile={handleImportFile}
+				onImportStocks={handleImportStocks}
+				onImportBonds={handleImportBonds}
 				onExportClick={handleExport}
 				token={token}
 				userId={userId}

@@ -1,30 +1,30 @@
 
 
 .sidebar{
-    position: fixed;
-    left: 0;
-    top: 0;
-    width: 200px;
-    height: 100vh;
-    gap: 10px;
-    padding: 1rem;
-    align-items: stretch;
-    background-color: #252529f6;
-    display: flex;
-    flex-direction: column;
+	position: fixed;
+	left: 0;
+	top: 0;
+	width: 200px;
+	height: 100vh;
+	gap: 10px;
+	padding: 1rem;
+	align-items: stretch;
+	background-color: #252529f6;
+	display: flex;
+	flex-direction: column;
 }
 
 
 .sidebar button{
-    background-color: #515962;
-    cursor: pointer;
+	background-color: #515962;
+	cursor: pointer;
 }
 
 
 .sidebar button:hover{
-    background-color: #666a6e;
+	background-color: #666a6e;
 }
 
 .sidebar p{
-    max-width: 200px;
+	max-width: 200px;
 }

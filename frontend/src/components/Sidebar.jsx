@@ -1,8 +1,8 @@
-import React, {useRef} from "react"
+import React, {useRef, useState} from "react"
 import './Sidebar.css'
 
 
-function Sidebar({onLogout, onImportFile, onExportFile, token, userId}){
+function Sidebar({onLogout, onImportStocks, onImportBonds, onExportFile, token, userId}){
 
 	const handleLogoutClick = () => {
 
@@ -10,14 +10,23 @@ function Sidebar({onLogout, onImportFile, onExportFile, token, userId}){
 
 
 	const fileInputRef = useRef(null);
+	const [importType, setImportType] = useState(null);
 
-	const handleImportClick = () => {
+	const handleImportStocksClick = () => {
+		setImportType("stocks");
 		fileInputRef.current.click();
 	};
 
+	const handleImportBondsClick = () => {
+		setImportType("bonds");
+		fileInputRef.current.click();
+	}
+
 	const handleFileChange = (event) => {
 		if(event.target.files.length > 0){
-			onImportFile(event.target.files[0]);
+			const file = event.target.files[0];
+			if(importType === "stocks") onImportStocks(file);
+			else if(importType === "bonds") onImportBonds(file);
 		}
 	};
 
@@ -32,7 +41,9 @@ function Sidebar({onLogout, onImportFile, onExportFile, token, userId}){
 			{/* <p>Your access token: {token}</p> */}
 			<p>Your user ID: {userId}</p>
 			<button onClick={handleLogoutClick}>Log out</button>
-			<button onClick={handleImportClick}>Import</button>
+			<button onClick={handleImportStocksClick}>Import stocks</button>
+			<button onClick={handleImportBondsClick}>Import bonds</button>
+			
 			<button onClick={handleExportClick}>Export</button>
 
 			<input
