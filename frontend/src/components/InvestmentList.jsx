@@ -71,15 +71,23 @@ function InvestmentList({token, userId, refreshKey}){
 		}
 
 		let aCompare, bCompare;
-		let aPrice, bPrice
+		let aPrice, bPrice;
 
 		if(a.asset.asset_type === "STOCK"){
-			aPrice = a.asset.stock.price
-			bPrice = b.asset.stock.price
+			aPrice = a.asset.stock.price;
 		}
 		else if(a.asset.asset_type === "BOND"){
-			aPrice = a.asset.bond.price
-			bPrice = b.asset.bond.price
+			aPrice = a.asset.bond.price;
+		}
+		else{
+			return;
+		}
+
+		if(b.asset.asset_type === "STOCK"){
+			bPrice = b.asset.stock.price;
+		}
+		else if(b.asset.asset_type === "BOND"){
+			bPrice = b.asset.bond.price;
 		}
 		else{
 			return;
@@ -170,10 +178,21 @@ function InvestmentList({token, userId, refreshKey}){
 						</thead>
 						<tbody>
 							{sortedInvestments.map(inv => {
-								const flatValueDifference = (inv.asset.stock.price - inv.purchase_price) * inv.quantity;
-								const percentDifference = 100 * (inv.asset.stock.price - inv.purchase_price) / inv.purchase_price;
-								const value = inv.asset.stock.price * inv.quantity;
-
+								let price, flatValueDifference, percentDifference, value;
+							
+								if(inv.asset.asset_type === "STOCK"){
+									price = inv.asset.stock.price;
+									flatValueDifference = (price - inv.purchase_price) * inv.quantity;
+									percentDifference = 100 * (price - inv.purchase_price) / inv.purchase_price;
+									value = price* inv.quantity;
+								}
+								else if(inv.asset.asset_type === "BOND"){
+									price = inv.asset.bond.price;
+									flatValueDifference = (price - inv.purchase_price) * inv.quantity;
+									percentDifference = 100 * (price - inv.purchase_price) / inv.purchase_price;
+									value = price* inv.quantity;
+								}
+							
 								return(
 									<tr key={inv.id}>
 										<td>
@@ -190,7 +209,7 @@ function InvestmentList({token, userId, refreshKey}){
 										<td>{inv.asset.symbol}</td>
 										<td>{inv.quantity.toFixed(2)}</td>
 										<td>{inv.purchase_price.toFixed(2)}</td>
-										<td>{inv.asset.stock.price.toFixed(2)}</td>
+										<td>{price.toFixed(2)}</td>
 										<td>{value.toFixed(2)}</td>
 										<td>{flatValueDifference.toFixed(2)}</td>
 										<td>{percentDifference.toFixed(2)}%</td>

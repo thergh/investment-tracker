@@ -1,32 +1,32 @@
 
-.tableWrapper {
+.tableWrapper{
 	max-height: 300px;
 	overflow-y: auto;
 	overflow-x: auto;
 
 }
 
-.investmentsTable {
+.investmentsTable{
 	border-collapse: separate;
 	border-spacing: 0;
 }
 
-.investmentsTable th {
+.investmentsTable th{
 	padding: 10px 12px;
 	border: none;
 	cursor: pointer;
 	user-select: none;
 }
 
-.investmentsTable td {
+.investmentsTable td{
 	padding: 10px 12px;
 }
 
-.investmentsTable td, .investmentsTable th {
+.investmentsTable td, .investmentsTable th{
 	border-bottom: 1px solid #333;
 }
 
-.investmentsTable thead th {
+.investmentsTable thead th{
 	position: sticky;
 	top: 0;
 	background-color: #252529;

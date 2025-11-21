@@ -44,6 +44,7 @@ class AssetResponse(BaseModel):
 	asset_type: str
 	symbol: str
 	stock: Optional[StockResponse]
+	bond: Optional[BondResponse]
 
 
 class InvestmentResponse(BaseModel):
