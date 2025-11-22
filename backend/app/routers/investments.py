@@ -148,7 +148,6 @@ async def import_xtb(
 
 		data_dicts = data_sheet.to_dict(orient="records")
 
-		# add stocks to db
 		for dict in data_dicts:
 			add_investment_to_db(
 				user_id=user_id,
@@ -163,6 +162,48 @@ async def import_xtb(
 		return {"status": "success", "count": len(data_dicts), "investments": data_dicts}
 
 	except Exception as e:
+		raise HTTPException(
+			status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
+			detail=f"Failed to parse the import file.")
+	
+
+@router.post("/user/{user_id}/import/ipko", status_code=status.HTTP_200_OK)
+async def import_ipko(
+		user_id: int,
+		file: UploadFile = File(...),
+		db_session: Session = Depends(get_db_session)
+	):
+
+
+	try:
+		content = await file.read()
+		excel_data = BytesIO(content)
+		data_sheet = pd.read_excel(excel_data, sheet_name=0, usecols=list(range(6)), header=0)
+		data_dicts = data_sheet.to_dict(orient="records")
+
+		for d in data_dicts:
+			purchase_date = calc_bond_purchase_date(
+				emission_name=d["EMISJA"],
+				maturity_date=pd.to_datetime(d["DATA WYKUPU"])
+			)
+
+
+			# print(f"data wykupu: {d['DATA WYKUPU']}, data zakupu: {purchase_date}")
+
+			add_investment_to_db(
+				user_id=user_id,
+				asset_type="BOND",
+				asset_symbol=d["EMISJA"],
+				quantity=d["DOSTĘPNA LICZBA OBLIGACJI"],
+				purchase_price=100.00,
+				purchase_date=purchase_date,
+				db_session=db_session
+			)
+
+		return {"status": "success", "count": len(data_dicts), "investments": data_dicts}
+
+	except Exception as e:
+		print(e)
 		raise HTTPException(
 			status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
 			detail=f"Failed to parse the import file.")
@@ -222,6 +263,15 @@ def calculate_portfolio_value(user_id: int, db_session: Session) -> float:
 		value += float(quantity) * float(price)
 		
 	return [value, stocks_value, bonds_value, total_profit, stocks_profit, bonds_profit]
+
+
+def calc_bond_purchase_date(emission_name: str, maturity_date: datetime) -> datetime:
+	if emission_name.startswith("TOS"):
+		return maturity_date - pd.DateOffset(years=3)
+	elif emission_name.startswith("EDO"):
+		return maturity_date - pd.DateOffset(years=10)
+	else:
+		raise ValueError(f"Unknown bond type for emission: {emission_name}")
 
 
 def read_stock_price(symbol: str):

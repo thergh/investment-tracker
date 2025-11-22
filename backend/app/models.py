@@ -58,7 +58,7 @@ class Stock(Base):
 
 	id = Column(Integer, ForeignKey("assets.id", ondelete="CASCADE"), primary_key=True)
 	symbol = Column(String(10), unique=True)
-	name = Column(String(50), unique=True)
+	name = Column(String(50))
 	exchange = Column(String(50))
 	currency = Column(String(10))
 	price = Column(Numeric(18, 4), nullable=False)
@@ -72,7 +72,7 @@ class Bond(Base):
 
 	id = Column(Integer, ForeignKey("assets.id", ondelete="CASCADE"), primary_key=True)
 	symbol = Column(String(10), unique=True)
-	name = Column(String(50), unique=True)
+	name = Column(String(50))
 	emission_date = Column(Date)
 	maturity_date = Column(Date)
 	early_fee = Column(Numeric(10, 2))
