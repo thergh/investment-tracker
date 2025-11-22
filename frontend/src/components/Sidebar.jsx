@@ -6,20 +6,20 @@ function Sidebar({onLogout, onImportStocks, onImportBonds, onExportFile, token, 
 
 	const handleLogoutClick = () => {
 
-	};
+	}
 
-
-	const fileInputRef = useRef(null);
+	const stocksInputRef = useRef(null);
+	const bondsInputRef = useRef(null);
 	const [importType, setImportType] = useState(null);
 
 	const handleImportStocksClick = () => {
 		setImportType("stocks");
-		fileInputRef.current.click();
-	};
+		stocksInputRef.current.click();
+	}
 
 	const handleImportBondsClick = () => {
 		setImportType("bonds");
-		fileInputRef.current.click();
+		bondsInputRef.current.click();
 	}
 
 	const handleFileChange = (event) => {
@@ -28,12 +28,12 @@ function Sidebar({onLogout, onImportStocks, onImportBonds, onExportFile, token, 
 			if(importType === "stocks") onImportStocks(file);
 			else if(importType === "bonds") onImportBonds(file);
 		}
-	};
+	}
 
 	
 	const handleExportClick = () => {
 
-	};
+	}
 
 
 	return (
@@ -50,7 +50,15 @@ function Sidebar({onLogout, onImportStocks, onImportBonds, onExportFile, token, 
 				type="file"
 				accept=".xlsx"
 				style={{display: "none"}}
-				ref={fileInputRef}
+				ref={stocksInputRef}
+				onChange={handleFileChange}
+			/>
+
+			<input
+				type="file"
+				accept=".xls"
+				style={{display: "none"}}
+				ref={bondsInputRef}
 				onChange={handleFileChange}
 			/>
 		</div>

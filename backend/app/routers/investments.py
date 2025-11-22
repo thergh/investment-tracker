@@ -186,10 +186,7 @@ async def import_ipko(
 				emission_name=d["EMISJA"],
 				maturity_date=pd.to_datetime(d["DATA WYKUPU"])
 			)
-
-
-			# print(f"data wykupu: {d['DATA WYKUPU']}, data zakupu: {purchase_date}")
-
+			
 			add_investment_to_db(
 				user_id=user_id,
 				asset_type="BOND",
