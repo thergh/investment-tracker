@@ -1,8 +1,7 @@
 import React, {useRef, useState} from "react"
 import './Sidebar.css'
 
-
-function Sidebar({onLogout, onImportStocks, onImportBonds, onExportFile, token, userId}){
+function Sidebar({onLogout, onImportStocks, onImportBonds, userId}){
 
 	const handleLogoutClick = () => {
 
@@ -38,13 +37,20 @@ function Sidebar({onLogout, onImportStocks, onImportBonds, onExportFile, token, 
 
 	return (
 		<div className="sidebar">
-			{/* <p>Your access token: {token}</p> */}
-			<p>Your user ID: {userId}</p>
-			<button onClick={handleLogoutClick}>Log out</button>
-			<button onClick={handleImportStocksClick}>Import stocks</button>
-			<button onClick={handleImportBondsClick}>Import bonds</button>
-			
-			{/* <button onClick={handleExportClick}>Export</button> */}
+			<div className="sidebar-header">
+				<p className="user-info">User ID: {userId}</p>
+			</div>
+			<nav className="sidebar-nav">
+				<button className="sidebar-button" onClick={handleImportStocksClick}>
+					Import Stocks
+				</button>
+				<button className="sidebar-button" onClick={handleImportBondsClick}>
+					Import Bonds
+				</button>
+			</nav>
+			<div className="sidebar-footer">
+				<button className="sidebar-button" onClick={handleLogoutClick}>Log Out</button>
+			</div>
 
 			<input
 				type="file"
