@@ -8,8 +8,9 @@ from psycopg2.extras import RealDictCursor
 import time
 
 
-# uvicorn app.main:app --reload
 # source myvenv/bin/activate
+# uvicorn app.main:app --reload
+
 
 app = FastAPI()
 

@@ -44,7 +44,7 @@ function Sidebar({onLogout, onImportStocks, onImportBonds, onExportFile, token, 
 			<button onClick={handleImportStocksClick}>Import stocks</button>
 			<button onClick={handleImportBondsClick}>Import bonds</button>
 			
-			<button onClick={handleExportClick}>Export</button>
+			{/* <button onClick={handleExportClick}>Export</button> */}
 
 			<input
 				type="file"

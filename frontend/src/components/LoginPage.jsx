@@ -1,4 +1,5 @@
 import {useEffect, useState} from 'react';
+import './LoginPage.css';
 
 
 function LoginPage({onLogin}){
@@ -40,24 +41,31 @@ function LoginPage({onLogin}){
 
 
 	return(
-		<div className="container">
-			<h1>Login</h1>
-			<form onSubmit={handleLogin}>
-				<input
-					type="email"
-					placeholder="Email"
-					value={email}
-					onChange={event => setEmail(event.target.value)}
-					/><br/>
-				<input
-					type="password"
-					placeholder="Password"
-					value={password}
-					onChange={event => setPassword(event.target.value)}
-				/><br/>
-				<button type="submit">Login</button>
-			</form>
-			{loginMessage && <p>{loginMessage}</p>}
+		<div className="login-page-container">
+			<div className="login-box">
+				<h1 className="login-title">Welcome</h1>
+				<p className="login-subtitle">Please enter email and password to log in</p>
+				<form onSubmit={handleLogin} className="login-form">
+					<label className="login-label">EMAIL</label>
+					<input
+						className="login-input"
+						type="email"
+						value={email}
+						onChange={event => setEmail(event.target.value)}
+						required
+						/>
+					<label className="login-label">PASSWORD</label>
+					<input
+						className="login-input"
+						type="password"
+						value={password}
+						onChange={event => setPassword(event.target.value)}
+						required
+					/>
+					<button type="submit" className="login-button">Login</button>
+				</form>
+				{loginMessage && <p className="login-message">{loginMessage}</p>}
+			</div>
 		</div>
 		);
 }

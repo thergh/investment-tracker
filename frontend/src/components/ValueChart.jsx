@@ -5,7 +5,7 @@ function ValueChart({stocksValue, bondsValue, totalValue}){
 	return(
 		<div className="pieChartDiv">
 			{totalValue > 0 ? (
-				<ResponsiveContainer width="80%" height={300}>
+				<ResponsiveContainer width="80%">
 					<PieChart>
 						<Pie
 							data={[
