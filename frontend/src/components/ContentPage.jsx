@@ -211,14 +211,16 @@ function ContentPage({token, userId}){
 						<p><strong>Stocks profit:</strong> ${stocksProfit.toFixed(2)}</p>
 						<p><strong>Bonds value:</strong> ${bondsValue.toFixed(2)}</p>
 						<p><strong>Bonds profit:</strong> ${bondsProfit.toFixed(2)}</p>
+
+						<button className="actionButton" onClick={() => setShowAddModal(true)}>
+						Add Investment
+						</button>
+						<button className="actionButton" onClick={handleRefreshData}>Refresh investment data</button>
+						<button className="actionButton" onClick={handleRefreshValues}>Refresh portfolio values</button>
 					</div>
 				</div>
 				<div className="restOfPage">
-					<button className="actionButton" onClick={() => setShowAddModal(true)}>
-						Add Investment
-					</button>
-					<button className="actionButton" onClick={handleRefreshData}>Refresh investment data</button>
-					<button className="actionButton" onClick={handleRefreshValues}>Refresh portfolio values</button>
+					
 					
 					<InvestmentList
 						token={token}

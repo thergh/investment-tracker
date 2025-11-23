@@ -1,11 +1,12 @@
 import {PieChart, ResponsiveContainer, Pie, Cell, Tooltip, Legend} from "recharts";
+import "./ValueChart.css";
 
 
 function ValueChart({stocksValue, bondsValue, totalValue}){
 	return(
 		<div className="pieChartDiv">
 			{totalValue > 0 ? (
-				<ResponsiveContainer width="80%">
+				<ResponsiveContainer width="100%" height="90%">
 					<PieChart>
 						<Pie
 							data={[
@@ -18,10 +19,10 @@ function ValueChart({stocksValue, bondsValue, totalValue}){
 							cy="50%"
 							outerRadius={100}
 						>
-							<Cell fill="#4caf50" />
-							<Cell fill="#2196f3" />
+							<Cell fill="#FF6C37" />
+							<Cell fill="#007BFF" />
 						</Pie>
-						<Legend />
+						<Legend wrapperStyle={{ color: '#e0e0e0' }} />
 					</PieChart>
 				</ResponsiveContainer>
 			) : (
