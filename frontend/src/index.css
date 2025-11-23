@@ -1,9 +1,54 @@
+:root {
+	--base-bg-lighter:#555;
+	--base-bg-light: #2a2a2a;
+	--base-bg-mid: #333;
+	--base-bg-dark: #212121;
+	--base-bg-hover: #3a3a3a;
+	--base-text: #e0e0e0;
+	--base-text-light: #bdbdbd;
+	--base-accent: #FF6C37;
+	--base-border: #444;
+	
+}
+/* 
+var(--base-bg-lighter)
+var(--base-bg-light)
+var(--base-bg-mid)
+var(--base-bg-dark)
+var(--base-bg-hover)
+var(--base-text)
+var(--base-text-light)
+var(--base-accent)
+var(--base-border)
+*/
+
+* {
+	margin: 0;
+	padding: 0;
+	box-sizing: border-box;
+}
+
 body {
-	background-color: #313338;
+	background-color: var(--base-bg-light);
 	color: #DBDEE1;
-	font-family: 'Inter', sans-serif;
+	font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+	margin: 0;
 }
 
 .container {
 	padding: 2rem;  
+}
+
+.actionButtonHot{
+	background-color: var(--base-accent);
+	border: none;
+	color: #fff;
+	padding: 8px 15px;
+	border-radius: 4px;
+	cursor: pointer;
+	user-select: none;
+	transition: background-color 0.2s ease-in-out;
+	font-weight: 600;
+	margin-right: 10px;
+	margin-top: 10px;
 }

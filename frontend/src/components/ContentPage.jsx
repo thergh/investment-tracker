@@ -196,7 +196,7 @@ function ContentPage({token, userId}){
 				userId={userId}
 			/>
 
-			<div style={{marginLeft: "220px", padding: "20px", flexGrow: 1}}>
+			<div className="contentDiv">
 				<div className="dashboard">
 					<ValueChart
 						stocksValue={stocksValue}
@@ -212,16 +212,14 @@ function ContentPage({token, userId}){
 						<p><strong>Bonds value:</strong> ${bondsValue.toFixed(2)}</p>
 						<p><strong>Bonds profit:</strong> ${bondsProfit.toFixed(2)}</p>
 
-						<button className="actionButton" onClick={() => setShowAddModal(true)}>
+						<button className="actionButtonHot" onClick={() => setShowAddModal(true)}>
 						Add Investment
 						</button>
-						<button className="actionButton" onClick={handleRefreshData}>Refresh investment data</button>
-						<button className="actionButton" onClick={handleRefreshValues}>Refresh portfolio values</button>
+						<button className="actionButtonHot" onClick={handleRefreshData}>Refresh investment data</button>
+						<button className="actionButtonHot" onClick={handleRefreshValues}>Refresh portfolio values</button>
 					</div>
 				</div>
 				<div className="restOfPage">
-					
-					
 					<InvestmentList
 						token={token}
 						userId={userId}

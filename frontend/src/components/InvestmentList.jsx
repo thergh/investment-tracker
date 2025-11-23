@@ -213,7 +213,7 @@ function InvestmentList({token, userId, refreshKey}){
 										<td>{value.toFixed(2)}</td>
 										<td>{flatValueDifference.toFixed(2)}</td>
 										<td>{percentDifference.toFixed(2)}%</td>
-										<td><button className='actionButton' onClick={() => handleRemove(inv.id)}>Remove</button></td>
+										<td><button className='actionButtonHot' onClick={() => handleRemove(inv.id)}>Remove</button></td>
 									</tr>
 								);
 							})}

@@ -1,4 +1,5 @@
-.modalOverlay{
+
+.modalOverlay {
 	position: fixed;
 	top: 0;
 	left: 0;
@@ -12,15 +13,18 @@
 }
 
 .modal{
-	background: #313338;
-	color: #DBDEE1;
+	background: var(--base-bg-light);
+	color: var(--base-text);
 	font-family: 'Inter', sans-serif;
 	padding: 2rem;
-	border-radius: 8px;
 	min-width: 350px;
 	box-shadow: 0 4px 10px rgba(0,0,0,0.25);
 	display: flex;
 	flex-direction: column;
+	border-color: var(--base-border);
+	border-radius: 10px;
+	border-width: 1px;
+	border-style: solid;
 }
 
 .modal h2{
@@ -33,9 +37,12 @@
 	gap: 0.5rem;
 }
 
-.modal input, .modal select{
+.modal input, .modal select {
 	padding: 0.4rem;
 	font-size: 1rem;
+	background-color: var(--base-bg-dark);
+	border: 1px solid var(--base-border);
+	color: var(--base-text);
 }
 
 .modalButtons{
@@ -43,6 +50,25 @@
 	justify-content: flex-end;
 	gap: 1rem;
 	margin-top: 1rem;
+}
+
+.modalButtons button {
+	padding: 8px 15px;
+	border-radius: 4px;
+	border: none;
+	font-weight: 600;
+	cursor: pointer;
+	transition: background-color 0.2s ease-in-out;
+}
+
+.modalButtons button[type="submit"] {
+	background-color: var(--base-accent);
+	color: white;
+}
+
+.modalButtons button[type="button"] {
+	background-color: var(--base-border);
+	color: var(--base-text);
 }
 
 .error{

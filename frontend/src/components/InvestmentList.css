@@ -1,14 +1,38 @@
 
 .tableWrapper{
-	max-height: 300px;
+	max-height: 45vh;
 	overflow-y: auto;
 	overflow-x: auto;
+	border: 1px solid var(--base-border);
+	background-color: var(--base-bg-light);
+	scrollbar-width: 10px;
+	scrollbar-color: var(--base-bg-lighter) var(--base-bg-light);
+}
 
+.tableWrapper::-webkit-scrollbar {
+	width: 8px;
+	height: 8px;
+}
+
+.tableWrapper::-webkit-scrollbar-track {
+	background: var(--base-bg-light);
+}
+
+.tableWrapper::-webkit-scrollbar-thumb {
+	background-color: var(--base-bg-lighter);
+	border: 2px solid var(--base-border);
+}
+
+.tableWrapper::-webkit-scrollbar-thumb:hover {
+	background-color: #777;
 }
 
 .investmentsTable{
 	border-collapse: separate;
 	border-spacing: 0;
+	width: 100%;
+	border-collapse: collapse;
+	color: var(--base-text);
 }
 
 .investmentsTable th{
@@ -16,6 +40,8 @@
 	border: none;
 	cursor: pointer;
 	user-select: none;
+	text-align: left;
+	font-weight: 600;
 }
 
 .investmentsTable td{
@@ -23,18 +49,29 @@
 }
 
 .investmentsTable td, .investmentsTable th{
-	border-bottom: 1px solid #333;
+	border-bottom: 1px solid var(--base-border);
 }
 
+.investmentsTable thead th:hover {
+	background-color: var(--base-bg-hover);
+}
+
+.investmentsTable tbody tr {
+	transition: background-color 0.1s ease-in-out;
+}
+
+.investmentsTable tbody tr:hover {
+	background-color: var(--base-bg-hover);
+}
+
+.investmentsTable tbody tr:last-child td {
+	border-bottom: none;
+}
 .investmentsTable thead th{
 	position: sticky;
 	top: 0;
-	background-color: #252529;
+	background-color: var(--base-bg-mid);
 	z-index: 1;
 	cursor: pointer;
-}
-
-.actionButton{
-	cursor: pointer;
-	user-select: none;
+	border-bottom: 2px solid var(--base-border);
 }
