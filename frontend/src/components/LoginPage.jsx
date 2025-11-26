@@ -63,6 +63,7 @@ function LoginPage({onLogin}){
 						required
 					/>
 					<button type="submit" className="login-button">Login</button>
+					<button  className="register-button">Register</button>
 				</form>
 				{loginMessage && <p className="login-message">{loginMessage}</p>}
 			</div>

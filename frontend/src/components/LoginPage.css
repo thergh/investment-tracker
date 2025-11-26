@@ -60,11 +60,11 @@
 
 .login-input:focus {
 	outline: none;
-	border-color: #FF6C37;
+	border-color: var(--base-accent);
 }
 
 .login-button {
-	background-color: #FF6C37;
+	background-color: var(--base-accent);
 	color: #ffffff;
 	border: none;
 	border-radius: 3px;
@@ -77,6 +77,22 @@
 
 .login-button:hover {
 	background-color: #f05c26;
+}
+
+.register-button {
+	background-color: var(--base-bg-lighter);
+	color: #ffffff;
+	border: none;
+	border-radius: 3px;
+	font-size: 16px;
+	font-weight: 500;
+	height: 44px;
+	cursor: pointer;
+	margin-bottom: 8px;
+}
+
+.register-button:hover {
+	background-color: var(--base-bg-hover);
 }
 
 .login-message {
