@@ -4,30 +4,30 @@
 	flex-grow: 1;
 }
 
-.dashboard{
+.dashboard {
 	display: grid;
-	grid-template-columns: 1fr 2fr;
+	grid-template-columns: 1fr 1fr 1fr;
 	gap: 20px;
 	height: 40vh;
 	margin: 1rem;
 }
 
-.restOfPage{
+.restOfPage {
 	margin: 1rem;
 	background-color: var(--base-bg-light);
 }
 
-@media(max-width: 900px){
+@media(max-width: 900px) {
 	.dashboard{
 		grid-template-columns: 1fr;
 	}
 }
 
-.actionButtonHot:hover{
+.actionButtonHot:hover {
 	background-color: #e55a29;
 }
 
-.valuesDiv{
+.valuesDiv {
 	background-color: var(--base-bg-light);
 	padding: 1rem;
 	color: var(--base-text);
@@ -36,4 +36,100 @@
 .valuesDiv p {
 	margin: 0.5rem 0;
 	color: var(--base-text-light);
+}
+
+
+.values-section {
+	display: flex;
+	flex-direction: row;
+	justify-content: space-between;
+	padding: 20px;
+	height: 100%;
+	width: 10px;
+	/* height: 30vh; */
+	
+	/* border-radius: 8px; */
+	color: #fff;
+	flex-grow: 1;
+	/* margin-left: 20px; */
+	/* padding-left: 20px; */
+}
+
+.portfolio-summary {
+	display: flex;
+	flex-direction: column;
+	gap: 10px;
+}
+
+.sub-summary {
+	display: flex;
+	flex-direction: row;
+	gap: 10px;
+}
+
+.summary-item {
+	background-color: var(--base-bg-mid);
+	border: 2px solid var(--base-border);
+	border-radius: 8px;
+	padding: 10px;
+	display: flex;
+	flex-direction: column;
+	max-width: 200px;
+	padding-left: 20px;
+}
+
+.total-value {
+	max-width: 420px;
+}
+
+.summary-item .label {
+	font-size: 1em;
+	color: var(--base-text);
+	margin-bottom: 8px;
+}
+
+.summary-item .value {
+	font-size: 1.5em;
+	font-weight: bold;
+	color: var(--base-text-light);
+}
+
+.total-value .value {
+	font-size: 1.5em;
+}
+
+.profit-loss {
+	margin-top: 8px;
+	font-size: 0.9em;
+}
+
+.profit-loss span {
+	margin-right: 10px;
+}
+
+.profit {
+	color: #00c853;
+}
+
+.loss {
+	color: #ff5252;
+}
+
+.actionsDiv {
+	display: flex;
+	flex-direction: column;
+	gap: 10px;
+	justify-content: center;
+	align-items: center;
+	flex-grow: 1;
+}
+
+.values-actions-container {
+	display: flex;
+	flex-direction: row;
+	gap: 20px;
+}
+
+.actionsDiv .actionButtonHot {
+	width: 200px;
 }

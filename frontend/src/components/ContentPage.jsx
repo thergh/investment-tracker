@@ -204,20 +204,44 @@ function ContentPage({token, userId}){
 						totalValue={totalValue}
 					/>
 
-					<div className="valuesDiv">
-						<p><strong>Total value:</strong> ${totalValue.toFixed(2)}</p>
-						<p><strong>Total profit:</strong> ${totalProfit.toFixed(2)}</p>
-						<p><strong>Stocks value:</strong> ${stocksValue.toFixed(2)}</p>
-						<p><strong>Stocks profit:</strong> ${stocksProfit.toFixed(2)}</p>
-						<p><strong>Bonds value:</strong> ${bondsValue.toFixed(2)}</p>
-						<p><strong>Bonds profit:</strong> ${bondsProfit.toFixed(2)}</p>
-
-						<button className="actionButtonHot" onClick={() => setShowAddModal(true)}>
-						Add Investment
-						</button>
-						<button className="actionButtonHot" onClick={handleRefreshData}>Refresh investment data</button>
-						<button className="actionButtonHot" onClick={handleRefreshValues}>Refresh portfolio values</button>
+					<div className="values-section">
+						<div className="portfolio-summary">
+							<div className="summary-item total-value">
+								<span className="label">Portfolio Value</span>
+								<span className="value">${totalValue.toFixed(2)}</span>
+								<div className="profit-loss">
+									<span className={totalProfit >= 0 ? 'profit' : 'loss'}>${totalProfit.toFixed(2)}</span>
+									<span className={totalProfit >= 0 ? 'profit' : 'loss'}>({totalValue > 0 ? ((totalProfit / totalValue) * 100).toFixed(2) : '0.00'}%)</span>
+								</div>
+							</div>
+							<div className="sub-summary">
+								<div className="summary-item">
+									<span className="label">Stocks</span>
+									<span className="value">${stocksValue.toFixed(2)}</span>
+									<div className="profit-loss">
+										<span className={stocksProfit >= 0 ? 'profit' : 'loss'}>${stocksProfit.toFixed(2)}</span>
+										<span className={stocksProfit >= 0 ? 'profit' : 'loss'}>({stocksValue > 0 ? ((stocksProfit / stocksValue) * 100).toFixed(2) : '0.00'}%)</span>
+									</div>
+								</div>
+								<div className="summary-item">
+									<span className="label">Bonds</span>
+									<span className="value">${bondsValue.toFixed(2)}</span>
+									<div className="profit-loss">
+										<span className={bondsProfit >= 0 ? 'profit' : 'loss'}>${bondsProfit.toFixed(2)}</span>
+										<span className={bondsProfit >= 0 ? 'profit' : 'loss'}>({bondsValue > 0 ? ((bondsProfit / bondsValue) * 100).toFixed(2) : '0.00'}%)</span>
+									</div>
+								</div>
+							</div>
+						</div>
 					</div>
+					<div className="actionsDiv">
+						<button className="actionButtonHot" onClick={() => setShowAddModal(true)}>
+							Add Investment
+						</button>
+						<button className="actionButtonHot" onClick={handleRefreshData}>Refresh Data</button>
+						<button className="actionButtonHot" onClick={handleRefreshValues}>Refresh Values</button>
+					</div>
+					
 				</div>
 				<div className="restOfPage">
 					<InvestmentList

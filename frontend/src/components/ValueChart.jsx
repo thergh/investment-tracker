@@ -19,8 +19,8 @@ function ValueChart({stocksValue, bondsValue, totalValue}){
 							cy="50%"
 							outerRadius={100}
 						>
-							<Cell fill="#FF6C37" />
-							<Cell fill="#007BFF" />
+							<Cell fill="#ffb70fe1" />
+							<Cell fill="#cb2c05ff" />
 						</Pie>
 						<Legend wrapperStyle={{ color: '#e0e0e0' }} />
 					</PieChart>
