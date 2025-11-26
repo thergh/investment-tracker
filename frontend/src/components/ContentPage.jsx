@@ -208,27 +208,45 @@ function ContentPage({token, userId}){
 						<div className="portfolio-summary">
 							<div className="summary-item total-value">
 								<span className="label">Portfolio Value</span>
-								<span className="value">${totalValue.toFixed(2)}</span>
+								<span className="value">
+									${totalValue.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
+								</span>
 								<div className="profit-loss">
-									<span className={totalProfit >= 0 ? 'profit' : 'loss'}>${totalProfit.toFixed(2)}</span>
-									<span className={totalProfit >= 0 ? 'profit' : 'loss'}>({totalValue > 0 ? ((totalProfit / totalValue) * 100).toFixed(2) : '0.00'}%)</span>
+									<span className={totalProfit >= 0 ? 'profit' : 'loss'}>
+										${totalProfit.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
+									</span>
+									<span className={totalProfit >= 0 ? 'profit' : 'loss'}>
+										({totalValue > 0 ? ((totalProfit / totalValue) * 100).toFixed(2) : '0.00'}%)
+									</span>
 								</div>
 							</div>
 							<div className="sub-summary">
 								<div className="summary-item">
 									<span className="label">Stocks</span>
-									<span className="value">${stocksValue.toFixed(2)}</span>
+									<span className="value">
+										${stocksValue.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
+									</span>
 									<div className="profit-loss">
-										<span className={stocksProfit >= 0 ? 'profit' : 'loss'}>${stocksProfit.toFixed(2)}</span>
-										<span className={stocksProfit >= 0 ? 'profit' : 'loss'}>({stocksValue > 0 ? ((stocksProfit / stocksValue) * 100).toFixed(2) : '0.00'}%)</span>
+										<span className={stocksProfit >= 0 ? 'profit' : 'loss'}>
+											${stocksProfit.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
+										</span>
+										<span className={stocksProfit >= 0 ? 'profit' : 'loss'}>
+											({stocksValue > 0 ? ((stocksProfit / stocksValue) * 100).toFixed(2) : '0.00'}%)
+										</span>
 									</div>
 								</div>
 								<div className="summary-item">
 									<span className="label">Bonds</span>
-									<span className="value">${bondsValue.toFixed(2)}</span>
+									<span className="value">
+										${bondsValue.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
+									</span>
 									<div className="profit-loss">
-										<span className={bondsProfit >= 0 ? 'profit' : 'loss'}>${bondsProfit.toFixed(2)}</span>
-										<span className={bondsProfit >= 0 ? 'profit' : 'loss'}>({bondsValue > 0 ? ((bondsProfit / bondsValue) * 100).toFixed(2) : '0.00'}%)</span>
+										<span className={bondsProfit >= 0 ? 'profit' : 'loss'}>
+											${bondsProfit.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
+										</span>
+										<span className={bondsProfit >= 0 ? 'profit' : 'loss'}>
+											({bondsValue > 0 ? ((bondsProfit / bondsValue) * 100).toFixed(2) : '0.00'}%)
+										</span>
 									</div>
 								</div>
 							</div>
