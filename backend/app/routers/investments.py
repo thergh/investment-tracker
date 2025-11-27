@@ -19,13 +19,15 @@ router = APIRouter(
 def get_investment(
 		investment_id: int,
 		db_session: Session = Depends(get_db_session),
-		current_user_id: int = Depends(oauth2.get_current_user)
+		current_user: int = Depends(oauth2.get_current_user)
 	):
+
+	user_id = current_user.id
 	  
 	investment = (
 		db_session.query(models.Investment)
 		.filter(models.Investment.id == investment_id)
-		.filter(models.Investment.user_id == current_user_id)
+		.filter(models.Investment.user_id == user_id)
 		.first()
 	)
 
