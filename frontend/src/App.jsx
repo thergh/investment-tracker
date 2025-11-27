@@ -1,7 +1,7 @@
 import './App.css'
 import LoginPage from './components/LoginPage.jsx';
 import ContentPage from './components/ContentPage.jsx';
-import {useEffect, useState} from 'react';
+import {useState} from 'react';
 
 
 function App(){
@@ -19,3 +19,6 @@ function App(){
 }
 
 export default App
+
+
+

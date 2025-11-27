@@ -7,7 +7,6 @@ import './ContentPage.css'
 
 
 function ContentPage({token, userId}){
-	const [apiMessage, setApiMessage] = useState("");
 	const [loading, setLoading] = useState(true);
 	const [showAddModal, setShowAddModal] = useState(false);
 	const [refreshKey, setRefreshKey] = useState(0);
