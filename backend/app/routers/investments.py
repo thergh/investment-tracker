@@ -22,7 +22,12 @@ def get_investment(
 		current_user_id: int = Depends(oauth2.get_current_user)
 	):
 	  
-	investment = db_session.query(models.Investment).filter(models.Investment.id == investment_id).filter(models.Investment.user_id == current_user_id).first()
+	investment = (
+		db_session.query(models.Investment)
+		.filter(models.Investment.id == investment_id)
+		.filter(models.Investment.user_id == current_user_id)
+		.first()
+	)
 
 
 	if not investment:
