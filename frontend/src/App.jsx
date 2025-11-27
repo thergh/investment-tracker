@@ -15,7 +15,7 @@ function App(){
 		}}/>
 	}
 
-	return <ContentPage token={token} userId={userId} ></ContentPage>
+	return <ContentPage token={token} userId={userId}></ContentPage>
 }
 
 export default App
