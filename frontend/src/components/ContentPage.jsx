@@ -29,6 +29,7 @@ function ContentPage({token, userId}){
 		console.log("Export clicked");
 	}
 
+
 	useEffect(() => {
 		const fetchData = async() => {
 			try{
@@ -51,35 +52,6 @@ function ContentPage({token, userId}){
 	
 		fetchData();
 	}, [token]);
-
-
-	const handleInvestmentAdded = () => {
-		setRefreshKey(prev => prev + 1);
-	};
-
-
-	const handleRefreshData = async() => {
-		console.log("Refreshed investment data.");
-
-		try{
-			const response = await fetch(
-				"http://127.0.0.1:8000/investments/user/" + userId + "/update", {
-					method: "POST",
-					headers: {"Authorization": "Bearer " + token}
-				}
-			);
-
-			if(!response.ok){
-				throw new Error("HTTP error:  " + response.status);
-			}
-
-			setRefreshKey(prev => prev + 1);
-		}
-		catch(err){
-			console.error("Error refreshing user " + userId + " investments:", err);
-			alert("Failed to refresh investments.");
-		}
-	};
 
 
 	const handleRefreshValues = async() => {
@@ -110,6 +82,37 @@ function ContentPage({token, userId}){
 			alert("Failed to get values.");
 		}
 	}
+
+
+	const handleInvestmentAdded = () => {
+		setRefreshKey(prev => prev + 1);
+	};
+
+
+	const handleRefreshData = async() => {
+		console.log("Refreshed investment data.");
+
+		try{
+			const response = await fetch(
+				"http://127.0.0.1:8000/investments/user/" + userId + "/update", {
+					method: "POST",
+					headers: {"Authorization": "Bearer " + token}
+				}
+			);
+
+			if(!response.ok){
+				throw new Error("HTTP error:  " + response.status);
+			}
+
+			setRefreshKey(prev => prev + 1);
+		}
+		catch(err){
+			console.error("Error refreshing user " + userId + " investments:", err);
+			alert("Failed to refresh investments.");
+		}
+
+		handleRefreshValues();
+	};
 
 
 	const handleImportStocks = async(file) => {
@@ -143,6 +146,8 @@ function ContentPage({token, userId}){
 			console.error("Import error: ", err);
 			alert("Failed to import file.");
 		}
+
+		handleRefreshValues();
 	};
 
 
@@ -177,6 +182,8 @@ function ContentPage({token, userId}){
 			console.error("Import error: ", err);
 			alert("Failed to import file.");
 		}
+
+		handleRefreshValues();
 	}
 
 	
@@ -267,6 +274,7 @@ function ContentPage({token, userId}){
 						token={token}
 						userId={userId}
 						refreshKey={refreshKey}
+						onInvestmentRemoved={handleRefreshValues}
 					/>
 				</div>
 				

@@ -2,7 +2,7 @@ import {useEffect, useState} from 'react';
 import './InvestmentList.css'
 
 
-function InvestmentList({token, userId, refreshKey}){
+function InvestmentList({token, userId, refreshKey, onInvestmentRemoved}){
 	const [investments, setInvestments] = useState([]);
 	const [loading, setLoading] = useState(true);
 	const [sortConfig, setSortConfig] = useState({sortColumn: "purchaseDate", direction: "asc"});
@@ -48,6 +48,10 @@ function InvestmentList({token, userId, refreshKey}){
 			}
 
 			setInvestments(prev => prev.filter(inv => inv.id !== investment_id));
+			
+			if(onInvestmentRemoved){
+				onInvestmentRemoved();
+			}
 		}
 		catch(err){
 			console.error("Error deleting investment " + investment_id + ":", err);
