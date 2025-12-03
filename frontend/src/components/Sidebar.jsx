@@ -47,7 +47,7 @@ function Sidebar({onLogout, onImportStocks, onImportBonds, userId}){
 				<button className="sidebar-button" onClick={handleImportBondsClick}>
 					Import Bonds
 				</button>
-				<button className="sidebar-button" onClick={handleImportBondsClick}>
+				{/* <button className="sidebar-button" onClick={handleImportBondsClick}>
 					Settings
 				</button>
 				<button className="sidebar-button" onClick={handleImportBondsClick}>
@@ -55,7 +55,7 @@ function Sidebar({onLogout, onImportStocks, onImportBonds, userId}){
 				</button>
 				<button className="sidebar-button" onClick={handleImportBondsClick}>
 					Help
-				</button>
+				</button> */}
 			</nav>
 			<div className="sidebar-footer">
 				<button className="sidebar-button" onClick={handleLogoutClick}>Log Out</button>
