@@ -46,6 +46,8 @@ function ContentPage({token, userId}){
 				setLoading(false);
 			}
 		};
+
+		handleRefreshValues();
 	
 		fetchData();
 	}, [token]);
