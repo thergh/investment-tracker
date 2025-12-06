@@ -11,7 +11,9 @@ function InvestmentList({token, userId, refreshKey, onInvestmentRemoved}){
 		const fetchInvestments = async() => {
 			try{
 				const response = await fetch(
-					"http://127.0.0.1:8000/investments/user/" + userId
+					"http://127.0.0.1:8000/investments/user/" + userId, {
+						headers: {"Authorization": "Bearer " + token}
+					}
 				);
 
 				if(!response.ok){
