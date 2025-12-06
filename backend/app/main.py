@@ -3,6 +3,7 @@ from .database import engine
 from .routers import auth, investments, users, assets
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
+from .config import settings
 import psycopg2
 from psycopg2.extras import RealDictCursor
 import time
@@ -30,8 +31,8 @@ models.Base.metadata.create_all(bind=engine)
 while True:
 	try:
 		connection = psycopg2.connect(
-			host='localhost', database='investment', user='postgres',
-			password='password', cursor_factory=RealDictCursor
+			host=settings.database_hostname, database=settings.database_name, user=settings.database_username,
+			password=settings.database_password, cursor_factory=RealDictCursor
 		)
 		cursor = connection.cursor()
 		print("Databse connection successful")
