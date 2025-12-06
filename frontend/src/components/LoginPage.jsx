@@ -1,5 +1,6 @@
 import {useEffect, useState} from 'react';
 import './LoginPage.css';
+import API_URL from '../config';
 
 
 function LoginPage({onLogin}){
@@ -16,7 +17,7 @@ function LoginPage({onLogin}){
 			body.append('username', email);
 			body.append('password', password);
 
-			const loginResponse = await fetch('http://127.0.0.1:8000/login', {
+			const loginResponse = await fetch(`${API_URL}/login`, {
 				method: 'POST',
 				headers: {'Content-Type': 'application/x-www-form-urlencoded'},
 				body: body.toString()

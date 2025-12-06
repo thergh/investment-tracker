@@ -1,5 +1,6 @@
 import {useEffect, useState} from 'react';
 import './InvestmentList.css'
+import API_URL from '../config';
 
 
 function InvestmentList({token, userId, refreshKey, onInvestmentRemoved}){
@@ -11,7 +12,7 @@ function InvestmentList({token, userId, refreshKey, onInvestmentRemoved}){
 		const fetchInvestments = async() => {
 			try{
 				const response = await fetch(
-					"http://127.0.0.1:8000/investments/user/" + userId, {
+					`${API_URL}/investments/user/${userId}`, {
 						headers: {"Authorization": "Bearer " + token}
 					}
 				);
@@ -39,7 +40,7 @@ function InvestmentList({token, userId, refreshKey, onInvestmentRemoved}){
 	const handleRemove = async(investment_id) => {
 		try{
 			const response = await fetch(
-				"http://127.0.0.1:8000/investments/" + investment_id, {
+				`${API_URL}/investments/${investment_id}`, {
 					method: "DELETE",
 					headers: {"Authorization": "Bearer " + token}
 				}

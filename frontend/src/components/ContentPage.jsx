@@ -4,6 +4,7 @@ import Sidebar from "./Sidebar"
 import AddInvestmentModal from "./AddInvestmentModal";
 import ValueChart from "./ValueChart";
 import './ContentPage.css'
+import API_URL from "../config";
 
 
 function ContentPage({token, userId}){
@@ -33,7 +34,7 @@ function ContentPage({token, userId}){
 	useEffect(() => {
 		const fetchData = async() => {
 			try{
-				const apiResponse = await fetch("http://127.0.0.1:8000/", {
+				const apiResponse = await fetch(`${API_URL}/`, {
 					headers: {"Authorization": "Bearer " + token}
 				});
 				const jsonResponse = await apiResponse.json();
@@ -59,7 +60,7 @@ function ContentPage({token, userId}){
 
 		try{
 			const response = await fetch(
-				"http://127.0.0.1:8000/investments/user/" + userId + "/portfolioValue", {
+				`${API_URL}/investments/user/${userId}/portfolioValue`, {
 					headers: {"Authorization": "Bearer " + token}
 				}
 			);
@@ -94,7 +95,7 @@ function ContentPage({token, userId}){
 
 		try{
 			const response = await fetch(
-				"http://127.0.0.1:8000/investments/user/" + userId + "/update", {
+				`${API_URL}/investments/user/${userId}/update`, {
 					method: "POST",
 					headers: {"Authorization": "Bearer " + token}
 				}
@@ -125,7 +126,7 @@ function ContentPage({token, userId}){
 
 		try{
 			const response = await fetch(
-				"http://127.0.0.1:8000/investments/user/" + userId + "/import/xtb", {
+				`${API_URL}/investments/user/${userId}/import/xtb`, {
 					method: "POST",
 					headers: {"Authorization": "Bearer " + token},
 					body: formData
@@ -161,7 +162,7 @@ function ContentPage({token, userId}){
 
 		try{
 			const response = await fetch(
-				"http://127.0.0.1:8000/investments/user/" + userId + "/import/ipko", {
+				`${API_URL}/investments/user/${userId}/import/ipko`, {
 					method: "POST",
 					headers: {"Authorization": "Bearer " + token},
 					body: formData
