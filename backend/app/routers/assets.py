@@ -64,7 +64,10 @@ def get_bonds(
 
 
 @router.post("/stocks", response_model=schemas.StockResponse, status_code=status.HTTP_201_CREATED)
-def add_stock(stock_data: schemas.StockCreate, db_session: Session = Depends(get_db_session)):
+def add_stock(
+		stock_data: schemas.StockCreate, 
+		db_session: Session = Depends(get_db_session)
+	):
 
 	existing_stock = db_session.query(models.Stock).filter(models.Stock.symbol == stock_data.symbol).first()
 	if existing_stock:
@@ -119,7 +122,10 @@ def add_stock(stock_data: schemas.StockCreate, db_session: Session = Depends(get
 
 
 @router.post("/bonds", response_model=schemas.BondResponse, status_code=status.HTTP_201_CREATED)
-def add_bond(bond_data: schemas.BondCreate, db_session: Session = Depends(get_db_session)):
+def add_bond(
+		bond_data: schemas.BondCreate, 
+		db_session: Session = Depends(get_db_session)
+	):
 
 	existing_bond = db_session.query(models.Bond).filter(models.Bond.symbol == bond_data.symbol).first()
 	if existing_bond:
@@ -156,7 +162,10 @@ def add_bond(bond_data: schemas.BondCreate, db_session: Session = Depends(get_db
 
 
 @router.delete("/stocks/{id}", status_code=status.HTTP_204_NO_CONTENT)
-def delete_stock(id: int, db_session: Session = Depends(get_db_session)):
+def delete_stock(
+		id: int, 
+		db_session: Session = Depends(get_db_session)
+	):
 
 	stock = db_session.query(models.Stock).filter(models.Stock.id == id).first()
 	asset = db_session.query(models.Asset).filter(models.Asset.id == id).first()
@@ -181,7 +190,10 @@ def delete_stock(id: int, db_session: Session = Depends(get_db_session)):
 
 
 @router.delete("/bonds/{id}", status_code=status.HTTP_204_NO_CONTENT)
-def delete_bond(id: int, db_session: Session = Depends(get_db_session)):
+def delete_bond(
+		id: int, 
+		db_session: Session = Depends(get_db_session)
+	):
 
 	bond = db_session.query(models.Bond).filter(models.Bond.id == id).first()
 	asset = db_session.query(models.Asset).filter(models.Asset.id == id).first()

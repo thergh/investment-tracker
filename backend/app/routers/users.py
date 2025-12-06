@@ -1,4 +1,4 @@
-from .. import models, schemas, utils
+from .. import models, schemas, utils, oauth2, oauth2
 from ..database import get_db_session
 from fastapi import Body, FastAPI, Response, status, HTTPException, Depends, APIRouter
 from sqlalchemy.orm import Session, joinedload
@@ -26,7 +26,10 @@ def create_user(user: schemas.UserCreate, db_session: Session = Depends(get_db_s
 
 
 @router.get("/", response_model=List[schemas.UserResponse])
-def get_users(db_session: Session = Depends(get_db_session)):
+def get_users(
+		db_session: Session = Depends(get_db_session),
+		current_user: int = Depends(oauth2.get_current_user)
+	):
 	
 	users = db_session.query(models.User).all()
 	print(users)
@@ -35,8 +38,15 @@ def get_users(db_session: Session = Depends(get_db_session)):
 
 
 @router.get("/{id}", response_model=schemas.UserResponse)
-def get_user(id: int, db_session: Session = Depends(get_db_session)):
+def get_user(
+		id: int,
+		db_session: Session = Depends(get_db_session),
+		current_user: int = Depends(oauth2.get_current_user)
+	):
 	
+	if current_user.id != id:
+		raise HTTPException(status_code=status.HTTP_403_FORBIDDEN, detail="Not authorized to perform this action")
+
 	user = db_session.query(models.User).filter(models.User.id == id).first()
 	
 	if not user:
@@ -49,7 +59,14 @@ def get_user(id: int, db_session: Session = Depends(get_db_session)):
 
 
 @router.delete("/{id}", response_model=schemas.UserResponse)
-def delete_user(id: int, db_session: Session = Depends(get_db_session)):
+def delete_user(
+		id: int,
+		db_session: Session = Depends(get_db_session),
+		current_user: int = Depends(oauth2.get_current_user)
+	):
+
+	if current_user.id != id:
+		raise HTTPException(status_code=status.HTTP_403_FORBIDDEN, detail="Not authorized to perform this action")
 	
 	user = db_session.query(models.User).filter(models.User.id == id).first()
 

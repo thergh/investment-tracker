@@ -42,7 +42,12 @@ def get_investment(
 
 
 @router.delete("/{investment_id}", status_code=status.HTTP_204_NO_CONTENT)
-def remove_investment(investment_id: int, db_session: Session = Depends(get_db_session)):
+def remove_investment(
+		investment_id: int, 
+		db_session: Session = Depends(get_db_session),
+		current_user: int = Depends(oauth2.get_current_user)
+	):
+	
 	investment = db_session.query(models.Investment).filter(models.Investment.id == investment_id).first()
 
 	if not investment:
@@ -50,6 +55,9 @@ def remove_investment(investment_id: int, db_session: Session = Depends(get_db_s
 			status_code=status.HTTP_404_NOT_FOUND,
 			detail=f"Investment with id {investment_id} was not found"
 		)
+
+	if investment.user_id != current_user.id:
+		raise HTTPException(status_code=status.HTTP_403_FORBIDDEN, detail="Not authorized to perform this action")
 	
 	db_session.delete(investment)  
 	db_session.commit()
@@ -61,8 +69,12 @@ def remove_investment(investment_id: int, db_session: Session = Depends(get_db_s
 def add_user_investment(
 		user_id: int,
 		investment: schemas.InvestmentAdd,
-		db_session: Session = Depends(get_db_session)
+		db_session: Session = Depends(get_db_session),
+		current_user: int = Depends(oauth2.get_current_user)
 	):
+
+	if current_user.id != user_id:
+		raise HTTPException(status_code=status.HTTP_403_FORBIDDEN, detail="Not authorized to perform this action")
 
 	new_investment = add_investment_to_db(
 		user_id=user_id,
@@ -80,8 +92,12 @@ def add_user_investment(
 @router.get("/user/{user_id}", response_model=List[schemas.InvestmentResponse])
 def get_user_investments(
 		user_id: int,
-		db_session: Session = Depends(get_db_session)
+		db_session: Session = Depends(get_db_session),
+		current_user: int = Depends(oauth2.get_current_user)
 	):
+	
+	if current_user.id != user_id:
+		raise HTTPException(status_code=status.HTTP_403_FORBIDDEN, detail="Not authorized to perform this action")
 	  
 	investments = (
 		db_session.query(models.Investment)
@@ -100,8 +116,12 @@ def get_user_investments(
 @router.post("/user/{user_id}/update", status_code=status.HTTP_200_OK)
 def update_user_investments(
 		user_id: int,
-		db_session: Session = Depends(get_db_session)
+		db_session: Session = Depends(get_db_session),
+		current_user: int = Depends(oauth2.get_current_user)
 	):
+
+	if current_user.id != user_id:
+		raise HTTPException(status_code=status.HTTP_403_FORBIDDEN, detail="Not authorized to perform this action")
 
 	investments = (
 		db_session.query(models.Investment)
@@ -140,8 +160,13 @@ def update_user_investments(
 async def import_xtb(
 		user_id: int,
 		file: UploadFile = File(...),
-		db_session: Session = Depends(get_db_session)
+		db_session: Session = Depends(get_db_session),
+		current_user: int = Depends(oauth2.get_current_user)
 	):
+
+	if current_user.id != user_id:
+		raise HTTPException(status_code=status.HTTP_403_FORBIDDEN, detail="Not authorized to perform this action")
+
 	try:
 		content = await file.read()
 		excel_data = BytesIO(content)
@@ -179,8 +204,12 @@ async def import_xtb(
 async def import_ipko(
 		user_id: int,
 		file: UploadFile = File(...),
-		db_session: Session = Depends(get_db_session)
+		db_session: Session = Depends(get_db_session),
+		current_user: int = Depends(oauth2.get_current_user)
 	):
+
+	if current_user.id != user_id:
+		raise HTTPException(status_code=status.HTTP_403_FORBIDDEN, detail="Not authorized to perform this action")
 
 
 	try:
@@ -215,7 +244,15 @@ async def import_ipko(
 	
 
 @router.get("/user/{user_id}/portfolioValue", response_model=schemas.PortfolioValueResponse)
-def get_portfolio_value(user_id: int, db_session: Session = Depends(get_db_session)):
+def get_portfolio_value(
+		user_id: int,
+		db_session: Session = Depends(get_db_session),
+		current_user: int = Depends(oauth2.get_current_user)
+	):
+
+	if current_user.id != user_id:
+		raise HTTPException(status_code=status.HTTP_403_FORBIDDEN, detail="Not authorized to perform this action")
+
 	value, stocks_value, bonds_value, total_profit, stocks_profit, bonds_profit = calculate_portfolio_value(user_id, db_session)
 
 	value_response = schemas.PortfolioValueResponse(
