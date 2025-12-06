@@ -46,7 +46,7 @@ def get_stocks(
 	return assets
 
 
-@router.get("/stocks", response_model=List[schemas.AssetResponse])
+@router.get("/bonds", response_model=List[schemas.AssetResponse])
 def get_bonds(
 		db_session: Session = Depends(get_db_session)
 	):
