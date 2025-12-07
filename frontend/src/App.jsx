@@ -8,6 +8,11 @@ function App(){
 	const [token, setToken] = useState('');
 	const [userId, setUserId] = useState('');
 
+	const handleLogout = () => {
+		setToken('');
+		setUserId('');
+	};
+
 	if(!token){
 		return <LoginPage onLogin={(token, userId) => {
 			setToken(token);
@@ -15,7 +20,7 @@ function App(){
 		}}/>
 	}
 
-	return <ContentPage token={token} userId={userId}></ContentPage>
+	return <ContentPage token={token} userId={userId} onLogout={handleLogout}></ContentPage>
 }
 
 export default App

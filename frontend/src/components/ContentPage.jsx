@@ -7,7 +7,7 @@ import './ContentPage.css'
 import API_URL from "../config";
 
 
-function ContentPage({token, userId}){
+function ContentPage({token, userId, onLogout}){
 	const [loading, setLoading] = useState(true);
 	const [showAddModal, setShowAddModal] = useState(false);
 	const [refreshKey, setRefreshKey] = useState(0);
@@ -19,7 +19,10 @@ function ContentPage({token, userId}){
 	const [bondsProfit, setBondsProfit] = useState(0);
 
 	const handleLogout = () => {
-		console.log("Login clicked");
+		console.log("Logout clicked");
+		if (onLogout) {
+			onLogout();
+		}
 	}
 
 	const handleImport = () => {
@@ -197,7 +200,7 @@ function ContentPage({token, userId}){
 	return(
 		<div>
 			<Sidebar 
-				onLogoutClick={handleLogout}
+				onLogout={handleLogout}
 				onImportStocks={handleImportStocks}
 				onImportBonds={handleImportBonds}
 				onExportClick={handleExport}

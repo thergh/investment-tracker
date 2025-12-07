@@ -16,44 +16,44 @@ ACCESS_TOKEN_EXPIRE_MINUTES = settings.access_token_expire_minutes
 
 
 def create_access_token(data: dict):
-    to_encode = data.copy()
-    expire_time = datetime.now(timezone.utc) + timedelta(minutes=ACCESS_TOKEN_EXPIRE_MINUTES)
-    to_encode.update({"exp": expire_time})
+	to_encode = data.copy()
+	expire_time = datetime.now(timezone.utc) + timedelta(minutes=ACCESS_TOKEN_EXPIRE_MINUTES)
+	to_encode.update({"exp": expire_time})
 
-    encoded_jwt = jwt.encode(to_encode, SECRET_KEY, algorithm=ALGORITHM)
-    
-    return encoded_jwt
+	encoded_jwt = jwt.encode(to_encode, SECRET_KEY, algorithm=ALGORITHM)
+
+	return encoded_jwt
 
 
 def verify_access_token(token: str, credentials_exception):
 
-    try:
-        payload = jwt.decode(token, SECRET_KEY, algorithms=[ALGORITHM])
-        id: str = payload.get("user_id")
+	try:
+		payload = jwt.decode(token, SECRET_KEY, algorithms=[ALGORITHM])
+		id: str = payload.get("user_id")
 
-        if id is None:
-            raise credentials_exception
-        
-        token_data = schemas.TokenData(id=id)
+		if id is None:
+			raise credentials_exception
+		
+		token_data = schemas.TokenData(id=id)
 
-    except JWTError:
-        raise credentials_exception
-    
-    return token_data
-    
+	except JWTError:
+		raise credentials_exception
+	
+	return token_data
+		
 
 def get_current_user(
-        token: str = Depends(oauth2_scheme),
-        db_session: Session = Depends(database.get_db_session)
-    ):
+		token: str = Depends(oauth2_scheme),
+		db_session: Session = Depends(database.get_db_session)
+	):
 
-    credentials_exception = HTTPException(
-        status_code=status.HTTP_401_UNAUTHORIZED,
-        detail=f"Credentials not valid",
-        headers={"WWW-Authenticate": "Bearer"}
-    )
+	credentials_exception = HTTPException(
+		status_code=status.HTTP_401_UNAUTHORIZED,
+		detail=f"Credentials not valid",
+		headers={"WWW-Authenticate": "Bearer"}
+	)
 
-    token = verify_access_token(token, credentials_exception)
-    user = db_session.query(models.User).filter(models.User.id == token.id).first()
+	token = verify_access_token(token, credentials_exception)
+	user = db_session.query(models.User).filter(models.User.id == token.id).first()
 
-    return user
+	return user

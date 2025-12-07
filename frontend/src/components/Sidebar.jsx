@@ -4,7 +4,9 @@ import './Sidebar.css'
 function Sidebar({onLogout, onImportStocks, onImportBonds, userId}){
 
 	const handleLogoutClick = () => {
-
+		if (onLogout) {
+			onLogout();
+		}
 	}
 
 	const stocksInputRef = useRef(null);
