@@ -17,7 +17,7 @@ app = FastAPI()
 
 app.add_middleware(
 	CORSMiddleware,
-	allow_origins=["*"],  # or ["http://localhost:5173"]
+	allow_origins=["*"],
 	allow_credentials=True,
 	allow_methods=["*"],
 	allow_headers=["*"],
@@ -27,7 +27,7 @@ app.add_middleware(
 models.Base.metadata.create_all(bind=engine)
 
 
-# currently unused, may be delete later
+# currently unused, may delete later
 while True:
 	try:
 		connection = psycopg2.connect(
