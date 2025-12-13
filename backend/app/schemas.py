@@ -17,6 +17,11 @@ class StockResponse(BaseModel):
 	last_updated: datetime
 
 
+class StockHistoryPoint(BaseModel):
+	date: datetime
+	price: float
+
+
 class BondCreate(BaseModel):
 	symbol: str
 	name: str

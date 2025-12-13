@@ -46,6 +46,41 @@ def get_stocks(
 	return assets
 
 
+@router.get("/stocks/{symbol}/history", response_model=List[schemas.StockHistoryPoint])
+def get_stock_history(
+		symbol: str,
+		period: str = "1y",
+		db_session: Session = Depends(get_db_session)
+	):
+	
+	try:
+		yf_stock = yf.Ticker(symbol)
+		history = yf_stock.history(period=period)
+		
+		if history.empty:
+			raise HTTPException(
+				status_code=status.HTTP_404_NOT_FOUND,
+				detail=f"No history found for symbol {symbol}"
+			)
+			
+		result = []
+		for date, row in history.iterrows():
+			result.append(schemas.StockHistoryPoint(
+				date=date,
+				price=row['Close']
+			))
+			
+		return result
+		
+	except HTTPException:
+		raise
+	except Exception as e:
+		raise HTTPException(
+			status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
+			detail=f"Error fetching history: {str(e)}"
+		)
+
+
 @router.get("/bonds", response_model=List[schemas.AssetResponse])
 def get_bonds(
 		db_session: Session = Depends(get_db_session)
