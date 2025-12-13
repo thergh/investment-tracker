@@ -269,7 +269,7 @@ function ContentPage({token, userId, onLogout}){
 							Add Investment
 						</button>
 						<button className="actionButtonHot" onClick={handleRefreshData}>Refresh Data</button>
-						<button className="actionButtonHot" onClick={handleRefreshValues}>Refresh Values</button>
+						{/* <button className="actionButtonHot" onClick={handleRefreshValues}>Refresh Values</button> */}
 					</div>
 					
 				</div>

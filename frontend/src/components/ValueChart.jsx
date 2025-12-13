@@ -26,6 +26,7 @@ function ValueChart({stocksValue, bondsValue, totalValue}){
 							paddingAngle={5}
 							cornerRadius={4}
 							label={({name, percent}) => `${name} ${(percent * 100).toFixed(0)}%`}
+							animationDuration={200}
 						>
 							{data.map((entry, index) => (
 								<Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />
