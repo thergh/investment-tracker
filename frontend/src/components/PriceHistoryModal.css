@@ -1,0 +1,32 @@
+.modalOverlay {
+	position: fixed;
+	top: 0;
+	left: 0;
+	width: 100%;
+	height: 100%;
+	background-color: var(--base-bg-dark);
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	z-index: 1000;
+}
+
+.modal.chartModal {
+	width: 80%;
+	max-width: 800px;
+	height: 600px;
+	display: flex;
+	flex-direction: column;
+}
+
+.chartContainer {
+	flex: 1;
+	width: 100%;
+	min-height: 400px;
+	margin: 20px 0;
+}
+
+.error {
+	color: var(--base-error);
+	margin: 10px 0;
+}

@@ -9,7 +9,7 @@ function LoginPage({onLogin}){
 	const [loginMessage, setLoginMessage] = useState('');
 
 
-	const handleLogin = async(event) => {
+	const handleLogin = async (event) => {
 		event.preventDefault();
 
 		try{

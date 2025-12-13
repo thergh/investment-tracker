@@ -8,6 +8,8 @@
 	--base-text-light: #bdbdbd;
 	--base-accent: #FF6C37;
 	--base-border: #444;
+	--base-accent-2: #ffca4f;
+	--base-error: #ff6b6b;
 	
 }
 /* 
@@ -18,8 +20,10 @@ var(--base-bg-dark)
 var(--base-bg-hover)
 var(--base-text)
 var(--base-text-light)
-var(--base-accent)
 var(--base-border)
+var(--base-accent-2)
+var(--base-error)
+
 */
 
 * {

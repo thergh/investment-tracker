@@ -1,15 +1,17 @@
 import {useEffect, useState} from 'react';
 import './InvestmentList.css'
 import API_URL from '../config';
+import PriceHistoryModal from './PriceHistoryModal';
 
 
 function InvestmentList({token, userId, refreshKey, onInvestmentRemoved}){
 	const [investments, setInvestments] = useState([]);
 	const [loading, setLoading] = useState(true);
 	const [sortConfig, setSortConfig] = useState({sortColumn: "purchaseDate", direction: "asc"});
+	const [selectedHistorySymbol, setSelectedHistorySymbol] = useState(null);
 
 	useEffect(() => {
-		const fetchInvestments = async() => {
+		const fetchInvestments = async () => {
 			try{
 				const response = await fetch(
 					`${API_URL}/investments/user/${userId}`, {
@@ -70,6 +72,12 @@ function InvestmentList({token, userId, refreshKey, onInvestmentRemoved}){
 		}
 		setSortConfig({sortColumn, direction})
 	}
+
+	const handleSymbolClick = (symbol, type) => {
+		if(type === 'STOCK'){
+			setSelectedHistorySymbol(symbol);
+		}
+	};
 
 
 	const sortedInvestments = [...investments].sort((a, b) => {
@@ -213,7 +221,12 @@ function InvestmentList({token, userId, refreshKey, onInvestmentRemoved}){
 												}
 											)}
 										</td>
-										<td>{inv.asset.symbol}</td>
+										<td 
+											className={inv.asset.asset_type === 'STOCK' ? 'clickable-symbol' : ''}
+											onClick={() => handleSymbolClick(inv.asset.symbol, inv.asset.asset_type)}
+										>
+											{inv.asset.symbol}
+										</td>
 										<td>{inv.quantity.toFixed(2)}</td>
 										<td>{inv.purchase_price.toFixed(2)}</td>
 										<td>{price.toFixed(2)}</td>
@@ -228,6 +241,13 @@ function InvestmentList({token, userId, refreshKey, onInvestmentRemoved}){
 
 					</table>
 				</div>
+			)}
+			{selectedHistorySymbol && (
+				<PriceHistoryModal
+					symbol={selectedHistorySymbol}
+					token={token}
+					onClose={() => setSelectedHistorySymbol(null)}
+				/>
 			)}
 		</div>
 	);
