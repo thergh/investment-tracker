@@ -104,8 +104,13 @@ def add_stock(
 		db_session: Session = Depends(get_db_session)
 	):
 
-	existing_stock = db_session.query(models.Stock).filter(models.Stock.symbol == stock_data.symbol).first()
-	if existing_stock:
+	existing_asset = (
+		db_session.query(models.Asset)
+		.filter(models.Asset.symbol == stock_data.symbol)
+		.filter(models.Asset.asset_type == 'STOCK')
+		.first()
+	)
+	if existing_asset:
 		raise HTTPException(
 			status_code=status.HTTP_400_BAD_REQUEST,
 			detail=f"Stock with symbol {stock_data.symbol} already exists."
@@ -141,7 +146,6 @@ def add_stock(
 
 	stock = models.Stock(
 		id=asset.id,
-		symbol=stock_data.symbol,
 		name=stock_name,
 		exchange=stock_exchange,
 		currency=stock_currency,
@@ -152,7 +156,7 @@ def add_stock(
 
 	db_session.commit()
 	db_session.refresh(asset)
-
+	
 	return stock
 
 
@@ -162,8 +166,13 @@ def add_bond(
 		db_session: Session = Depends(get_db_session)
 	):
 
-	existing_bond = db_session.query(models.Bond).filter(models.Bond.symbol == bond_data.symbol).first()
-	if existing_bond:
+	existing_asset = (
+		db_session.query(models.Asset)
+		.filter(models.Asset.symbol == bond_data.symbol)
+		.filter(models.Asset.asset_type == 'BOND')
+		.first()
+	)
+	if existing_asset:
 		raise HTTPException(
 			status_code=status.HTTP_400_BAD_REQUEST,
 			detail=f"Bond with symbol {bond_data.symbol} already exists."
@@ -179,7 +188,6 @@ def add_bond(
 
 	bond = models.Bond(
 		id=asset.id,
-		symbol=bond_data.symbol,
 		name=f"Bond {bond_data.name}",
 		emission_date=bond_data.emission_date,
 		maturity_date=bond_data.maturity_date,

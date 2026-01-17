@@ -42,10 +42,11 @@ class Asset(Base):
 
 	id = Column(Integer, primary_key=True)
 	asset_type = Column(String(20), nullable=False)
-	symbol = Column(String(10))
+	symbol = Column(String(10), nullable=False)
 	
 	__table_args__ = (
 		CheckConstraint("asset_type IN ('STOCK','BOND')", name="check_asset_type"),
+		UniqueConstraint('symbol', 'asset_type', name='uq_asset_symbol_type'),
 	)
 
 	stock = relationship("Stock", uselist=False, back_populates="asset", cascade="all, delete-orphan")
@@ -57,7 +58,6 @@ class Stock(Base):
 	__tablename__ = "stocks"
 
 	id = Column(Integer, ForeignKey("assets.id", ondelete="CASCADE"), primary_key=True)
-	symbol = Column(String(10), unique=True)
 	name = Column(String(50))
 	exchange = Column(String(50))
 	currency = Column(String(10))
@@ -66,12 +66,15 @@ class Stock(Base):
 
 	asset = relationship("Asset", back_populates="stock")
 
+	@property
+	def symbol(self):
+		return self.asset.symbol
+
 
 class Bond(Base):
 	__tablename__ = "bonds"
 
 	id = Column(Integer, ForeignKey("assets.id", ondelete="CASCADE"), primary_key=True)
-	symbol = Column(String(10), unique=True)
 	name = Column(String(50))
 	emission_date = Column(Date)
 	maturity_date = Column(Date)
@@ -81,3 +84,7 @@ class Bond(Base):
 	last_updated = Column(DateTime, server_default=func.now(), onupdate=func.now())
 
 	asset = relationship("Asset", back_populates="bond")
+
+	@property
+	def symbol(self):
+		return self.asset.symbol

@@ -136,7 +136,7 @@ def update_user_investments(
 
 		if asset.asset_type == 'STOCK':
 			stock: models.Stock = asset.stock
-			symbol = stock.symbol
+			symbol = asset.symbol
 
 			if symbol not in price_cache:
 				price_cache[symbol] = read_stock_price(symbol)
