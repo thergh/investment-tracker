@@ -11,6 +11,7 @@ function InvestmentList({token, userId, refreshKey, onInvestmentRemoved}){
 	const [selectedHistorySymbol, setSelectedHistorySymbol] = useState(null);
 
 	useEffect(() => {
+		
 		const fetchInvestments = async () => {
 			try{
 				const response = await fetch(

@@ -6,3 +6,4 @@ ticker_data.txt
 finance_test.py
 parser.py
 xtb_eur.xlsx
+.env
