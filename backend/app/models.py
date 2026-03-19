@@ -11,6 +11,7 @@ class Base(DeclarativeBase):
 
 class User(Base):
 	__tablename__ = "users" 
+	__table_args__ = {"schema": "investment"}
 
 	id = Column(Integer, primary_key=True)
 	email = Column(String(255), unique=True, nullable=False)
@@ -24,10 +25,11 @@ class User(Base):
 
 class Investment(Base):
 	__tablename__ = "investments"
+	__table_args__ = {"schema": "investment"}
 
 	id = Column(Integer, primary_key=True)
-	user_id = Column(Integer, ForeignKey("users.id", ondelete="CASCADE"), nullable=False)
-	asset_id = Column(Integer, ForeignKey("assets.id"), nullable=False)
+	user_id = Column(Integer, ForeignKey("investment.users.id", ondelete="CASCADE"), nullable=False)
+	asset_id = Column(Integer, ForeignKey("investment.assets.id"), nullable=False)
 	quantity = Column(Numeric(18, 6), nullable=False)
 	purchase_price = Column(Numeric(18, 4), nullable=False)
 	purchase_date = Column(DateTime, server_default=func.now())
@@ -47,6 +49,7 @@ class Asset(Base):
 	__table_args__ = (
 		CheckConstraint("asset_type IN ('STOCK','BOND')", name="check_asset_type"),
 		UniqueConstraint('symbol', 'asset_type', name='uq_asset_symbol_type'),
+		{"schema": "investment"}
 	)
 
 	stock = relationship("Stock", uselist=False, back_populates="asset", cascade="all, delete-orphan")
@@ -56,8 +59,9 @@ class Asset(Base):
 
 class Stock(Base):
 	__tablename__ = "stocks"
+	__table_args__ = {"schema": "investment"}
 
-	id = Column(Integer, ForeignKey("assets.id", ondelete="CASCADE"), primary_key=True)
+	id = Column(Integer, ForeignKey("investment.assets.id", ondelete="CASCADE"), primary_key=True)
 	name = Column(String(50))
 	exchange = Column(String(50))
 	currency = Column(String(10))
@@ -73,8 +77,9 @@ class Stock(Base):
 
 class Bond(Base):
 	__tablename__ = "bonds"
+	__table_args__ = {"schema": "investment"}
 
-	id = Column(Integer, ForeignKey("assets.id", ondelete="CASCADE"), primary_key=True)
+	id = Column(Integer, ForeignKey("investment.assets.id", ondelete="CASCADE"), primary_key=True)
 	name = Column(String(50))
 	emission_date = Column(Date)
 	maturity_date = Column(Date)

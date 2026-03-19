@@ -32,14 +32,15 @@ while True:
 	try:
 		connection = psycopg2.connect(
 			host=settings.database_hostname, database=settings.database_name, user=settings.database_username,
-			password=settings.database_password, cursor_factory=RealDictCursor
+			password=settings.database_password, cursor_factory=RealDictCursor,
+			sslmode='require'
 		)
 		cursor = connection.cursor()
-		print("Databse connection successful")
+		print(f"Database connection successful to: {settings.database_hostname}")
 		break
 	except Exception as error:
-		print("Connection unsuccessful")
-		time.sleep(1)
+		print(f"Connection unsuccessful: {error}")
+		time.sleep(2)
 		
 
 app.include_router(assets.router)
