@@ -8,3 +8,7 @@ ticker_data.txt
 finance_test.py
 parser.py
 xtb_eur.xlsx
+
+# Alembic
+alembic/versions/__pycache__/
+alembic/env.pyc
