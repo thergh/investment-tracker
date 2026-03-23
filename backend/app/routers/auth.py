@@ -1,7 +1,8 @@
 from sqlalchemy.orm import Session
-from fastapi import APIRouter, Depends, status, HTTPException, Response
+from fastapi import APIRouter, Depends, status, HTTPException, Response, Request
 from fastapi.security.oauth2 import OAuth2PasswordRequestForm
 from .. import database, schemas, models, utils, oauth2
+from ..main import limiter
 
 router = APIRouter(
     tags=['Authentication']
@@ -9,7 +10,8 @@ router = APIRouter(
 
 
 @router.post('/login')
-def login(user_credentials: OAuth2PasswordRequestForm = Depends(), db_session:Session = Depends(database.get_db_session)):
+@limiter.limit("5/minute")
+def login(request: Request, user_credentials: OAuth2PasswordRequestForm = Depends(), db_session:Session = Depends(database.get_db_session)):
 
     user = db_session.query(models.User).filter(models.User.email == user_credentials.username).first()
 

@@ -1,9 +1,10 @@
 from .. import models, schemas, utils, oauth2
 from ..database import get_db_session
-from fastapi import Body, FastAPI, Response, status, HTTPException, Depends, APIRouter
+from fastapi import Body, FastAPI, Response, status, HTTPException, Depends, APIRouter, Request
 from sqlalchemy.orm import Session, joinedload
 from typing import Optional, List
 import yfinance as yf
+from ..main import limiter
 
 router = APIRouter(
 	 prefix="/users",
@@ -12,7 +13,8 @@ router = APIRouter(
 
 
 @router.post("/", status_code=status.HTTP_201_CREATED, response_model=schemas.UserResponse)
-def create_user(user: schemas.UserCreate, db_session: Session = Depends(get_db_session)):
+@limiter.limit("5/hour")
+def create_user(request: Request, user: schemas.UserCreate, db_session: Session = Depends(get_db_session)):
 
 	hashed_password =  utils.hash(user.password)
 	user.password = hashed_password
