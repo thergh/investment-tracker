@@ -1,6 +1,6 @@
 from sqlalchemy import (
 	Column, Integer, String, Text, Date, DateTime, ForeignKey,
-	Numeric, CheckConstraint, UniqueConstraint, func
+	Numeric, CheckConstraint, UniqueConstraint, func, Boolean
 )
 from sqlalchemy.orm import relationship, DeclarativeBase
 
@@ -19,6 +19,7 @@ class User(Base):
 	created_date = Column(DateTime, server_default=func.now())
 	currency = Column(String(10))
 	portfolio_value = Column(Numeric(18, 2), server_default="0")
+	is_admin = Column(Boolean, server_default='false', nullable=False)
 
 	investments = relationship("Investment", back_populates="user", cascade="all, delete-orphan")
 

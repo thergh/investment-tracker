@@ -101,7 +101,8 @@ def get_bonds(
 @router.post("/stocks", response_model=schemas.StockResponse, status_code=status.HTTP_201_CREATED)
 def add_stock(
 		stock_data: schemas.StockCreate, 
-		db_session: Session = Depends(get_db_session)
+		db_session: Session = Depends(get_db_session),
+		current_user: models.User = Depends(oauth2.get_current_admin)
 	):
 
 	existing_asset = (
@@ -163,7 +164,8 @@ def add_stock(
 @router.post("/bonds", response_model=schemas.BondResponse, status_code=status.HTTP_201_CREATED)
 def add_bond(
 		bond_data: schemas.BondCreate, 
-		db_session: Session = Depends(get_db_session)
+		db_session: Session = Depends(get_db_session),
+		current_user: models.User = Depends(oauth2.get_current_admin)
 	):
 
 	existing_asset = (
@@ -207,7 +209,8 @@ def add_bond(
 @router.delete("/stocks/{id}", status_code=status.HTTP_204_NO_CONTENT)
 def delete_stock(
 		id: int, 
-		db_session: Session = Depends(get_db_session)
+		db_session: Session = Depends(get_db_session),
+		current_user: models.User = Depends(oauth2.get_current_admin)
 	):
 
 	stock = db_session.query(models.Stock).filter(models.Stock.id == id).first()
@@ -235,7 +238,8 @@ def delete_stock(
 @router.delete("/bonds/{id}", status_code=status.HTTP_204_NO_CONTENT)
 def delete_bond(
 		id: int, 
-		db_session: Session = Depends(get_db_session)
+		db_session: Session = Depends(get_db_session),
+		current_user: models.User = Depends(oauth2.get_current_admin)
 	):
 
 	bond = db_session.query(models.Bond).filter(models.Bond.id == id).first()

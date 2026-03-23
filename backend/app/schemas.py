@@ -89,12 +89,14 @@ class InvestmentRemove(BaseModel):
 class UserCreate(BaseModel):
 	email: EmailStr
 	password: str
+	is_admin: bool = False
 
 
 class UserResponse(BaseModel):
 	id: int
 	email: EmailStr
 	created_date: datetime
+	is_admin: bool
 
 	class Config:
 		from_attributes = True

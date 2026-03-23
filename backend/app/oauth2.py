@@ -33,14 +33,14 @@ def verify_access_token(token: str, credentials_exception):
 
 		if id is None:
 			raise credentials_exception
-		
+
 		token_data = schemas.TokenData(id=id)
 
 	except JWTError:
 		raise credentials_exception
-	
+
 	return token_data
-		
+
 
 def get_current_user(
 		token: str = Depends(oauth2_scheme),
@@ -57,3 +57,12 @@ def get_current_user(
 	user = db_session.query(models.User).filter(models.User.id == token.id).first()
 
 	return user
+
+
+def get_current_admin(current_user: models.User = Depends(get_current_user)):
+	if not current_user.is_admin:
+		raise HTTPException(
+			status_code=status.HTTP_403_FORBIDDEN,
+			detail="The user does not have enough privileges"
+		)
+	return current_user
