@@ -66,7 +66,11 @@ function LoginPage({onLogin}){
 					<button type="submit" className="login-button">Login</button>
 					<button  className="register-button">Register</button>
 				</form>
-				{loginMessage && <p className="login-message">{loginMessage}</p>}
+				{loginMessage && (
+					<p className={`login-message ${loginMessage === 'Login successful!' ? 'success' : 'error'}`}>
+						{loginMessage}
+					</p>
+				)}
 			</div>
 		</div>
 		);

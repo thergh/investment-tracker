@@ -98,10 +98,13 @@
 .login-message {
 	margin-top: 15px;
 	font-size: 14px;
-	color: #faa61a;
 	text-align: center;
 }
 
-.login-message:not([class*="error"]) {
-	color: var(--base-text-light);
+.login-message.success {
+	color: #00c853;
+}
+
+.login-message.error {
+	color: #ff5252;
 }
