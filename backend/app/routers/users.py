@@ -4,7 +4,7 @@ from fastapi import Body, FastAPI, Response, status, HTTPException, Depends, API
 from sqlalchemy.orm import Session, joinedload
 from typing import Optional, List
 import yfinance as yf
-from ..main import limiter
+from ..limiter import limiter
 
 router = APIRouter(
 	 prefix="/users",
@@ -19,11 +19,11 @@ def create_user(request: Request, user: schemas.UserCreate, db_session: Session 
 	hashed_password =  utils.hash(user.password)
 	user.password = hashed_password
 	new_user = models.User(**user.model_dump())
-	  
+
 	db_session.add(new_user)
 	db_session.commit()
 	db_session.refresh(new_user)
-	  
+
 	return new_user
 
 
@@ -32,12 +32,11 @@ def get_users(
 		db_session: Session = Depends(get_db_session),
 		current_user: models.User = Depends(oauth2.get_current_admin)
 	):
-	
+
 	users = db_session.query(models.User).all()
 	print(users)
 
 	return users
-
 
 @router.get("/{id}", response_model=schemas.UserResponse)
 def get_user(

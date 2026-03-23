@@ -7,14 +7,13 @@ from .config import settings
 import psycopg2
 from psycopg2.extras import RealDictCursor
 import time
-from slowapi import Limiter, _rate_limit_exceeded_handler
-from slowapi.util import get_remote_address
+from .limiter import limiter
+from slowapi import _rate_limit_exceeded_handler
 from slowapi.errors import RateLimitExceeded
 
 # source myvenv/bin/activate
 # uvicorn app.main:app --reload
 
-limiter = Limiter(key_func=get_remote_address)
 app = FastAPI()
 app.state.limiter = limiter
 app.add_exception_handler(RateLimitExceeded, _rate_limit_exceeded_handler)
