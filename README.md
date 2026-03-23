@@ -1,401 +1,73 @@
-# FastAPI
-## Version: 0.1.0
-
-### /assets/
-
-#### GET
-##### Summary:
-
-Get Assets
-
-##### Responses
-
-| Code | Description |
-| ---- | ----------- |
-| 200 | Successful Response |
-
-### /assets/stocks
-
-#### GET
-##### Summary:
-
-Get Bonds
-
-##### Responses
-
-| Code | Description |
-| ---- | ----------- |
-| 200 | Successful Response |
-
-#### POST
-##### Summary:
-
-Add Stock
-
-##### Responses
-
-| Code | Description |
-| ---- | ----------- |
-| 201 | Successful Response |
-| 422 | Validation Error |
-
-### /assets/stocks/{id}
-
-#### DELETE
-##### Summary:
-
-Delete Stock
-
-##### Parameters
-
-| Name | Located in | Description | Required | Schema |
-| ---- | ---------- | ----------- | -------- | ---- |
-| id | path |  | Yes | integer |
-
-##### Responses
-
-| Code | Description |
-| ---- | ----------- |
-| 201 | Successful Response |
-| 422 | Validation Error |
-
-### /investments/{investment_id}
-
-#### GET
-##### Summary:
-
-Get Investment
-
-##### Parameters
-
-| Name | Located in | Description | Required | Schema |
-| ---- | ---------- | ----------- | -------- | ---- |
-| investment_id | path |  | Yes | integer |
-
-##### Responses
-
-| Code | Description |
-| ---- | ----------- |
-| 200 | Successful Response |
-| 422 | Validation Error |
-
-##### Security
-
-| Security Schema | Scopes |
-| --- | --- |
-| OAuth2PasswordBearer | |
-
-#### DELETE
-##### Summary:
-
-Remove Investment
-
-##### Parameters
-
-| Name | Located in | Description | Required | Schema |
-| ---- | ---------- | ----------- | -------- | ---- |
-| investment_id | path |  | Yes | integer |
-
-##### Responses
-
-| Code | Description |
-| ---- | ----------- |
-| 204 | Successful Response |
-| 422 | Validation Error |
-
-### /investments/user/{user_id}
-
-#### POST
-##### Summary:
-
-Add User Investment
-
-##### Parameters
-
-| Name | Located in | Description | Required | Schema |
-| ---- | ---------- | ----------- | -------- | ---- |
-| user_id | path |  | Yes | integer |
-
-##### Responses
-
-| Code | Description |
-| ---- | ----------- |
-| 201 | Successful Response |
-| 422 | Validation Error |
-
-#### GET
-##### Summary:
-
-Get User Investments
-
-##### Parameters
-
-| Name | Located in | Description | Required | Schema |
-| ---- | ---------- | ----------- | -------- | ---- |
-| user_id | path |  | Yes | integer |
-
-##### Responses
-
-| Code | Description |
-| ---- | ----------- |
-| 200 | Successful Response |
-| 422 | Validation Error |
-
-### /investments/user/{user_id}/update
-
-#### POST
-##### Summary:
-
-Update User Investments
-
-##### Parameters
-
-| Name | Located in | Description | Required | Schema |
-| ---- | ---------- | ----------- | -------- | ---- |
-| user_id | path |  | Yes | integer |
-
-##### Responses
-
-| Code | Description |
-| ---- | ----------- |
-| 200 | Successful Response |
-| 422 | Validation Error |
-
-### /investments/user/{user_id}/import/xtb
-
-#### POST
-##### Summary:
-
-Import Xtb
-
-##### Parameters
-
-| Name | Located in | Description | Required | Schema |
-| ---- | ---------- | ----------- | -------- | ---- |
-| user_id | path |  | Yes | integer |
-
-##### Responses
-
-| Code | Description |
-| ---- | ----------- |
-| 200 | Successful Response |
-| 422 | Validation Error |
-
-### /investments/user/{user_id}/portfolioValue
-
-#### GET
-##### Summary:
-
-Get Portfolio Value
-
-##### Parameters
-
-| Name | Located in | Description | Required | Schema |
-| ---- | ---------- | ----------- | -------- | ---- |
-| user_id | path |  | Yes | integer |
-
-##### Responses
-
-| Code | Description |
-| ---- | ----------- |
-| 200 | Successful Response |
-| 422 | Validation Error |
-
-### /users/
-
-#### GET
-##### Summary:
-
-Get Users
-
-##### Responses
-
-| Code | Description |
-| ---- | ----------- |
-| 200 | Successful Response |
-
-#### POST
-##### Summary:
-
-Create User
-
-##### Responses
-
-| Code | Description |
-| ---- | ----------- |
-| 201 | Successful Response |
-| 422 | Validation Error |
-
-### /users/{id}
-
-#### GET
-##### Summary:
-
-Get User
-
-##### Parameters
-
-| Name | Located in | Description | Required | Schema |
-| ---- | ---------- | ----------- | -------- | ---- |
-| id | path |  | Yes | integer |
-
-##### Responses
-
-| Code | Description |
-| ---- | ----------- |
-| 200 | Successful Response |
-| 422 | Validation Error |
-
-#### DELETE
-##### Summary:
-
-Delete User
-
-##### Parameters
-
-| Name | Located in | Description | Required | Schema |
-| ---- | ---------- | ----------- | -------- | ---- |
-| id | path |  | Yes | integer |
-
-##### Responses
-
-| Code | Description |
-| ---- | ----------- |
-| 200 | Successful Response |
-| 422 | Validation Error |
-
-### /login
-
-#### POST
-##### Summary:
-
-Login
-
-##### Responses
-
-| Code | Description |
-| ---- | ----------- |
-| 200 | Successful Response |
-| 422 | Validation Error |
-
-### /
-
-#### GET
-##### Summary:
-
-Root
-
-##### Responses
-
-| Code | Description |
-| ---- | ----------- |
-| 200 | Successful Response |
-
-### Models
-
-
-#### AssetResponse
-
-| Name | Type | Description | Required |
-| ---- | ---- | ----------- | -------- |
-| id | integer |  | Yes |
-| asset_type | string |  | Yes |
-| symbol | string |  | Yes |
-| stock |  |  | Yes |
-
-#### Body_import_xtb_investments_user__user_id__import_xtb_post
-
-| Name | Type | Description | Required |
-| ---- | ---- | ----------- | -------- |
-| file | binary |  | Yes |
-
-#### Body_login_login_post
-
-| Name | Type | Description | Required |
-| ---- | ---- | ----------- | -------- |
-| grant_type |  |  | No |
-| username | string |  | Yes |
-| password | password |  | Yes |
-| scope | string |  | No |
-| client_id |  |  | No |
-| client_secret | undefined (password) |  | No |
-
-#### HTTPValidationError
-
-| Name | Type | Description | Required |
-| ---- | ---- | ----------- | -------- |
-| detail | [ [ValidationError](#validationerror) ] |  | No |
-
-#### InvestmentAdd
-
-| Name | Type | Description | Required |
-| ---- | ---- | ----------- | -------- |
-| asset_symbol | string |  | Yes |
-| asset_type | string |  | Yes |
-| quantity | number |  | Yes |
-| purchase_price | number |  | Yes |
-| purchase_date | dateTime |  | Yes |
-
-#### InvestmentResponse
-
-| Name | Type | Description | Required |
-| ---- | ---- | ----------- | -------- |
-| id | integer |  | Yes |
-| user_id | integer |  | Yes |
-| asset_id | integer |  | Yes |
-| quantity | number |  | Yes |
-| purchase_price | number |  | Yes |
-| purchase_date | dateTime |  | Yes |
-| asset |  |  | Yes |
-
-#### PortfolioValueResponse
-
-| Name | Type | Description | Required |
-| ---- | ---- | ----------- | -------- |
-| value | number |  | Yes |
-| stocks_value | number |  | Yes |
-| bonds_value | number |  | Yes |
-| total_profit | number |  | Yes |
-| stocks_profit | number |  | Yes |
-| bonds_profit | number |  | Yes |
-
-#### StockCreate
-
-| Name | Type | Description | Required |
-| ---- | ---- | ----------- | -------- |
-| symbol | string |  | Yes |
-
-#### StockResponse
-
-| Name | Type | Description | Required |
-| ---- | ---- | ----------- | -------- |
-| id | integer |  | Yes |
-| symbol | string |  | Yes |
-| name | string |  | Yes |
-| exchange | string |  | Yes |
-| currency | string |  | Yes |
-| price | number |  | Yes |
-| last_updated | dateTime |  | Yes |
-
-#### UserCreate
-
-| Name | Type | Description | Required |
-| ---- | ---- | ----------- | -------- |
-| email | string (email) |  | Yes |
-| password | string |  | Yes |
-
-#### UserResponse
-
-| Name | Type | Description | Required |
-| ---- | ---- | ----------- | -------- |
-| id | integer |  | Yes |
-| email | string (email) |  | Yes |
-| created_date | dateTime |  | Yes |
-
-#### ValidationError
-
-| Name | Type | Description | Required |
-| ---- | ---- | ----------- | -------- |
-| loc | [  ] |  | Yes |
-| msg | string |  | Yes |
-| type | string |  | Yes |
+# Investment Tracker
+
+**A full-stack investment management application for tracking performance of diversified portfolios.**
+
+[![React](https://img.shields.io/badge/React-20232A?style=flat&logo=react)](https://reactjs.org/)
+[![FastAPI](https://img.shields.io/badge/FastAPI-005571?style=flat&logo=fastapi)](https://fastapi.tiangolo.com/)
+[![PostgreSQL](https://img.shields.io/badge/PostgreSQL-316192?style=flat&logo=postgresql)](https://www.postgresql.org/)
+[![Docker](https://img.shields.io/badge/Docker-2496ED?style=flat&logo=docker)](https://www.docker.com/)
+
+
+## Live Deployment
+The application is currently hosted and accessible at the following URL:
+
+[https://investment-tracker-topaz-seven.vercel.app/](https://investment-tracker-topaz-seven.vercel.app/)
+
+Sign in with demo credentials: 
+
+| Field | Value |
+| :--- | :--- |
+| **Email** | `demo@example.com` |
+| **Password** | `demopassword` |
+
+---
+
+<p align="center">
+   <img src="resources/main.png" alt="Main page" width="100%">
+</p>
+
+---
+
+<p align="center">
+   <img src="resources/history.png" alt="History page" width="100%">
+</p>
+
+---
+
+## Features
+*   **Frontend-Backend communication:** `REST API` made with `FastAPI`
+*   **ORM:** with `SQLAlchemy`
+*   **Containerized Infrastructure** using `Docker Compose` and environment variables 
+*   **Handling Real Data:** parsing input files in .csv format with `pandas`
+*   **Secure Architecture:** using OAuth2 with JWT, rate limiting with `slowapi`
+*   **Schema evolution** managed with `Alembic`
+configuration.
+*   **Real Time Data Updates:** using the Yahoo Finance API
+  
+---
+
+## Tech Stack
+| Component | Technology |
+| :--- | :--- |
+| **Backend** | FastAPI|
+| **Database** | PostgreSQL |
+| **Frontend** | React |
+| **Authentication** | JWT + OAuth2 |
+| **Data Processing** | Pandas |
+| **DevOps** | Docker |
+
+
+## Local Installation and Deployment 
+1.  **Configuration:**
+    ```bash
+    cp backend/.env.example backend/.env
+    ```
+2.  **Orchestration:**
+    ```bash
+    docker-compose up --build
+    ```
+3.  **Endpoint Access:**
+    - Application Interface: `http://localhost:5173`
+    - API Documentation (OpenAPI): `http://localhost:8000/docs`
+
+---
