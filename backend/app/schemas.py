@@ -1,4 +1,4 @@
-from pydantic import BaseModel, EmailStr
+from pydantic import BaseModel, EmailStr, ConfigDict
 from datetime import datetime
 from typing import Optional
 
@@ -82,8 +82,7 @@ class InvestmentRemove(BaseModel):
 
 	# asset: AssetResponse
 
-	class Config:
-		from_attributes = True  
+	model_config = ConfigDict(from_attributes=True)
 
 
 class UserCreate(BaseModel):
@@ -98,8 +97,7 @@ class UserResponse(BaseModel):
 	created_date: datetime
 	is_admin: bool
 
-	class Config:
-		from_attributes = True
+	model_config = ConfigDict(from_attributes=True)
 
 
 class UserLogin(BaseModel):
