@@ -5,6 +5,7 @@
 [![React](https://img.shields.io/badge/React-20232A?style=flat&logo=react)](https://reactjs.org/)
 [![FastAPI](https://img.shields.io/badge/FastAPI-005571?style=flat&logo=fastapi)](https://fastapi.tiangolo.com/)
 [![PostgreSQL](https://img.shields.io/badge/PostgreSQL-316192?style=flat&logo=postgresql)](https://www.postgresql.org/)
+[![Pytest](https://img.shields.io/badge/Pytest-0A9EDC?style=flat&logo=pytest&logoColor=white)](https://docs.pytest.org/en/stable/)
 [![Docker](https://img.shields.io/badge/Docker-2496ED?style=flat&logo=docker)](https://www.docker.com/)
 
 
@@ -37,7 +38,8 @@ Sign in with demo credentials:
 ## Features
 *   **Frontend-Backend communication:** `REST API` made with `FastAPI`
 *   **ORM:** with `SQLAlchemy`
-*   **Containerized Infrastructure** using `Docker Compose` and environment variables 
+*   **Containerized Infrastructure** using `Docker Compose` and environment variables
+*   **Unit Testing** proof of concept with `pytest`
 *   **Handling Real Data:** parsing input files in .csv format with `pandas`
 *   **Secure Architecture:** using OAuth2 with JWT, rate limiting with `slowapi`
 *   **Schema evolution** managed with `Alembic`
@@ -53,6 +55,7 @@ configuration.
 | **Database** | PostgreSQL |
 | **Frontend** | React |
 | **Authentication** | JWT + OAuth2 |
+| **Unit Testing** | pytest |
 | **Data Processing** | Pandas |
 | **DevOps** | Docker |
 
